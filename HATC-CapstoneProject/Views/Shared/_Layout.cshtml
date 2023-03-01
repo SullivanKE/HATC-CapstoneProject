@@ -8,10 +8,14 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/HATC_CapstoneProject.styles.css" asp-append-version="true" />
 </head>
+
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> signInManager
+
 <body>
     <header>
         <div id="banner">
-			<img src="banner.webp" />
+			<img src="~/content/img/banner.webp" />
         </div>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -26,7 +30,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Sesson" asp-action="Index">Sessions</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Session" asp-action="Index">Sessions</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Player" asp-action="Index">Players</a>
@@ -46,6 +50,26 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav me-auto">
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                        // Signed-in user - Log Out button and username
+                            <li class="nav-item">
+                                <form method="post" asp-action="Logout" asp-controller="Account">
+                                    <input type="submit" value="Log Out" class="btn btn-outline-dark" />
+                                    <span class="text-dark">@User.Identity.Name</span>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            // Get current action
+                            var action = ViewContext.RouteData.Values["action"]?.ToString();
+                            <li class="nav-item">
+                                <a asp-action="Login" asp-controller="Account" class="btn btn-outline-dark">Log In</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

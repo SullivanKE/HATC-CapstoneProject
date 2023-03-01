@@ -9,7 +9,7 @@
         public int DowntimeReward { get; set; }
         public IEnumerable<Character> Characters { get; set; } = Enumerable.Empty<Character>();
         public IEnumerable<RPEXP> RolePlayExp { get; set; } = Enumerable.Empty<RPEXP>();
-        public IEnumerable<SessionItem> AdHoxItems { get; set; } = Enumerable.Empty<SessionItem>();
+        public IEnumerable<SessionItem> AdHocItems { get; set; } = Enumerable.Empty<SessionItem>();
         public IEnumerable<Monster> CombatItems { get; set; } = Enumerable.Empty<Monster>();
         public IEnumerable<Item> Loot { get; set; } = Enumerable.Empty<Item>();
         public IEnumerable<AchievementAdvancement> Achievements { get; set; } = Enumerable.Empty<AchievementAdvancement>();
