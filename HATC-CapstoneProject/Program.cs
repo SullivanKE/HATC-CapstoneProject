@@ -13,15 +13,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 var connectionString = builder.Configuration.GetConnectionString("MySqlConnection");
-builder.Services.AddDbContext<HavenDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+//builder.Services.AddDbContext<HavenDbContext>(options =>
+//    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-builder.Services.AddIdentity<AppUser, IdentityRole>()
+/*builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<HavenDbContext>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddTransient<IHavenRepo, SessionRepo>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews();*/
 
 var app = builder.Build();
 

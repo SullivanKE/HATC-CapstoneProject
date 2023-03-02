@@ -16,3 +16,11 @@ html {
 body {
   margin-bottom: 60px;
 }
+.banner {
+    background: linear-gradient(transparent, 70%, black), url('../content/img/banner3.webp');
+    background-size: cover;
+    padding: 40px;
+    color: white;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: black;
+}
