@@ -10,85 +10,85 @@ using HATC_CapstoneProject.Models;
 
 namespace HATC_CapstoneProject.Controllers
 {
-    public class DowntimeController : Controller
+    public class SessionsController : Controller
     {
         private readonly HavenDbContext _context;
 
-        public DowntimeController(HavenDbContext context)
+        public SessionsController(HavenDbContext context)
         {
             _context = context;
         }
 
-        // GET: Downtime
+        // GET: Sessions
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Downtime.ToListAsync());
+              return View(await _context.Sessions.ToListAsync());
         }
 
-        // GET: Downtime/Details/5
+        // GET: Sessions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Downtime == null)
+            if (id == null || _context.Sessions == null)
             {
                 return NotFound();
             }
 
-            var downtime = await _context.Downtime
+            var session = await _context.Sessions
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (downtime == null)
+            if (session == null)
             {
                 return NotFound();
             }
 
-            return View(downtime);
+            return View(session);
         }
 
-        // GET: Downtime/Create
+        // GET: Sessions/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Downtime/Create
+        // POST: Sessions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Status")] Downtime downtime)
+        public async Task<IActionResult> Create([Bind("Id,RealDate,InGameDate,DowntimeReward")] Session session)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(downtime);
+                _context.Add(session);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(downtime);
+            return View(session);
         }
 
-        // GET: Downtime/Edit/5
+        // GET: Sessions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Downtime == null)
+            if (id == null || _context.Sessions == null)
             {
                 return NotFound();
             }
 
-            var downtime = await _context.Downtime.FindAsync(id);
-            if (downtime == null)
+            var session = await _context.Sessions.FindAsync(id);
+            if (session == null)
             {
                 return NotFound();
             }
-            return View(downtime);
+            return View(session);
         }
 
-        // POST: Downtime/Edit/5
+        // POST: Sessions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Status")] Downtime downtime)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,RealDate,InGameDate,DowntimeReward")] Session session)
         {
-            if (id != downtime.Id)
+            if (id != session.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace HATC_CapstoneProject.Controllers
             {
                 try
                 {
-                    _context.Update(downtime);
+                    _context.Update(session);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DowntimeExists(downtime.Id))
+                    if (!SessionExists(session.Id))
                     {
                         return NotFound();
                     }
@@ -113,49 +113,49 @@ namespace HATC_CapstoneProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(downtime);
+            return View(session);
         }
 
-        // GET: Downtime/Delete/5
+        // GET: Sessions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Downtime == null)
+            if (id == null || _context.Sessions == null)
             {
                 return NotFound();
             }
 
-            var downtime = await _context.Downtime
+            var session = await _context.Sessions
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (downtime == null)
+            if (session == null)
             {
                 return NotFound();
             }
 
-            return View(downtime);
+            return View(session);
         }
 
-        // POST: Downtime/Delete/5
+        // POST: Sessions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Downtime == null)
+            if (_context.Sessions == null)
             {
-                return Problem("Entity set 'HavenDbContext.Downtime'  is null.");
+                return Problem("Entity set 'HavenDbContext.Sessions'  is null.");
             }
-            var downtime = await _context.Downtime.FindAsync(id);
-            if (downtime != null)
+            var session = await _context.Sessions.FindAsync(id);
+            if (session != null)
             {
-                _context.Downtime.Remove(downtime);
+                _context.Sessions.Remove(session);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DowntimeExists(int id)
+        private bool SessionExists(int id)
         {
-          return _context.Downtime.Any(e => e.Id == id);
+          return _context.Sessions.Any(e => e.Id == id);
         }
     }
 }

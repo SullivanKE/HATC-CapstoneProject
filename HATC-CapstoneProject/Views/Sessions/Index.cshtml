@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HATC_CapstoneProject.Models.Downtime>
+﻿@model IEnumerable<HATC_CapstoneProject.Models.Session>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,10 +13,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.RealDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                @Html.DisplayNameFor(model => model.InGameDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DowntimeReward)
             </th>
             <th></th>
         </tr>
@@ -25,10 +28,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.RealDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @Html.DisplayFor(modelItem => item.InGameDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DowntimeReward)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -13,14 +13,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 var connectionString = builder.Configuration.GetConnectionString("MySqlConnection");
-//builder.Services.AddDbContext<HavenDbContext>(options =>
-//    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddDbContext<HavenDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-/*builder.Services.AddIdentity<AppUser, IdentityRole>()
+builder.Services.AddIdentity<Player, IdentityRole>()
     .AddEntityFrameworkStores<HavenDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddTransient<IHavenRepo, SessionRepo>();
+/*builder.Services.AddTransient<IHavenRepo, SessionRepo>();
 builder.Services.AddControllersWithViews();*/
 
 var app = builder.Build();
@@ -40,6 +40,13 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+using (var scope = app.Services.CreateScope())
+{
+    await SeedUsers.CreateAdminUserAsync(scope.ServiceProvider);
+    var context = scope.ServiceProvider.GetRequiredService<HavenDbContext>();
+    SeedData.Seed(context, scope.ServiceProvider);
+}
 
 app.MapControllerRoute(
     name: "default",

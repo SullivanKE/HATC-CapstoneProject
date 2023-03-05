@@ -10,85 +10,85 @@ using HATC_CapstoneProject.Models;
 
 namespace HATC_CapstoneProject.Controllers
 {
-    public class DowntimeController : Controller
+    public class FactionsController : Controller
     {
         private readonly HavenDbContext _context;
 
-        public DowntimeController(HavenDbContext context)
+        public FactionsController(HavenDbContext context)
         {
             _context = context;
         }
 
-        // GET: Downtime
+        // GET: Factions
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Downtime.ToListAsync());
+              return View(await _context.Factions.ToListAsync());
         }
 
-        // GET: Downtime/Details/5
+        // GET: Factions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Downtime == null)
+            if (id == null || _context.Factions == null)
             {
                 return NotFound();
             }
 
-            var downtime = await _context.Downtime
+            var faction = await _context.Factions
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (downtime == null)
+            if (faction == null)
             {
                 return NotFound();
             }
 
-            return View(downtime);
+            return View(faction);
         }
 
-        // GET: Downtime/Create
+        // GET: Factions/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Downtime/Create
+        // POST: Factions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Status")] Downtime downtime)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Image")] Faction faction)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(downtime);
+                _context.Add(faction);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(downtime);
+            return View(faction);
         }
 
-        // GET: Downtime/Edit/5
+        // GET: Factions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Downtime == null)
+            if (id == null || _context.Factions == null)
             {
                 return NotFound();
             }
 
-            var downtime = await _context.Downtime.FindAsync(id);
-            if (downtime == null)
+            var faction = await _context.Factions.FindAsync(id);
+            if (faction == null)
             {
                 return NotFound();
             }
-            return View(downtime);
+            return View(faction);
         }
 
-        // POST: Downtime/Edit/5
+        // POST: Factions/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Status")] Downtime downtime)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Image")] Faction faction)
         {
-            if (id != downtime.Id)
+            if (id != faction.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace HATC_CapstoneProject.Controllers
             {
                 try
                 {
-                    _context.Update(downtime);
+                    _context.Update(faction);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DowntimeExists(downtime.Id))
+                    if (!FactionExists(faction.Id))
                     {
                         return NotFound();
                     }
@@ -113,49 +113,49 @@ namespace HATC_CapstoneProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(downtime);
+            return View(faction);
         }
 
-        // GET: Downtime/Delete/5
+        // GET: Factions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Downtime == null)
+            if (id == null || _context.Factions == null)
             {
                 return NotFound();
             }
 
-            var downtime = await _context.Downtime
+            var faction = await _context.Factions
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (downtime == null)
+            if (faction == null)
             {
                 return NotFound();
             }
 
-            return View(downtime);
+            return View(faction);
         }
 
-        // POST: Downtime/Delete/5
+        // POST: Factions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Downtime == null)
+            if (_context.Factions == null)
             {
-                return Problem("Entity set 'HavenDbContext.Downtime'  is null.");
+                return Problem("Entity set 'HavenDbContext.Factions'  is null.");
             }
-            var downtime = await _context.Downtime.FindAsync(id);
-            if (downtime != null)
+            var faction = await _context.Factions.FindAsync(id);
+            if (faction != null)
             {
-                _context.Downtime.Remove(downtime);
+                _context.Factions.Remove(faction);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DowntimeExists(int id)
+        private bool FactionExists(int id)
         {
-          return _context.Downtime.Any(e => e.Id == id);
+          return _context.Factions.Any(e => e.Id == id);
         }
     }
 }

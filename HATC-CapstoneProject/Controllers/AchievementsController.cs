@@ -10,85 +10,85 @@ using HATC_CapstoneProject.Models;
 
 namespace HATC_CapstoneProject.Controllers
 {
-    public class DowntimeController : Controller
+    public class AchievementsController : Controller
     {
         private readonly HavenDbContext _context;
 
-        public DowntimeController(HavenDbContext context)
+        public AchievementsController(HavenDbContext context)
         {
             _context = context;
         }
 
-        // GET: Downtime
+        // GET: Achievements
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Downtime.ToListAsync());
+              return View(await _context.Achievements.ToListAsync());
         }
 
-        // GET: Downtime/Details/5
+        // GET: Achievements/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Downtime == null)
+            if (id == null || _context.Achievements == null)
             {
                 return NotFound();
             }
 
-            var downtime = await _context.Downtime
+            var achievement = await _context.Achievements
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (downtime == null)
+            if (achievement == null)
             {
                 return NotFound();
             }
 
-            return View(downtime);
+            return View(achievement);
         }
 
-        // GET: Downtime/Create
+        // GET: Achievements/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Downtime/Create
+        // POST: Achievements/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Status")] Downtime downtime)
+        public async Task<IActionResult> Create([Bind("Id,Name,Status,Benefit,Criteria,Goal,Progress")] Achievement achievement)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(downtime);
+                _context.Add(achievement);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(downtime);
+            return View(achievement);
         }
 
-        // GET: Downtime/Edit/5
+        // GET: Achievements/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Downtime == null)
+            if (id == null || _context.Achievements == null)
             {
                 return NotFound();
             }
 
-            var downtime = await _context.Downtime.FindAsync(id);
-            if (downtime == null)
+            var achievement = await _context.Achievements.FindAsync(id);
+            if (achievement == null)
             {
                 return NotFound();
             }
-            return View(downtime);
+            return View(achievement);
         }
 
-        // POST: Downtime/Edit/5
+        // POST: Achievements/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Status")] Downtime downtime)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Status,Benefit,Criteria,Goal,Progress")] Achievement achievement)
         {
-            if (id != downtime.Id)
+            if (id != achievement.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace HATC_CapstoneProject.Controllers
             {
                 try
                 {
-                    _context.Update(downtime);
+                    _context.Update(achievement);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DowntimeExists(downtime.Id))
+                    if (!AchievementExists(achievement.Id))
                     {
                         return NotFound();
                     }
@@ -113,49 +113,49 @@ namespace HATC_CapstoneProject.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(downtime);
+            return View(achievement);
         }
 
-        // GET: Downtime/Delete/5
+        // GET: Achievements/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Downtime == null)
+            if (id == null || _context.Achievements == null)
             {
                 return NotFound();
             }
 
-            var downtime = await _context.Downtime
+            var achievement = await _context.Achievements
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (downtime == null)
+            if (achievement == null)
             {
                 return NotFound();
             }
 
-            return View(downtime);
+            return View(achievement);
         }
 
-        // POST: Downtime/Delete/5
+        // POST: Achievements/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Downtime == null)
+            if (_context.Achievements == null)
             {
-                return Problem("Entity set 'HavenDbContext.Downtime'  is null.");
+                return Problem("Entity set 'HavenDbContext.Achievements'  is null.");
             }
-            var downtime = await _context.Downtime.FindAsync(id);
-            if (downtime != null)
+            var achievement = await _context.Achievements.FindAsync(id);
+            if (achievement != null)
             {
-                _context.Downtime.Remove(downtime);
+                _context.Achievements.Remove(achievement);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DowntimeExists(int id)
+        private bool AchievementExists(int id)
         {
-          return _context.Downtime.Any(e => e.Id == id);
+          return _context.Achievements.Any(e => e.Id == id);
         }
     }
 }

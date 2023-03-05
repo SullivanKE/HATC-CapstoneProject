@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HATC_CapstoneProject.Models.Downtime>
+﻿@model IEnumerable<HATC_CapstoneProject.Models.Achievement>
 
 @{
     ViewData["Title"] = "Index";
@@ -18,6 +18,18 @@
             <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Benefit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Criteria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Goal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Progress)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -29,6 +41,18 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Benefit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Criteria)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Goal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Progress)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

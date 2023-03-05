@@ -11,14 +11,14 @@
 
 @using Microsoft.AspNetCore.Identity
 
-<body>
+<body class="hatc-lblue-bg mb-0">
     <header>
-        <div class="container">
-            <div class="row text-center align-middle banner">
-                <h1 class="display-1 fw-bolder">Haven at the Crossroads</h1>
+        <div>
+            <div class="banner">
+                <h1 class="display-1 fw-bolder text-center ">Haven at the Crossroads</h1>
             </div>
-            <div class="row">
-                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
+            <div class="container">
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow hatc-white-bg">
                     <div class="container-fluid">
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
@@ -27,30 +27,30 @@
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                             <ul class="navbar-nav flex-grow-1 justify-content-left">
                                 <li class="nav-item">
-                                    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-dark">Home</a>
+                                    <a asp-action="Index" asp-controller="Home" class="btn btn-outline-dark fw-bold">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-action="Index" asp-controller="Session" class="btn btn-outline-dark">Sessions</a>
+                                    <a asp-action="Index" asp-controller="Sessions" class="btn btn-outline-dark fw-bold">Sessions</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-action="Index" asp-controller="Player" class="btn btn-outline-dark">Players</a>
+                                    <a asp-action="Index" asp-controller="Player" class="btn btn-outline-dark fw-bold">Players</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-action="Index" asp-controller="Faction" class="btn btn-outline-dark">Factions</a>
+                                    <a asp-action="Index" asp-controller="Factions" class="btn btn-outline-dark fw-bold">Factions</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-action="Index" asp-controller="Downtime" class="btn btn-outline-dark">Downtime</a>
+                                    <a asp-action="Index" asp-controller="Downtime" class="btn btn-outline-dark fw-bold">Downtime</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-action="Index" asp-controller="Shop" class="btn btn-outline-dark">Shop</a>
+                                    <a asp-action="Index" asp-controller="Shop" class="btn btn-outline-dark fw-bold">Shop</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a asp-action="Index" asp-controller="Information" class="btn btn-outline-dark">Information</a>
+                                    <a asp-action="Index" asp-controller="Information" class="btn btn-outline-dark fw-bold">Information</a>
                                 </li>
                             </ul>
                             <ul class="navbar-nav me-auto">
                                 <li class="nav-item">
-                                    <a asp-action="Login" asp-controller="Account" class="btn btn-outline-dark">Log In</a>
+                                    <a asp-action="Login" asp-controller="Account" class="btn btn-outline-dark fw-bold">Log In</a>
                                 </li>
                             </ul>
                         </div>
@@ -60,15 +60,15 @@
         </div>
         
     </header>
-    <div class="container">
+    <div class="container mt-0 pt-0">
         <main role="main">
-            <div class="bg-white">
+            <div class="hatc-white-bg p-3">
                 @RenderBody()
             </div>
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted hatc-green-bg mb-6">
         <div class="container">
             <a href="https://gavinodonnell.artstation.com/projects/9raaR">Banner image credit to Gavin O'Donnel</a>
         </div>

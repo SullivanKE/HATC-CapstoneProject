@@ -12,6 +12,7 @@ namespace HATC_CapstoneProject.Data
         public DbSet<Faction> Factions { get; set; }
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<ShopItem> Shop { get; set; }
-        public DbSet<Downtime> Downtimes { get; set; }
+        public DbSet<Downtime> Downtime { get; set; }
+        public DbSet<Character> Characters { get; set; }
     }
 }

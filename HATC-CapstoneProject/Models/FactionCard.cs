@@ -3,6 +3,6 @@
     public class FactionCard
     {
         public int Id { get; set; }
-        public Dictionary<Faction, int>? FactionPoints { get; set; }
+        public IEnumerable<FactionCardEntry>? FactionPoints { get; set; }
     }
 }

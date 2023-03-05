@@ -15,12 +15,53 @@ html {
 
 body {
   margin-bottom: 60px;
+  color: #1f1f2a;
+  background-color: #fefefc;
 }
 .banner {
     background: linear-gradient(transparent, 70%, black), url('../content/img/banner3.webp');
+    color: white;
     background-size: cover;
     padding: 40px;
-    color: white;
+    width: 100%;
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: black;
+}
+
+.hatc-white {
+    color: #fefefc;
+}
+.hatc-white-bg {
+    background-color: #fefefc;
+}
+.hatc-lgreen {
+    color: #93c06b;
+}
+.hatc-lgreen-bg {
+    background-color: #93c06b;
+}
+.hatc-lblue {
+    color: #456280;
+}
+.hatc-lblue-bg {
+    background-color: #456280;
+}
+.hatc-green {
+    color: #486553;
+}
+.hatc-green-bg {
+    background-color: #486553;
+}
+.hatc-blue {
+    color: #1a2541;
+}
+.hatc-blue-bg {
+    background-color: #1a2541;
+}
+.hatc-black {
+    color: #1f1f21;
+}
+
+.hatc-black-bg {
+    background-color: #1f1f21;
 }
