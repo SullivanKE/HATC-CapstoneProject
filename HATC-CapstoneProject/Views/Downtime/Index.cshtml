@@ -1,41 +1,124 @@
 ﻿@model IEnumerable<HATC_CapstoneProject.Models.Downtime>
 
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+	<a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="d-flex align-items-start">
+	<div class="nav flex-column nav-pills me-3" id="downtime-tab" role="tablist" aria-orientation="vertical">
+		@foreach (var item in Model)
+		{
+			<button class="nav-link active" id="downtime-tab-@item.Name" data-bs-toggle="pill" data-bs-target="#downtime-info-@item.Name" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
+				@Html.DisplayFor(modelItem => item.Name)
+			</button>
+		}
+	</div>
+	<div class="tab-content" id="v-pills-tabContent">
+
+		@foreach (var item in Model)
+		{
+			<div class="tab-pane fade show active" id="downtime-info-@item.Name" role="tabpanel" aria-labelledby="downtime-tab-@item.Name">
+				<table>
+					@if (item.Achievements != null && item.Achievements.Any())
+					{
+						@foreach (var downtimeInfo in @item.Achievements)
+						{
+							<tr>
+								<td>
+									@downtimeInfo
+								</td>
+							</tr>
+						}
+					}
+
+				</table>
+
+				<table>
+					@if (item.Resources != null && item.Resources.Any())
+					{
+						@foreach (var downtimeInfo in @item.Resources)
+						{
+							<tr>
+								<td>
+									@downtimeInfo
+								</td>
+							</tr>
+						}
+					}
+
+				</table>
+
+				<table>
+					@if (item.Resolution != null && item.Resolution.Any())
+					{
+						@foreach (var downtimeInfo in @item.Resolution)
+						{
+							<tr>
+								<td>
+									@downtimeInfo
+								</td>
+							</tr>
+						}
+					}
+
+				</table>
+
+				@if (item.Tables != null && item.Tables.Any())
+				{
+					foreach (var t in item.Tables)
+					{
+						<h6>@t.Name</h6>
+						<table>
+							@{
+								bool headCheck = false;
+							}
+							@foreach (DowntimeTableRow outer in t.Table)
+							{
+								foreach (StringListItem inner in outer.Row)
+								{
+									@if (t.HasHead && !headCheck)
+									{
+										headCheck = true;
+										<thead>
+											<tr>
+
+												<th>
+													@inner.Item;
+												</th>
+
+											</tr>
+										</thead>
+									}
+									else
+									{
+										<tbody>
+										<tr>
+
+											<td>
+												@inner.Item;
+											</td>
+
+										</tr>
+									</tbody>
+									}
+								}
+							}
+
+						</table>
+					}
+				}
+
+			</div>
+		}
+	</div>
+</div>
+@*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+@Html.DisplayFor(modelItem => item.Status)*@

@@ -3,6 +3,7 @@ using System;
 using HATC_CapstoneProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HATC_CapstoneProject.Migrations
 {
     [DbContext(typeof(HavenDbContext))]
-    partial class HavenDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230306062927_stringitemlistupdate")]
+    partial class stringitemlistupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,48 +140,6 @@ namespace HATC_CapstoneProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Downtime");
-                });
-
-            modelBuilder.Entity("HATC_CapstoneProject.Models.DowntimeTable", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("DowntimeParentId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("HasHead")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("IsComplication")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DowntimeParentId");
-
-                    b.ToTable("DowntimeTable");
-                });
-
-            modelBuilder.Entity("HATC_CapstoneProject.Models.DowntimeTableRow", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DowntimeTableId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DowntimeTableId");
-
-                    b.ToTable("DowntimeTableRow");
                 });
 
             modelBuilder.Entity("HATC_CapstoneProject.Models.Faction", b =>
@@ -411,9 +371,6 @@ namespace HATC_CapstoneProject.Migrations
                     b.Property<int?>("DowntimeId1")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DowntimeTableRowId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Item")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -429,8 +386,6 @@ namespace HATC_CapstoneProject.Migrations
                     b.HasIndex("DowntimeId");
 
                     b.HasIndex("DowntimeId1");
-
-                    b.HasIndex("DowntimeTableRowId");
 
                     b.HasIndex("NPCId");
 
@@ -788,24 +743,6 @@ namespace HATC_CapstoneProject.Migrations
                     b.Navigation("Player");
                 });
 
-            modelBuilder.Entity("HATC_CapstoneProject.Models.DowntimeTable", b =>
-                {
-                    b.HasOne("HATC_CapstoneProject.Models.Downtime", "DowntimeParent")
-                        .WithMany("Tables")
-                        .HasForeignKey("DowntimeParentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DowntimeParent");
-                });
-
-            modelBuilder.Entity("HATC_CapstoneProject.Models.DowntimeTableRow", b =>
-                {
-                    b.HasOne("HATC_CapstoneProject.Models.DowntimeTable", null)
-                        .WithMany("Table")
-                        .HasForeignKey("DowntimeTableId");
-                });
-
             modelBuilder.Entity("HATC_CapstoneProject.Models.FactionCard", b =>
                 {
                     b.HasOne("HATC_CapstoneProject.Models.Session", null)
@@ -881,10 +818,6 @@ namespace HATC_CapstoneProject.Migrations
                     b.HasOne("HATC_CapstoneProject.Models.Downtime", null)
                         .WithMany("Resources")
                         .HasForeignKey("DowntimeId1");
-
-                    b.HasOne("HATC_CapstoneProject.Models.DowntimeTableRow", null)
-                        .WithMany("Row")
-                        .HasForeignKey("DowntimeTableRowId");
 
                     b.HasOne("HATC_CapstoneProject.Models.NPC", null)
                         .WithMany("AdventureHooks")
@@ -985,18 +918,6 @@ namespace HATC_CapstoneProject.Migrations
                     b.Navigation("Resolution");
 
                     b.Navigation("Resources");
-
-                    b.Navigation("Tables");
-                });
-
-            modelBuilder.Entity("HATC_CapstoneProject.Models.DowntimeTable", b =>
-                {
-                    b.Navigation("Table");
-                });
-
-            modelBuilder.Entity("HATC_CapstoneProject.Models.DowntimeTableRow", b =>
-                {
-                    b.Navigation("Row");
                 });
 
             modelBuilder.Entity("HATC_CapstoneProject.Models.Faction", b =>
