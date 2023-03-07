@@ -1,8 +1,11 @@
-﻿namespace HATC_CapstoneProject.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace HATC_CapstoneProject.Models
 {
     public class Session
     {
-        public int Id { get; set; }
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
         public DateTime RealDate { get; set; }
         public string InGameDate { get; set; } = string.Empty;
         public Character GMCharacter { get; set; } = new Character();

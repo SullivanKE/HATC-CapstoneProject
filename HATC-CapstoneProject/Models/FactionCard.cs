@@ -1,8 +1,11 @@
-﻿namespace HATC_CapstoneProject.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace HATC_CapstoneProject.Models
 {
     public class FactionCard
     {
-        public int Id { get; set; }
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
         public IEnumerable<FactionCardEntry>? FactionPoints { get; set; }
     }
 }

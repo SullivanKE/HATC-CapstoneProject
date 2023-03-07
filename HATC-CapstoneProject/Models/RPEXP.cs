@@ -1,8 +1,11 @@
-﻿namespace HATC_CapstoneProject.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace HATC_CapstoneProject.Models
 {
     public class RPEXP
     {
-        public int Id { get; set; }
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
         public Character Char { get; set; }
         public Trait TraitResolved { get; set; }
         public bool isResolved { get; set; }

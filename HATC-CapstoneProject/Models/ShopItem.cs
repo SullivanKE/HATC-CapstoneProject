@@ -1,8 +1,11 @@
-﻿namespace HATC_CapstoneProject.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace HATC_CapstoneProject.Models
 {
     public class ShopItem : SessionItem
     {
-        public string? PriceAdjustment { get; set; }
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public string? PriceAdjustment { get; set; }
         public string? Source { get; set;}
         public Rank Rarity { get; set; } = new Rank();
         public string? BanReason { get; set; }

@@ -1,8 +1,11 @@
-﻿namespace HATC_CapstoneProject.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace HATC_CapstoneProject.Models
 {
     public class Achievement
     {
-        public int Id { get; set; }
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
         public string Name { get; set; }
         public bool Status { get; set; }
         public string Benefit { get; set; }

@@ -4,112 +4,263 @@ using System.Collections.Generic;
 
 namespace HATC_CapstoneProject.Data
 {
-    public class SeedData
-    {
-        public static void Seed(HavenDbContext context, IServiceProvider provider)
-        {
-            if (!context.Sessions.Any())
-            {
-                // Generate users
-                var userManager = provider.GetRequiredService<UserManager<Player>>();
+	public class SeedData
+	{
+		public static void Seed1(HavenDbContext context, IServiceProvider provider)
+		{
+			if (!context.Sessions.Any())
+			{
+				// Generate users
+				var userManager = provider.GetRequiredService<UserManager<Player>>();
 
-                //TODO: Use user secrets to hide the password
-                const string PASSWORD = "root";
-                Player user1 = new Player
-                {
-                    UserName = "root"
-                };
-                userManager.CreateAsync(user1, PASSWORD);
+				//TODO: Use user secrets to hide the password
+				const string PASSWORD = "root";
+				Player user1 = new Player
+				{
+					UserName = "root"
+				};
+				userManager.CreateAsync(user1, PASSWORD);
 
-                //Generate character
-                Character character = new Character
-                {
-                    Id = 0,
-                    Player = user1,
-                    Exp = 0,
-                    Downtime = 0
-                };
-                context.Characters.Add(character);
-                context.SaveChanges();
-
-                // Generate Sessions
-                Session session;
-                session = new Session
-                {
-                    Id = 0,
-                    GMCharacter = character,
-                    RealDate = DateTime.Now,
-                    InGameDate = "Jan 1, Year 1",
-                    DowntimeReward = 0
-                };
-				context.Sessions.Add(session);
+				//Generate character
+				Character character = new Character
+				{
+					Player = user1,
+					Exp = 0,
+					Downtime = 0
+				};
+				context.Characters.Add(character);
 				context.SaveChanges();
+
+				// Generate Sessions
+				Session session;
+				session = new Session
+				{
+					GMCharacter = character,
+					RealDate = DateTime.Now,
+					InGameDate = "Jan 1, Year 1",
+					DowntimeReward = 0
+				};
+				context.Sessions.Add(session);
+
+				context.SaveChanges();
+
+			}
+		}
+		public static void Seed2(HavenDbContext context, IServiceProvider provider)
+		{
+			if (!context.Downtime.Any())
+			{
+
 
 				// Generate downtime
 				List<StringListItem> Resources = new List<StringListItem>();
 				Resources.Add(new StringListItem
 				{
-					Id = 1,
 					Item = "Herbalism kit, gold, and time."
 				});
 				List<StringListItem> Resolution = new List<StringListItem>();
-				Resources.Add(new StringListItem
+				Resolution.Add(new StringListItem
 				{
-					Id = 2,
 					Item = "No roll. Potion made depends on gold and time invested"
 				});
-                
+
+
 
 				Downtime downtime;
-                downtime = new Downtime
-                {
-                    Id = 0,
-                    Name = "Brewing a Potion of Healing",
-                    Status = true,
-                    Resources = Resources,
-                    Resolution = Resolution,
-                    Achievements = new List<Achievement>()
-                };
-                StringListItem[,] tab = new StringListItem[5, 3]
-                {
-                    { new StringListItem { Id = 20, Item = "Potion Type" }, new StringListItem { Id = 21, Item = "Downtime" }, new StringListItem { Id = 22, Item = "Gold Cost" } },
-                        { new StringListItem { Id = 23, Item = "Potion of Healing" }, new StringListItem { Id = 24, Item = "One Day" }, new StringListItem { Id = 25, Item = "25 gp" } },
-                        { new StringListItem { Id = 26, Item = "Potion of Greater Healing" }, new StringListItem { Id = 27, Item = "One Workweek" }, new StringListItem { Id = 28, Item = "100 gp" } },
-                        { new StringListItem { Id = 29, Item = "Potion of Superior Healing" }, new StringListItem { Id = 30, Item = "Three Workweeks" }, new StringListItem { Id = 31, Item = "1,000 gp" } },
-                        { new StringListItem { Id = 32, Item = "Potion of Supreme Healing" }, new StringListItem { Id = 33, Item = "Four Workweeks" }, new StringListItem { Id = 34, Item = "5,000 gp" } }
-                }; 
-
-				List<DowntimeTable> ResTable = new List<DowntimeTable>();
-				List<DowntimeTableRow> tab2 = new List<DowntimeTableRow>();
-				
-                for(int i = 0; i<tab.GetLength(0); i++)
-                {
-                    DowntimeTableRow row = new DowntimeTableRow();
-                    row.Row = new List<StringListItem>();
-					for (int j = 0; j<tab.GetLength(1); j++)
-                    {
-                        row.Row.Append(tab[i, j]);
-					}
-                    tab2.Add(row);
-				}
-				ResTable.Add(new DowntimeTable
+				downtime = new Downtime
 				{
-					Id = 1,
+					Name = "Brewing a Potion of Healing",
+					Status = true,
+					Resources = Resources,
+					Resolution = Resolution,
+					Achievements = new List<Achievement>()
+				};
+
+				DowntimeTable ResTable = new DowntimeTable
+				{
 					Name = "Potion Brewing Table",
 					HasHead = true,
-                    Table = tab2,
 					DowntimeParent = downtime
 
+				};
+				List<DowntimeTableRow> ResRow = new List<DowntimeTableRow>
+				{
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow()
+				};
+
+				ResRow[0].Row = new List<StringListItem>
+				{
+					new StringListItem { Item = "Potion Type" },
+					new StringListItem { Item = "Downtime" },
+					new StringListItem { Item = "Gold Cost" }
+				};
+				ResRow[1].Row = new List<StringListItem>
+				{
+					new StringListItem { Item = "Potion of Healing" },
+					new StringListItem { Item = "One Day" },
+					new StringListItem { Item = "25 gp" }
+				};
+				ResRow[2].Row = new List<StringListItem>
+				{
+					new StringListItem { Item = "Potion of Greater Healing" },
+					new StringListItem { Item = "One Workweek" },
+					new StringListItem { Item = "100 gp" }
+				};
+				ResRow[3].Row = new List<StringListItem>
+				{
+					new StringListItem { Item = "Potion of Superior Healing" },
+					new StringListItem { Item = "Three Workweeks" },
+					new StringListItem { Item = "1,000 gp" }
+				};
+				ResRow[4].Row = new List<StringListItem>
+				{
+					new StringListItem { Item = "Potion of Supreme Healing" },
+					new StringListItem { Item = "Four Workweeks" },
+					new StringListItem { Item = "5,000 gp" }
+				};
+
+				ResTable.Table = ResRow;
+
+				downtime.Tables = new List<DowntimeTable>
+				{
+					ResTable
+				};
+
+				List<StringListItem> Resources2 = new List<StringListItem>();
+				Resources2.Add(new StringListItem
+				{
+					Item = "At least one workweek"
 				});
-                downtime.Tables = ResTable;
+				Resources2.Add(new StringListItem
+				{
+					Item = "100 GP, probably more"
+				});
+				Resources2.Add(new StringListItem
+				{
+					Item = "One workweek is needed per specific item being purchased."
+				});
+				Resources2.Add(new StringListItem
+				{
+					Item = "Availability is dependent on price and what exists in the shop. "
+				});
+
+				List<StringListItem> Resolution2 = new List<StringListItem>();
+				Resolution2.Add(new StringListItem
+				{
+					Item = "Player makes a Charisma (Persuasion) check."
+				});
+				Resolution2.Add(new StringListItem
+				{
+					Item = "+1 bonus for each workweek."
+				});
+				Resolution2.Add(new StringListItem
+				{
+					Item = "+1 bonus for each 100 gp."
+				});
+				Resolution2.Add(new StringListItem
+				{
+					Item = "Max total bonus +6."
+				});
+
+				Downtime downtime2 = new Downtime
+				{
+					Name = "Buying a Magic Item",
+					Status = true,
+					Resources = Resources2,
+					Resolution = Resolution2,
+					Achievements = new List<Achievement>()
+				};
+
+				Achievement achieve = new Achievement
+				{
+					Name = "Ye Olde Magic Shoppe I",
+					Status = true,
+					Benefit = "Unlock magic shop and have 1d3-2 rank bronze magic items are available for purchase from Haven at the beginning of each session",
+					Criteria = "Rescue NPC who will open shop",
+					Goal = -1,
+					Progress = -1
+				};
+				downtime2.Achievements = downtime2.Achievements.Append(achieve);
+
+				achieve = new Achievement
+				{
+					Name = "Ye Olde Magic Shoppe II",
+					Status = true,
+					Benefit = "1d3-1 rank bronze magic items are available for purchase from the Haven at the beginning of each session (NOTE: This replaces Ye Olde Magick Shoppe I)",
+					Criteria = "Invest 1,500 gold in the Arcanist",
+					Goal = 1500,
+					Progress = 1500
+				};
+				downtime2.Achievements = downtime2.Achievements.Append(achieve).ToList();
+
+				DowntimeTable ResTable2 = new DowntimeTable
+				{
+					Name = "Magic Item Cost Table",
+					HasHead = true,
+					DowntimeParent = downtime2
+				};
+
+				List<DowntimeTableRow> ResRow2 = new List<DowntimeTableRow>
+				{
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow()
+				};
+
+				ResRow2[0].Row = new List<StringListItem>
+				{
+					new StringListItem {Item = "Roll" },
+					new StringListItem {Item = "Item Cost" },
+				};
+				ResRow2[1].Row = new List<StringListItem>
+				{
+					new StringListItem {Item = "1-5" },
+					new StringListItem { Item = "+25%" },
+				};
+				ResRow2[2].Row = new List<StringListItem>
+				{
+					new StringListItem { Item = "6-10" },
+					new StringListItem { Item = "+15%" },
+				};
+				ResRow2[3].Row = new List<StringListItem>
+				{
+					new StringListItem { Item = "11-15" },
+					new StringListItem { Item = "+0%" },
+				};
+				ResRow2[4].Row = new List<StringListItem>
+				{
+					new StringListItem { Item = "16-20" },
+					new StringListItem { Item = "-15%" },
+				};
+				ResRow2[5].Row = new List<StringListItem>
+				{
+					new StringListItem { Item = "21+" },
+					new StringListItem { Item = "-25%" },
+				};
+
+				ResTable2.Table = ResRow2;
+
+				downtime2.Tables = new List<DowntimeTable>
+				{
+					ResTable2
+				};
+
 				context.Downtime.Add(downtime);
+				context.Downtime.Add(downtime2);
 				context.SaveChanges();
 			}
-        }
+		}
 
-        public object GetService(Type serviceType)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public object GetService(Type serviceType)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

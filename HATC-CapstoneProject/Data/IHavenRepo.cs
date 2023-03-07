@@ -1,13 +1,14 @@
 ﻿using HATC_CapstoneProject.Models;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 namespace HATC_CapstoneProject.Data
 {
     public interface IHavenRepo
     {
-        public IQueryable<Object> ItemsAsync { get; }
-        public Task<Object> GetItemAsync(string id);
-        public Task<int> SaveItemAsync(Object item);
-        public Task<List<Object>> GetAllItemsAsync();
+        public IQueryable<Downtime> DowntimeAsync { get; }
+        public Task<Downtime> GetDowntimeAsync(int id);
+        public Task<int> SaveDowntimeAsync(Downtime item);
+        public Task<List<Downtime>> GetAllDowntimeAsync();
     }
 }

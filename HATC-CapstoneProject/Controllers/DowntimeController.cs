@@ -7,22 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HATC_CapstoneProject.Data;
 using HATC_CapstoneProject.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace HATC_CapstoneProject.Controllers
 {
     public class DowntimeController : Controller
     {
         private readonly HavenDbContext _context;
+        IHavenRepo repo;
+        UserManager<Player> userManager;
 
-        public DowntimeController(HavenDbContext context)
+        public DowntimeController(IHavenRepo repo, UserManager<Player> userMngr)
         {
-            _context = context;
+            this.repo = repo;
+            this.userManager = userMngr;
         }
 
         // GET: Downtime
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Downtime.ToListAsync());
+              return View(await repo.GetAllDowntimeAsync());
         }
 
         // GET: Downtime/Details/5

@@ -20,8 +20,8 @@ builder.Services.AddIdentity<Player, IdentityRole>()
     .AddEntityFrameworkStores<HavenDbContext>()
     .AddDefaultTokenProviders();
 
-/*builder.Services.AddTransient<IHavenRepo, SessionRepo>();
-builder.Services.AddControllersWithViews();*/
+builder.Services.AddTransient<IHavenRepo, HavenRepo>();
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
@@ -45,7 +45,8 @@ using (var scope = app.Services.CreateScope())
 {
     await SeedUsers.CreateAdminUserAsync(scope.ServiceProvider);
     var context = scope.ServiceProvider.GetRequiredService<HavenDbContext>();
-    SeedData.Seed(context, scope.ServiceProvider);
+    SeedData.Seed1(context, scope.ServiceProvider);
+	SeedData.Seed2(context, scope.ServiceProvider);
 }
 
 app.MapControllerRoute(
