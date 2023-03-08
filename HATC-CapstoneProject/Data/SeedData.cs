@@ -174,26 +174,87 @@ namespace HATC_CapstoneProject.Data
 					Resolution = Resolution2,
 					Achievements = new List<Achievement>()
 				};
+				Rank bronze = new Rank
+				{
+					Name = "Bronze",
+					Level = 0,
+					Color = "#F8F8F8",
+					BgColor = "#CD7F32"
+				};
+				Rank silver = new Rank
+				{
+					Name = "Silver",
+					Level = 1,
+					Color = "#101010",
+					BgColor = "#BEC2CB"
+				};
+				Rank gold = new Rank
+				{
+					Name = "Gold",
+					Level = 2,
+					Color = "#F8F8F8",
+					BgColor = "#D4AF37"
+				};
+				Rank platinum = new Rank
+				{
+					Name = "Platinum",
+					Level = 3,
+					Color = "#101010",
+					BgColor = "#9DD9F3"
+				};
+				Rank diamond = new Rank
+				{
+					Name = "Diamond",
+					Level = 4,
+					Color = "#101010",
+					BgColor = "#E6E6FA"
+				};
+				Rank restricted = new Rank
+				{
+					Name = "Restricted",
+					Level = 5,
+					Color = "#101010",
+					BgColor = "#FF0800"
+				};
+				Rank banned = new Rank
+				{
+					Name = "Banned",
+					Level = 6,
+					Color = "#FF0800",
+					BgColor = "#101010"
+				};
+
+				context.Ranks.Add(bronze);
+				context.Ranks.Add(silver);
+				context.Ranks.Add(gold);
+				context.Ranks.Add(platinum);
+				context.Ranks.Add(diamond);
+				context.Ranks.Add(restricted);
+				context.Ranks.Add(banned);
 
 				Achievement achieve = new Achievement
 				{
 					Name = "Ye Olde Magic Shoppe I",
-					Status = true,
+					IsHidden = false,
 					Benefit = "Unlock magic shop and have 1d3-2 rank bronze magic items are available for purchase from Haven at the beginning of each session",
 					Criteria = "Rescue NPC who will open shop",
-					Goal = -1,
-					Progress = -1
+					Goal = 1,
+					Progress = 1,
+					Level = bronze,
+					IsUnlocked = true
 				};
 				downtime2.Achievements = downtime2.Achievements.Append(achieve);
 
 				achieve = new Achievement
 				{
 					Name = "Ye Olde Magic Shoppe II",
-					Status = true,
+					IsHidden = false,
 					Benefit = "1d3-1 rank bronze magic items are available for purchase from the Haven at the beginning of each session (NOTE: This replaces Ye Olde Magick Shoppe I)",
 					Criteria = "Invest 1,500 gold in the Arcanist",
 					Goal = 1500,
-					Progress = 1500
+					Progress = 1500,
+					Level = silver,
+					IsUnlocked = true
 				};
 				downtime2.Achievements = downtime2.Achievements.Append(achieve).ToList();
 

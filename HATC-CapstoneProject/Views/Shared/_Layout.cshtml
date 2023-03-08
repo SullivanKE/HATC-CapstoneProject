@@ -11,9 +11,9 @@
 
 @using Microsoft.AspNetCore.Identity
 
-<body class="hatc-lblue-bg mb-0">
+<body class="hatc-lblue-bg mb-0 d-flex flex-column min-vh-100">
     <header>
-        <div>
+
             <div class="banner">
                 <h1 class="display-1 fw-bolder text-center ">Haven at the Crossroads</h1>
             </div>
@@ -42,6 +42,9 @@
                                     <a asp-action="Index" asp-controller="Downtime" class="btn btn-outline-dark fw-bold">Downtime</a>
                                 </li>
                                 <li class="nav-item">
+                                    <a asp-action="Index" asp-controller="Achievements" class="btn btn-outline-dark fw-bold">Achievements</a>
+                                </li>
+                                <li class="nav-item">
                                     <a asp-action="Index" asp-controller="Shop" class="btn btn-outline-dark fw-bold">Shop</a>
                                 </li>
                                 <li class="nav-item">
@@ -50,6 +53,9 @@
                             </ul>
                             <ul class="navbar-nav me-auto">
                                 <li class="nav-item">
+                                    <a asp-action="Login" asp-controller="Account" class="btn btn-outline-dark fw-bold">Admin</a>
+                                </li>
+                                <li class="nav-item">
                                     <a asp-action="Login" asp-controller="Account" class="btn btn-outline-dark fw-bold">Log In</a>
                                 </li>
                             </ul>
@@ -57,10 +63,10 @@
                     </div>
                 </nav>
             </div>
-        </div>
+
         
     </header>
-    <div class="container mt-0 pt-0">
+    <div class="container mt-0 pt-0 shadow-lg">
         <main role="main">
             <div class="hatc-white-bg p-3">
                 @RenderBody()
@@ -68,10 +74,8 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted hatc-green-bg mb-6">
-        <div class="container">
-            <a href="https://gavinodonnell.artstation.com/projects/9raaR">Banner image credit to Gavin O'Donnel</a>
-        </div>
+    <footer class="footer text-muted text-center mb-6 mt-auto">
+        <a href="https://gavinodonnell.artstation.com/projects/9raaR">Banner image credit to Gavin O'Donnel</a>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

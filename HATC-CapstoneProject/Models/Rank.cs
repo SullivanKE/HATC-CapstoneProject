@@ -9,5 +9,6 @@ namespace HATC_CapstoneProject.Models
         public string Name { get; set; }
         public int Level { get; set; }
         public string Color { get; set; }
+        public string BgColor { get; set; }
     }
 }

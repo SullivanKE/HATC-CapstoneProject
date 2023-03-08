@@ -14,18 +14,26 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
-  color: #1f1f2a;
-  background-color: #fefefc;
+    margin-bottom: 60px;
+    color: #1f1f2a;
+    background-color: #fefefc;
+    background-image: url('../content/img/texture3.webp');
+    background-size: cover;
+    background-repeat: repeat;
+    background-attachment: fixed;
 }
 .banner {
-    background: linear-gradient(transparent, 70%, black), url('../content/img/banner3.webp');
     color: white;
     background-size: cover;
     padding: 40px;
     width: 100%;
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: black;
+}
+.footer {
+    background-size: cover;
+    padding: 40px;
+    width: 100%;
 }
 
 .hatc-white {
@@ -52,7 +60,13 @@ body {
 .hatc-green-bg {
     background-color: #486553;
 }
-.hatc-blue {
+.hatc-blue .active .a,
+.hatc-blue .active .a:hover,
+.nav-pills .nav-link.active {
+    background-color: #1a2541;
+    color: #93c06b;
+}
+.nav-link {
     color: #1a2541;
 }
 .hatc-blue-bg {

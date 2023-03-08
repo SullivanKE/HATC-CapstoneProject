@@ -7,8 +7,10 @@ namespace HATC_CapstoneProject.Models
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
         public string Name { get; set; }
-        public bool Status { get; set; }
-        public string Benefit { get; set; }
+        public Rank Level { get; set; }
+        public bool IsHidden { get; set; }
+		public bool IsUnlocked { get; set; }
+		public string Benefit { get; set; }
         public string Criteria { get; set; }
         public int Goal { get; set; }
         public int Progress { get; set; }

@@ -39,6 +39,15 @@ namespace HATC_CapstoneProject.Migrations
                     b.Property<int>("Goal")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsHidden")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsUnlocked")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("LevelId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -46,12 +55,11 @@ namespace HATC_CapstoneProject.Migrations
                     b.Property<int>("Progress")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("tinyint(1)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DowntimeId");
+
+                    b.HasIndex("LevelId");
 
                     b.ToTable("Achievements");
                 });
@@ -296,6 +304,10 @@ namespace HATC_CapstoneProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("BgColor")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Color")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -309,7 +321,7 @@ namespace HATC_CapstoneProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rank");
+                    b.ToTable("Ranks");
                 });
 
             modelBuilder.Entity("HATC_CapstoneProject.Models.RPEXP", b =>
@@ -749,6 +761,14 @@ namespace HATC_CapstoneProject.Migrations
                     b.HasOne("HATC_CapstoneProject.Models.Downtime", null)
                         .WithMany("Achievements")
                         .HasForeignKey("DowntimeId");
+
+                    b.HasOne("HATC_CapstoneProject.Models.Rank", "Level")
+                        .WithMany()
+                        .HasForeignKey("LevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Level");
                 });
 
             modelBuilder.Entity("HATC_CapstoneProject.Models.AchievementAdvancement", b =>

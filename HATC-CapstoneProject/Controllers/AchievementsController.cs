@@ -7,22 +7,43 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HATC_CapstoneProject.Data;
 using HATC_CapstoneProject.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace HATC_CapstoneProject.Controllers
 {
     public class AchievementsController : Controller
     {
-        private readonly HavenDbContext _context;
+        private HavenDbContext _context;
+        private IHavenRepo repo;
+        private UserManager<Player> userManager;
 
-        public AchievementsController(HavenDbContext context)
+		public AchievementsController(IHavenRepo repo, UserManager<Player> userMngr)
         {
-            _context = context;
+            this.repo = repo;
+            this.userManager = userMngr;
         }
 
         // GET: Achievements
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Achievements.ToListAsync());
+            AchievementVM achievementVM = new AchievementVM();
+
+            List<Achievement> achievements = await repo.GetAllAchievementsAsync();
+			List<Rank> ranks = await repo.GetAllRanksAsync();
+
+			foreach (Rank r in ranks)
+            {
+                achievementVM.AchievementList.TryAdd(r, new List<Achievement>());
+				foreach (Achievement a in achievements)
+				{
+                    if (a.Level == r)
+                    {
+                        achievementVM.AchievementList[r].Add(a);
+                    }
+				}
+			}
+
+			return View(achievementVM);
         }
 
         // GET: Achievements/Details/5
