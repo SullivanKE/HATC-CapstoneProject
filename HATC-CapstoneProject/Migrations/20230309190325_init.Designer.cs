@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HATC_CapstoneProject.Migrations
 {
     [DbContext(typeof(HavenDbContext))]
-    [Migration("20230308162501_rank2")]
-    partial class rank2
+    [Migration("20230309190325_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,14 +31,7 @@ namespace HATC_CapstoneProject.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Criteria")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<int?>("DowntimeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Goal")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsHidden")
@@ -53,9 +46,6 @@ namespace HATC_CapstoneProject.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<int>("Progress")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -88,6 +78,32 @@ namespace HATC_CapstoneProject.Migrations
                     b.HasIndex("SessionId");
 
                     b.ToTable("AchievementAdvancement");
+                });
+
+            modelBuilder.Entity("HATC_CapstoneProject.Models.AchievementProgress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AchievementId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Criteria")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Goal")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Progress")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AchievementId");
+
+                    b.ToTable("AchievementProgress");
                 });
 
             modelBuilder.Entity("HATC_CapstoneProject.Models.Character", b =>
@@ -788,6 +804,13 @@ namespace HATC_CapstoneProject.Migrations
                     b.Navigation("Achieve");
                 });
 
+            modelBuilder.Entity("HATC_CapstoneProject.Models.AchievementProgress", b =>
+                {
+                    b.HasOne("HATC_CapstoneProject.Models.Achievement", null)
+                        .WithMany("AchievementProgress")
+                        .HasForeignKey("AchievementId");
+                });
+
             modelBuilder.Entity("HATC_CapstoneProject.Models.Character", b =>
                 {
                     b.HasOne("HATC_CapstoneProject.Models.FactionCard", "FactionPoints")
@@ -999,6 +1022,11 @@ namespace HATC_CapstoneProject.Migrations
                         .IsRequired();
 
                     b.Navigation("Rarity");
+                });
+
+            modelBuilder.Entity("HATC_CapstoneProject.Models.Achievement", b =>
+                {
+                    b.Navigation("AchievementProgress");
                 });
 
             modelBuilder.Entity("HATC_CapstoneProject.Models.Downtime", b =>

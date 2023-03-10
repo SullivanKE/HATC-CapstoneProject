@@ -34,5 +34,12 @@ namespace HATC_CapstoneProject.Data
 		public Task<List<Session>> GetAllSessionsAsync();
 		#endregion
 
+		#region Factions
+		public IQueryable<Faction> FactionAsync { get; }
+		public Task<Faction> GetFactionAsync(int id);
+		public Task<int> SaveFactionAsync(Faction item);
+		public Task<List<Faction>> GetAllFactionsAsync();
+		#endregion
+
 	}
 }

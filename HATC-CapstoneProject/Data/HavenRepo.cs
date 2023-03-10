@@ -76,14 +76,16 @@ namespace HATC_CapstoneProject.Data
 			get
 			{
 				return context.Achievements
-					.Include(achievement => achievement.Level);
+					.Include(achievement => achievement.Level)
+					.Include(achievement => achievement.AchievementProgress);
 			}
 		}
 		public async Task<List<Achievement>> GetAllAchievementsAsync()
 		{
 			List<Achievement> achievementList = await context.Achievements
 					.Include(achievement => achievement.Level)
-					.OrderBy(achievement => achievement.Name)
+                    .Include(achievement => achievement.AchievementProgress)
+                    .OrderBy(achievement => achievement.Name)
 					.ToListAsync();
 
 			return achievementList;
@@ -93,7 +95,8 @@ namespace HATC_CapstoneProject.Data
 			Achievement achievement = await context.Achievements
 				.Where(achievement => achievement.Id == id)
 				.Include(achievement => achievement.Level)
-				.SingleOrDefaultAsync();
+                .Include(achievement => achievement.AchievementProgress)
+                .SingleOrDefaultAsync();
 
 			return achievement;
 		}
@@ -131,6 +134,58 @@ namespace HATC_CapstoneProject.Data
 		public async Task<int> SaveRankAsync(Rank item)
 		{
 			context.Ranks.Add(item);
+			return await context.SaveChangesAsync();
+		}
+		#endregion
+
+		#region Factions
+		public IQueryable<Faction> FactionAsync
+		{
+			get
+			{
+				return context.Factions
+				.Include(faction => faction.Members)
+					.ThenInclude(npc => npc.Stats)
+				.Include(faction => faction.Members)
+					.ThenInclude(npc => npc.AdventureHooks)
+				.Include(faction => faction.Shops)
+					.ThenInclude(shops => shops.List)
+				.Include(faction => faction.Perks);
+			}
+		}
+		public async Task<List<Faction>> GetAllFactionsAsync()
+		{
+			List<Faction> faction = await context.Factions
+				.Include(faction => faction.Members)
+					.ThenInclude(npc => npc.Stats)
+				.Include(faction => faction.Members)
+					.ThenInclude(npc => npc.AdventureHooks)
+				.Include(faction => faction.Shops)
+					.ThenInclude(shops => shops.List)
+				.Include(faction => faction.Perks)
+					.OrderBy(faction => faction.Name)
+					.ToListAsync();
+
+			return faction;
+		}
+		public async Task<Faction> GetFactionAsync(int id)
+		{
+			Faction faction = await context.Factions
+				.Include(faction => faction.Members)
+					.ThenInclude(npc => npc.Stats)
+				.Include(faction => faction.Members)
+					.ThenInclude(npc => npc.AdventureHooks)
+				.Include(faction => faction.Shops)
+					.ThenInclude(shops => shops.List)
+				.Include(faction => faction.Perks)
+				.Where(faction => faction.Id == id)
+				.SingleOrDefaultAsync();
+
+			return faction;
+		}
+		public async Task<int> SaveFactionAsync(Faction item)
+		{
+			context.Factions.Add(item);
 			return await context.SaveChangesAsync();
 		}
 		#endregion

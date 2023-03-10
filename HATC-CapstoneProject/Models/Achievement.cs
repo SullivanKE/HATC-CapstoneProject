@@ -11,8 +11,7 @@ namespace HATC_CapstoneProject.Models
         public bool IsHidden { get; set; }
 		public bool IsUnlocked { get; set; }
 		public string Benefit { get; set; }
-        public string Criteria { get; set; }
-        public int Goal { get; set; }
-        public int Progress { get; set; }
+        
+        public List<AchievementProgress> AchievementProgress { get; set; }
     }
 }

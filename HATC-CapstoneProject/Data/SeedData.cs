@@ -237,9 +237,15 @@ namespace HATC_CapstoneProject.Data
 					Name = "Ye Olde Magic Shoppe I",
 					IsHidden = false,
 					Benefit = "Unlock magic shop and have 1d3-2 rank bronze magic items are available for purchase from Haven at the beginning of each session",
-					Criteria = "Rescue NPC who will open shop",
-					Goal = 1,
-					Progress = 1,
+					AchievementProgress = new List<AchievementProgress>
+					{
+						new AchievementProgress
+						{
+                            Criteria = "Rescue NPC who will open shop",
+                            Goal = 1,
+							Progress = 1
+						}
+					},
 					Level = bronze,
 					IsUnlocked = true
 				};
@@ -250,11 +256,141 @@ namespace HATC_CapstoneProject.Data
 					Name = "Ye Olde Magic Shoppe II",
 					IsHidden = false,
 					Benefit = "1d3-1 rank bronze magic items are available for purchase from the Haven at the beginning of each session (NOTE: This replaces Ye Olde Magick Shoppe I)",
-					Criteria = "Invest 1,500 gold in the Arcanist",
-					Goal = 1500,
-					Progress = 1500,
-					Level = silver,
+                    AchievementProgress = new List<AchievementProgress>
+                    {
+                        new AchievementProgress
+                        {
+                            Criteria = "Invest 1,500 gold in the Arcanist",
+                            Goal = 1500,
+                            Progress = 1500
+                        }
+                    },
+                    Level = silver,
 					IsUnlocked = true
+				};
+				downtime2.Achievements = downtime2.Achievements.Append(achieve).ToList();
+
+                achieve = new Achievement
+                {
+                    Name = "Ye Olde Magic Shoppe Ultimate",
+                    IsHidden = false,
+                    Benefit = "This is a test achievement that gives people free magic items of any rarity",       
+                    AchievementProgress = new List<AchievementProgress>
+                    {
+                        new AchievementProgress
+                        {
+                            Criteria = "Invest 1000000 gold in the Arcanist",
+                            Goal = 300000,
+                            Progress = 10000
+                        },
+                        new AchievementProgress
+                        {
+                            Criteria = "Kill 5 gods",
+                            Goal = 5,
+                            Progress = 2
+                        },
+                        new AchievementProgress
+                        {
+                            Criteria = "Have a wedding",
+                            Goal = 1,
+                            Progress = 0
+                        }
+                    },
+                    Level = bronze,
+                    IsUnlocked = false
+                };
+                downtime2.Achievements = downtime2.Achievements.Append(achieve).ToList();
+
+				achieve = new Achievement
+				{
+					Name = "Ye Olde Magic Shoppe Ultimate",
+					IsHidden = false,
+					Benefit = "This is a test achievement that gives people free magic items of any rarity",
+					AchievementProgress = new List<AchievementProgress>
+					{
+						new AchievementProgress
+						{
+							Criteria = "Invest 1000000 gold in the Arcanist",
+							Goal = 300000,
+							Progress = 10000
+						},
+						new AchievementProgress
+						{
+							Criteria = "Kill 5 gods",
+							Goal = 5,
+							Progress = 2
+						},
+						new AchievementProgress
+						{
+							Criteria = "Have a wedding",
+							Goal = 1,
+							Progress = 0
+						}
+					},
+					Level = gold,
+					IsUnlocked = false
+				};
+				downtime2.Achievements = downtime2.Achievements.Append(achieve).ToList();
+
+				achieve = new Achievement
+				{
+					Name = "Ye Olde Magic Shoppe Ultimate",
+					IsHidden = false,
+					Benefit = "This is a test achievement that gives people free magic items of any rarity",
+					AchievementProgress = new List<AchievementProgress>
+					{
+						new AchievementProgress
+						{
+							Criteria = "Invest 1000000 gold in the Arcanist",
+							Goal = 300000,
+							Progress = 10000
+						},
+						new AchievementProgress
+						{
+							Criteria = "Kill 5 gods",
+							Goal = 5,
+							Progress = 2
+						},
+						new AchievementProgress
+						{
+							Criteria = "Have a wedding",
+							Goal = 1,
+							Progress = 0
+						}
+					},
+					Level = platinum,
+					IsUnlocked = false
+				};
+				downtime2.Achievements = downtime2.Achievements.Append(achieve).ToList();
+
+				achieve = new Achievement
+				{
+					Name = "Ye Olde Magic Shoppe Ultimate",
+					IsHidden = false,
+					Benefit = "This is a test achievement that gives people free magic items of any rarity",
+					AchievementProgress = new List<AchievementProgress>
+					{
+						new AchievementProgress
+						{
+							Criteria = "Invest 1000000 gold in the Arcanist",
+							Goal = 300000,
+							Progress = 300000
+						},
+						new AchievementProgress
+						{
+							Criteria = "Kill 5 gods",
+							Goal = 5,
+							Progress = 2
+						},
+						new AchievementProgress
+						{
+							Criteria = "Have a wedding",
+							Goal = 1,
+							Progress = 1
+						}
+					},
+					Level = diamond,
+					IsUnlocked = false
 				};
 				downtime2.Achievements = downtime2.Achievements.Append(achieve).ToList();
 

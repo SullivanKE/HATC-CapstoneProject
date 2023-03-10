@@ -4,7 +4,49 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Factions</h1>
+
+
+<div class="d-flex align-items-start">
+	<div class="nav flex-column nav-pills me-3 bg-light hatc-blue" id="downtime-tab" role="tablist" aria-orientation="vertical">
+		@foreach (var item in Model)
+		{
+            <button class="nav-link" id="faction-tab-@item.Name.Replace(" ","")" data-bs-toggle="pill" href="#faction-info-@item.Name.Replace(" ","")" type="button" role="tab" aria-controls="v-pills-home" aria-selected="false">
+				@Html.DisplayFor(modelItem => item.Name)
+			</button>
+		}
+		<div class="align-bottom mx-auto d-flex">
+			<a asp-action="Create" class="btn btn-success rounded">
+				Add a Faction
+			</a>
+		</div>
+	</div>
+	<div class="tab-content col-lg-10" id="v-pills-tabContent">
+
+		@foreach (var item in Model)
+		{
+            <div class="tab-pane fade" id="faction-info-@item.Name.Replace(" ","")" role="tabpanel" aria-labelledby="faction-tab-@item.Name.Replace(" ","")">
+                <!--Inner Nav-->
+                <ul class="nav nav-tabs flex-column me-3 bg-light hatc-blue" id="downtime-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="faction-info-@item.Name.Replace(" ","")info" data-bs-toggle="tab" data-bs-target="#faction-info-@item.Name.Replace(" ","")infobody" type="button" role="tab" aria-controls="faction-info-@item.Name.Replace(" ","")infobody" aria-selected="true">Info</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="faction-info-@item.Name.Replace(" ","")perks" data-bs-toggle="tab" data-bs-target="#faction-info-@item.Name.Replace(" ","")perkbody" type="button" role="tab" aria-controls="faction-info-@item.Name.Replace(" ","")perkbody" aria-selected="false">Perks</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="faction-info-@item.Name.Replace(" ","")shop" data-bs-toggle="tab" data-bs-target="#faction-info-@item.Name.Replace(" ","")shopbody" type="button" role="tab" aria-controls="faction-info-@item.Name.Replace(" ","")shopbody" aria-selected="false">Shop</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="faction-info-@item.Name.Replace(" ","")npc" data-bs-toggle="tab" data-bs-target="#faction-info-@item.Name.Replace(" ","")npcbody" type="button" role="tab" aria-controls="faction-info-@item.Name.Replace(" ","")npcbody" aria-selected="false">NPCs</button>
+                    </li>
+                </ul>
+			</div>
+		}
+	</div>
+</div>
+
+@*<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -45,3 +87,4 @@
 }
     </tbody>
 </table>
+*@

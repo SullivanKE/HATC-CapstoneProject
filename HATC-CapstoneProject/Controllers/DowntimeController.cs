@@ -14,8 +14,8 @@ namespace HATC_CapstoneProject.Controllers
     public class DowntimeController : Controller
     {
         private readonly HavenDbContext _context;
-        IHavenRepo repo;
-        UserManager<Player> userManager;
+        private IHavenRepo repo;
+        private UserManager<Player> userManager;
 
         public DowntimeController(IHavenRepo repo, UserManager<Player> userMngr)
         {

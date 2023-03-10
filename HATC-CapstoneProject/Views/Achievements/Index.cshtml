@@ -1,165 +1,165 @@
-﻿@model AchievementVM
+﻿@model List<Achievement>
 
 @{
 	ViewData["Title"] = "Index";
-	List<Rank> ranks = Model.AchievementList.Keys.ToList();
+	List<Achievement> incomplete = Model.Where(achievement => !achievement.IsUnlocked).ToList();
+	List<Achievement> completed = Model.Where(achievement => achievement.IsUnlocked).ToList();
 }
 
-<h1>Downtime Activities</h1>
-
+<h1>Achievements</h1>
 
 <div class="d-flex align-items-start">
-	<div class="nav flex-column nav-pills me-3 bg-light hatc-blue" id="downtime-tab" role="tablist" aria-orientation="vertical">
-		@foreach (var item in ranks)
-		{
-			<button class="nav-link" id="downtime-tab-@item.Name.Replace(" ","")" data-bs-toggle="pill" href="#downtime-info-@item.Name.Replace(" ","")" type="button" role="tab" aria-controls="v-pills-home" aria-selected="false">
-				@Html.DisplayFor(modelItem => item.Name)
-			</button>
-		}
+	<div class="nav flex-column nav-pills me-3 bg-light hatc-blue" id="achievement-tab" role="tablist" aria-orientation="vertical">
+
+		<button class="nav-link active" id="achievement-tab-incomplete" data-bs-toggle="pill" href="#achievement-info-incomplete" type="button" role="tab" aria-controls="v-pills-home" aria-selected="false">
+			Incomplete
+		</button>
+		<button class="nav-link" id="achievement-tab-completed" data-bs-toggle="pill" href="#achievement-info-completed" type="button" role="tab" aria-controls="v-pills-home" aria-selected="false">
+			Complete
+		</button>
 		<div class="align-bottom mx-auto d-flex">
 			<a asp-action="Create" class="btn btn-success rounded">
-				Add a Downtime
+				Add an Achievement
 			</a>
 		</div>
 	</div>
 	<div class="tab-content col-lg-10" id="v-pills-tabContent">
+		<!-- Incomplete achievements-->
+		<div class="tab-pane fade show active" id="achievement-info-incomplete" role="tabpanel" aria-labelledby="achievement-tab-incomplete">
+			@foreach (Achievement achievement in incomplete)
+			{
+				<div class="container col-12 border-0" style="border-color: @achievement.Level.BgColor" id="@achievement.Name.Replace(" ","")">
 
-		@foreach (var item in Model.ranks)
-		{
-			<div class="tab-pane fade" id="downtime-info-@item.Name.Replace(" ","")" role="tabpanel" aria-labelledby="downtime-tab-@item.Name.Replace(" ","")">
+					<div class="col-12 border-2 rounded-top" id="@achievement.Name.Replace(" ","")Head" style="background-color: @achievement.Level.BgColor; color: @achievement.Level.Color">
+						<div class="row align-middle">
 
-				@if (item.Achievements != null && item.Achievements.Any())
-				{
-					bool showAchievements = false;
-					foreach (Achievement achievement in item.Achievements)
-					{
-						if (!achievement.IsHidden && achievement.IsUnlocked)
-							showAchievements = true;
-					}
-					if (showAchievements)
-					{
-						<table class="table table-striped table-hover">
-							<thead>
-							<th>
-								Achievement Benefits
-							</th>
-							</thead>
-							<tbody>
-								@foreach (var downtimeInfo in @item.Achievements)
-								{
-									if (downtimeInfo.IsUnlocked && !downtimeInfo.IsHidden)
+							<h3 class ="col m-2">
+								@achievement.Name
+							</h3>
+
+							<h3 class="col text-end m-2">
+
+								@achievement.Level.Name
+							</h3>
+						</div>
+					</div>
+					<div id="@achievement.Name.Replace(" ","")Body" class="border">
+						<div class="">
+							<div class="row">
+								<div class="col m-2">
+									<div>
+										@achievement.Benefit
+									</div>
+
+								</div>
+								<div class="col m-2">
+									@foreach (AchievementProgress ap in achievement.AchievementProgress)
 									{
-										<tr>
-											<td class="fw-bold">
-												@downtimeInfo.Name
-											</td>
-											<td>
-												@downtimeInfo.Benefit
-											</td>
-										</tr>
-									}
-								}
-							</tbody>
-						</table>
-						<br />
-					}
-				}
 
-				<table class="table table-striped table-hover">
-					<thead>
-					<th>
-						Resources
-					</th>
-					</thead>
-					<tbody>
+											int progress = (int)((double)ap.Progress / (double)ap.Goal * 100);
 
-						@if (item.Resources != null && item.Resources.Any())
-						{
-							@foreach (var downtimeInfo in @item.Resources)
-							{
-								<tr>
-									<td>
-										@downtimeInfo.Item
-									</td>
-								</tr>
-							}
-						}
-					</tbody>
-
-				</table>
-				<br />
-				<table class="table table-striped table-hover">
-					<thead>
-					<th>
-						Resolution
-					</th>
-					</thead>
-					<tbody>
-						@if (item.Resolution != null && item.Resolution.Any())
-						{
-							@foreach (var downtimeInfo in @item.Resolution)
-							{
-								<tr>
-									<td>
-										@downtimeInfo.Item
-									</td>
-								</tr>
-							}
-						}
-					</tbody>
-
-				</table>
-				<br />
-				@if (item.Tables != null && item.Tables.Any()) //TODO: Separation of complication tables so that normal users cannot see them, and giving them a different style to differentiate them
-				{
-					foreach (var t in item.Tables)
-					{
-						<h3 class="fw-bolder col-12 mx-auto">@t.Name</h3>
-						<table class="table table-striped table-hover">
-							@{
-								bool headCheck = false;
-							}
-							@foreach (DowntimeTableRow outer in t.Table)
-							{
-								@if (t.HasHead && !headCheck)
-								{
-									headCheck = true;
-									<thead class="thead-light">
-										<tr>
-											@foreach (StringListItem inner in outer.Row)
+											string color;
+											string text;
+											if (ap.Progress == ap.Goal)
 											{
-
-												<th>
-													@inner.Item
-												</th>
+												color = "bg-success";
+												text = "text-light";
 											}
-										</tr>
-									</thead>
-								}
-								else
-								{
-									<tr>
-										@foreach (StringListItem inner in outer.Row)
-										{
-											<td>
-												@inner.Item
-											</td>
-										}
-									</tr>
-								}
-							}
+											else
+											{
+												color = "bg-info";
+												text = "text-dark";
+											}
 
-						</table>
-					}
-				}
-				<div>
-					<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary rounded float-end">
-						Edit
-					</a>
+
+										<div class="col">
+											@ap.Criteria
+										</div>
+										<div class="progress position-relative">
+											<div class="progress-bar @color col-12" style="width: @progress%" role="progressbar" aria-valuenow="@ap.Progress" aria-valuemin="0" aria-valuemax="@ap.Goal">
+											</div>
+											<small class="justify-content-center d-flex position-absolute w-100 @text">@ap.Progress / @ap.Goal</small>
+														
+										</div>
+									}
+									<button class="btn btn-secondary float-end m-1" asp-action="Edit" asp-route-id="@achievement.Id">Edit</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
 				</div>
-			</div>
+				<br />
+			}
+		</div>
+		<!-- Completed achievements-->
+		<div class="tab-pane fade" id="achievement-info-completed" role="tabpanel" aria-labelledby="achievement-tab-completed">
+			@foreach (Achievement achievement in completed)
+			{
+				<div class="container col-12 border-0" style="border-color: @achievement.Level.BgColor" id="@achievement.Name.Replace(" ","")">
 
-		}
+					<div class="col-12 border-2 rounded-top" id="@achievement.Name.Replace(" ","")Head" style="background-color: @achievement.Level.BgColor; color: @achievement.Level.Color">
+						<div class="row align-middle">
+
+							<h3 class ="col m-2">
+								@achievement.Name
+							</h3>
+
+							<h3 class="col text-end m-2">
+
+								@achievement.Level.Name
+							</h3>
+						</div>
+					</div>
+					<div id="@achievement.Name.Replace(" ","")Body" class="border">
+						<div class="">
+							<div class="row">
+								<div class="col m-2">
+									<div>
+										@achievement.Benefit
+									</div>
+
+								</div>
+								<div class="col m-2">
+									@foreach (AchievementProgress ap in achievement.AchievementProgress)
+									{
+
+											int progress = (int)((double)ap.Progress / (double)ap.Goal * 100);
+
+											string color;
+											string text;
+											if (ap.Progress == ap.Goal)
+											{
+												color = "bg-success";
+												text = "text-light";
+											}
+											else
+											{
+												color = "bg-info";
+												text = "text-dark";
+											}
+
+
+										<div class="col">
+											@ap.Criteria
+										</div>
+										<div class="progress position-relative">
+											<div class="progress-bar @color col-12" style="width: @progress%" role="progressbar" aria-valuenow="@ap.Progress" aria-valuemin="0" aria-valuemax="@ap.Goal">
+											</div>
+											<small class="justify-content-center d-flex position-absolute w-100 @text">@ap.Progress / @ap.Goal</small>
+														
+										</div>
+									}
+									<button class="btn btn-secondary float-end m-1" asp-action="Edit" asp-route-id="@achievement.Id">Edit</button>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<br />
+			}
+		</div>
 	</div>
 </div>
 

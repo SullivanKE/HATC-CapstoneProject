@@ -26,24 +26,7 @@ namespace HATC_CapstoneProject.Controllers
         // GET: Achievements
         public async Task<IActionResult> Index()
         {
-            AchievementVM achievementVM = new AchievementVM();
-
-            List<Achievement> achievements = await repo.GetAllAchievementsAsync();
-			List<Rank> ranks = await repo.GetAllRanksAsync();
-
-			foreach (Rank r in ranks)
-            {
-                achievementVM.AchievementList.TryAdd(r, new List<Achievement>());
-				foreach (Achievement a in achievements)
-				{
-                    if (a.Level == r)
-                    {
-                        achievementVM.AchievementList[r].Add(a);
-                    }
-				}
-			}
-
-			return View(achievementVM);
+			return View(await repo.GetAllAchievementsAsync());
         }
 
         // GET: Achievements/Details/5

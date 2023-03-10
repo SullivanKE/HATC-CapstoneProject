@@ -7,22 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HATC_CapstoneProject.Data;
 using HATC_CapstoneProject.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace HATC_CapstoneProject.Controllers
 {
     public class FactionsController : Controller
     {
         private readonly HavenDbContext _context;
+		private IHavenRepo repo;
+		private UserManager<Player> userManager;
 
-        public FactionsController(HavenDbContext context)
+		public FactionsController(IHavenRepo repo, UserManager<Player> userMngr)
         {
-            _context = context;
-        }
+			this.repo = repo;
+			this.userManager = userMngr;
+		}
 
         // GET: Factions
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Factions.ToListAsync());
+              return View(repo.GetAllFactionsAsync());
         }
 
         // GET: Factions/Details/5
