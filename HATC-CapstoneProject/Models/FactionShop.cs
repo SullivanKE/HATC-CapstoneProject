@@ -6,6 +6,7 @@ namespace HATC_CapstoneProject.Models
 	{
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
+		public int Cost { get; set; }
 		public IEnumerable<StringListItem> List { get; set; }
 	}
 }

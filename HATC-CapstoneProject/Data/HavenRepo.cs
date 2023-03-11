@@ -145,9 +145,10 @@ namespace HATC_CapstoneProject.Data
 			{
 				return context.Factions
 				.Include(faction => faction.Members)
-					.ThenInclude(npc => npc.Stats)
 				.Include(faction => faction.Members)
 					.ThenInclude(npc => npc.AdventureHooks)
+				.Include(faction => faction.Members)
+					.ThenInclude(npc => npc.Interactions)
 				.Include(faction => faction.Shops)
 					.ThenInclude(shops => shops.List)
 				.Include(faction => faction.Perks);
@@ -157,9 +158,10 @@ namespace HATC_CapstoneProject.Data
 		{
 			List<Faction> faction = await context.Factions
 				.Include(faction => faction.Members)
-					.ThenInclude(npc => npc.Stats)
 				.Include(faction => faction.Members)
 					.ThenInclude(npc => npc.AdventureHooks)
+				.Include(faction => faction.Members)
+					.ThenInclude(npc => npc.Interactions)
 				.Include(faction => faction.Shops)
 					.ThenInclude(shops => shops.List)
 				.Include(faction => faction.Perks)
@@ -172,9 +174,10 @@ namespace HATC_CapstoneProject.Data
 		{
 			Faction faction = await context.Factions
 				.Include(faction => faction.Members)
-					.ThenInclude(npc => npc.Stats)
 				.Include(faction => faction.Members)
 					.ThenInclude(npc => npc.AdventureHooks)
+				.Include(faction => faction.Members)
+					.ThenInclude(npc => npc.Interactions)
 				.Include(faction => faction.Shops)
 					.ThenInclude(shops => shops.List)
 				.Include(faction => faction.Perks)

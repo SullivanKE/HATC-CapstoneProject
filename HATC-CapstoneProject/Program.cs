@@ -47,6 +47,7 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<HavenDbContext>();
     SeedData.Seed1(context, scope.ServiceProvider);
 	SeedData.Seed2(context, scope.ServiceProvider);
+    SeedData.Seed3(context, scope.ServiceProvider);
 }
 
 app.MapControllerRoute(

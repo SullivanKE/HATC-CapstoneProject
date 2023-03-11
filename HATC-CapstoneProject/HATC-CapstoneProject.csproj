@@ -28,8 +28,4 @@
     <None Include="wwwroot\content\img\banner.webp" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\Uploads\Images\" />
-  </ItemGroup>
-
 </Project>

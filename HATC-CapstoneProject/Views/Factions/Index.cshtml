@@ -1,7 +1,10 @@
 ﻿@model IEnumerable<HATC_CapstoneProject.Models.Faction>
 
 @{
-    ViewData["Title"] = "Index";
+	ViewData["Title"] = "Index";
+	string first = "show active";
+	string firstNav = "active";
+
 }
 
 <h1>Factions</h1>
@@ -11,9 +14,12 @@
 	<div class="nav flex-column nav-pills me-3 bg-light hatc-blue" id="downtime-tab" role="tablist" aria-orientation="vertical">
 		@foreach (var item in Model)
 		{
-            <button class="nav-link" id="faction-tab-@item.Name.Replace(" ","")" data-bs-toggle="pill" href="#faction-info-@item.Name.Replace(" ","")" type="button" role="tab" aria-controls="v-pills-home" aria-selected="false">
+			<button class="nav-link @firstNav" id="faction-tab-@item.Name.Replace(" ","")" data-bs-toggle="pill" href="#faction-info-@item.Name.Replace(" ","")" type="button" role="tab" aria-controls="v-pills-home" aria-selected="false">
 				@Html.DisplayFor(modelItem => item.Name)
 			</button>
+			{
+				firstNav = "";
+			}
 		}
 		<div class="align-bottom mx-auto d-flex">
 			<a asp-action="Create" class="btn btn-success rounded">
@@ -25,24 +31,247 @@
 
 		@foreach (var item in Model)
 		{
-            <div class="tab-pane fade" id="faction-info-@item.Name.Replace(" ","")" role="tabpanel" aria-labelledby="faction-tab-@item.Name.Replace(" ","")">
-                <!--Inner Nav-->
-                <ul class="nav nav-tabs flex-column me-3 bg-light hatc-blue" id="downtime-tab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="faction-info-@item.Name.Replace(" ","")info" data-bs-toggle="tab" data-bs-target="#faction-info-@item.Name.Replace(" ","")infobody" type="button" role="tab" aria-controls="faction-info-@item.Name.Replace(" ","")infobody" aria-selected="true">Info</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="faction-info-@item.Name.Replace(" ","")perks" data-bs-toggle="tab" data-bs-target="#faction-info-@item.Name.Replace(" ","")perkbody" type="button" role="tab" aria-controls="faction-info-@item.Name.Replace(" ","")perkbody" aria-selected="false">Perks</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="faction-info-@item.Name.Replace(" ","")shop" data-bs-toggle="tab" data-bs-target="#faction-info-@item.Name.Replace(" ","")shopbody" type="button" role="tab" aria-controls="faction-info-@item.Name.Replace(" ","")shopbody" aria-selected="false">Shop</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="faction-info-@item.Name.Replace(" ","")npc" data-bs-toggle="tab" data-bs-target="#faction-info-@item.Name.Replace(" ","")npcbody" type="button" role="tab" aria-controls="faction-info-@item.Name.Replace(" ","")npcbody" aria-selected="false">NPCs</button>
-                    </li>
-                </ul>
+			{
+				item.Perks = item.Perks.OrderBy(item => item.Renown);
+			}
+			<div class="tab-pane fade @first" role="tabpanel" id="faction-info-@item.Name.Replace(" ","")" aria-labelledby="faction-tab-@item.Name.Replace(" ","")">
+				<!--Inner Nav-->
+				<div class="nav nav-tabs me-3 bg-light hatc-blue" role="tablist">
+					<button class="nav-link active" id="faction-info-@item.Name.Replace(" ","")info" data-bs-toggle="tab" data-bs-target="#faction-tab-@item.Name.Replace(" ","")infobody" type="button" role="tab" aria-controls="faction-tab-@item.Name.Replace(" ","")infobody" aria-selected="true">Info</button>
+					<button class="nav-link" id="faction-info-@item.Name.Replace(" ","")perks" data-bs-toggle="tab" data-bs-target="#faction-tab-@item.Name.Replace(" ","")perksbody" type="button" role="tab" aria-controls="faction-tab-@item.Name.Replace(" ","")perksbody" aria-selected="false">Perks</button>
+					<button class="nav-link" id="faction-info-@item.Name.Replace(" ","")shop" data-bs-toggle="tab" data-bs-target="#faction-tab-@item.Name.Replace(" ","")shopbody" type="button" role="tab" aria-controls="faction-tab-@item.Name.Replace(" ","")shopbody" aria-selected="false">Shop</button>
+					<button class="nav-link" id="faction-info-@item.Name.Replace(" ","")npc" data-bs-toggle="tab" data-bs-target="#faction-tab-@item.Name.Replace(" ","")npcbody" type="button" role="tab" aria-controls="faction-tab-@item.Name.Replace(" ","")npcbody" aria-selected="false">NPCs</button>
+				</div>
+				<div class="tab-content">
+					<div class="tab-pane fade show active" role="tabpanel" id="faction-tab-@item.Name.Replace(" ","")infobody" aria-labelledby="faction-info-@item.Name.Replace(" ","")info">
+						@if (item.Image != null)
+						{
+							<img src="@item.Image" />
+						}
+						@item.Description;
+					</div>
+					<div class="tab-pane fade" role="tabpanel" id="faction-tab-@item.Name.Replace(" ","")perksbody" aria-labelledby="faction-info-@item.Name.Replace(" ","")perks">
+						<table class="table table-striped table-hover">
+							@foreach (FactionPerk perk in item.Perks)
+							{
+								<tr>
+									<td>
+										@perk.Renown Renown Perk
+									</td>
+									@if (perk.IsLocked)
+									{
+										<td>
+											Locked
+										</td>
+									}
+									else
+									{
+										<td>
+											@perk.Item
+										</td>
+									}
+								</tr>
+							}
+						</table>
+
+					</div>
+					<div class="tab-pane fade" role="tabpanel" id="faction-tab-@item.Name.Replace(" ","")shopbody" aria-labelledby="faction-info-@item.Name.Replace(" ","")shop">
+						<table class="table table-striped table-hover">
+							<thead>
+								<tr>
+									<th>
+										Renown Cost
+									</th>
+									<th>
+										Item Name
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (FactionShop fs in item.Shops)
+								{
+									<tr>
+										<td class="w-25">
+											@fs.Cost
+										</td>
+										<td>
+											@foreach (StringListItem sli in fs.List)
+											{
+												@sli.Item
+												<br />
+											}
+										</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+					<div class="tab-pane fade" role="tabpanel" id="faction-tab-@item.Name.Replace(" ","")npcbody" aria-labelledby="faction-info-@item.Name.Replace(" ","")npc">
+						@foreach (NPC npc in item.Members)
+						{
+							<div class="container col-12 border-0" id="@npc.Name.Replace(" ","")">
+
+								<div class="col-12 border-2 rounded-top hatc-blue-bg hatc-lgreen" id="@npc.Name.Replace(" ","")Head">
+									<div class="row align-middle">
+
+										<h3 class="col m-2">
+											@if (npc.Image != null && npc.Image != String.Empty)
+											{
+												<img src="@npc.Image" style="max-height: 100px;" />
+											}
+											else
+											{
+												<h1 class="display-1">
+													?
+												</h1>
+											}
+										</h3>
+
+										<h3 class="col text-end m-2">
+
+														@npc.Name
+														<br />
+														<button class="btn btn-secondary float-end m-1" asp-action="Edit" asp-route-id="@npc.Id">Edit</button>
+
+										</h3>
+									</div>
+								</div>
+								<div id="@npc.Name.Replace(" ","")Body" class="border">
+									<div class="row">
+										<div class="col m-2">
+											<p class="bg-light rounded m-1 p-1">
+												@npc.Description
+											</p>
+										</div>
+										<div class="col m-2">
+											@if (npc.Personality != null)
+											{
+												<strong>
+													Personality
+												</strong>
+												<p class="bg-light rounded m-1 p-1">
+													@npc.Personality
+												</p>
+											}
+											@if (npc.Motivation != null)
+											{
+												<strong>
+													Motivation
+												</strong>
+												<p class="bg-light rounded m-1 p-1">
+													@npc.Motivation
+												</p>
+											}
+											@if (npc.Apperance != null)
+											{
+												<strong>
+													Apperance
+												</strong>
+												<p class="bg-light rounded m-1 p-1">
+													@npc.Apperance
+												</p>
+											}
+											@if (npc.Background != null)
+											{
+												<strong>
+													Background
+												</strong>
+												<p class="bg-light rounded m-1 p-1">
+													@npc.Background
+												</p>
+											}
+											@if (npc.Quirk != null)
+											{
+												<strong>
+													Quirk
+												</strong>
+												<p class="bg-light rounded m-1 p-1">
+													@npc.Quirk
+												</p>
+											}
+										</div>
+									</div>
+									<hr />
+									<div class="row">
+
+										<div class="col">
+											<!--Inner nav-->
+											<ul class="nav nav-pills mb-3" id="pills-nav-@npc.Name" role="tablist">
+												<li class="nav-item" role="presentation">
+													<button type = "button" class="nav-link active" id="pills-character-interactions-@npc.Name" data-bs-toggle="pill" data-bs-target="#pills-character-interactions-@npc.Name-data" role="tab" aria-controls="pills-character-interactions-@npc.Name-data" aria-selected="true">PC Interactions</button>
+												</li>
+												<li class="nav-item" role="presentation">
+													<button type = "button" class="nav-link" id="pills-character-hooks-@npc.Name" data-bs-toggle="pill" data-bs-target="#pills-character-hooks-@npc.Name-data" role="tab" aria-controls="pills-character-hooks-@npc.Name-data" aria-selected="false">Adventure Hooks</button>
+												</li>
+											</ul>
+											<div class="tab-content" id="pills-content-@npc.Name">
+												<!--Interactions-->
+												<div class="tab-pane fade show active" id="pills-character-interactions-@npc.Name-data" role="tabpanel" aria-labelledby="pills-character-interactions-@npc.Name">
+													@if (npc.Interactions != null && npc.Interactions.Count() > 0)
+													{
+														<table class="table table-striped">
+															@foreach (StringListItem interaction in npc.Interactions)
+															{
+																<tr>
+																	<td>
+																		@interaction.Item
+																	</td>
+																</tr>
+															}
+														</table>
+													}
+													<input type="text" class="w-100">
+													<button class="btn btn-success float-end m-1" asp-action="#" asp-route-id="@npc.Id">Add</button>
+												</div>
+
+												<!--Adventure Hooks-->
+												<div class="tab-pane fade" id="pills-character-hooks-@npc.Name-data" role="tabpanel" aria-labelledby="pills-character-hooks-@npc.Name">
+													@if (npc.AdventureHooks != null && npc.AdventureHooks.Count() > 0)
+													{
+														<table class="table table-striped">
+															@foreach (StringListItem hook in npc.AdventureHooks)
+															{
+																<tr>
+																	<td>
+																		@hook.Item
+																	</td>
+																</tr>
+															}
+														</table>
+													}
+													<input type="text" class="w-100">
+													<button class="btn btn-success float-end m-1" asp-action="#" asp-route-id="@npc.Id">Add</button>
+												</div>
+											</div>
+										</div>
+
+
+									</div>
+									<hr />
+									<!--Notes-->
+									@if(npc.Notes != null)
+									{
+										<div class="col">
+											<small>
+												Notes:
+											</small>
+											<p class="bg-light rounded m-1 p-1">
+												@npc.Notes
+											</p>
+										</div>
+									}
+								</div>
+							</div>
+							<br />
+						}
+					</div>
+				</div>
 			</div>
+			{
+				first = "";
+			}
 		}
+
 	</div>
 </div>
 

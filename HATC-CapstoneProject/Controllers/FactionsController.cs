@@ -26,7 +26,7 @@ namespace HATC_CapstoneProject.Controllers
         // GET: Factions
         public async Task<IActionResult> Index()
         {
-              return View(repo.GetAllFactionsAsync());
+              return View(await repo.GetAllFactionsAsync());
         }
 
         // GET: Factions/Details/5
