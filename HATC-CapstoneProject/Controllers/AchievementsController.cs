@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using HATC_CapstoneProject.Data;
 using HATC_CapstoneProject.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace HATC_CapstoneProject.Controllers
 {
-    public class AchievementsController : Controller
+	public class AchievementsController : Controller
     {
         private HavenDbContext _context;
         private IHavenRepo repo;

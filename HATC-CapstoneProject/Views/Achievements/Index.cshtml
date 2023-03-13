@@ -1,4 +1,7 @@
 ﻿@model List<Achievement>
+@using Microsoft.AspNetCore.Identity
+@using HATC_CapstoneProject.Data
+@inject SignInManager<Player> signInManager
 
 @{
 	ViewData["Title"] = "Index";
@@ -17,11 +20,14 @@
 		<button class="nav-link" id="achievement-tab-completed" data-bs-toggle="pill" href="#achievement-info-completed" type="button" role="tab" aria-controls="v-pills-home" aria-selected="false">
 			Complete
 		</button>
-		<div class="align-bottom mx-auto d-flex">
-			<a asp-action="Create" class="btn btn-success rounded">
-				Add an Achievement
-			</a>
-		</div>
+		@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+		{
+			<div class="align-bottom mx-auto d-flex">
+				<a asp-action="Create" class="btn btn-success rounded">
+					Add an Achievement
+				</a>
+			</div>
+		}
 	</div>
 	<div class="tab-content col-lg-10" id="v-pills-tabContent">
 		<!-- Incomplete achievements-->
@@ -33,7 +39,7 @@
 					<div class="col-12 border-2 rounded-top" id="@achievement.Name.Replace(" ","")Head" style="background-color: @achievement.Level.BgColor; color: @achievement.Level.Color">
 						<div class="row align-middle">
 
-							<h3 class ="col m-2">
+							<h3 class="col m-2">
 								@achievement.Name
 							</h3>
 
@@ -48,7 +54,22 @@
 							<div class="row">
 								<div class="col m-2">
 									<div>
-										@achievement.Benefit
+										@if (achievement.IsMasked)
+										{
+											@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+											{
+												@achievement.Benefit
+											}
+											else
+											{
+												@StringRandomizer.RandomStr(achievement.Benefit);
+											}
+										}
+										else
+										{
+											@achievement.Benefit
+										}
+
 									</div>
 
 								</div>
@@ -56,33 +77,51 @@
 									@foreach (AchievementProgress ap in achievement.AchievementProgress)
 									{
 
-											int progress = (int)((double)ap.Progress / (double)ap.Goal * 100);
+										int progress = (int)((double)ap.Progress / (double)ap.Goal * 100);
 
-											string color;
-											string text;
-											if (ap.Progress == ap.Goal)
-											{
-												color = "bg-success";
-												text = "text-light";
-											}
-											else
-											{
-												color = "bg-info";
-												text = "text-dark";
-											}
+										string color;
+										string text;
+										if (ap.Progress == ap.Goal)
+										{
+											color = "bg-success";
+											text = "text-light";
+										}
+										else
+										{
+											color = "bg-info";
+											text = "text-dark";
+										}
 
 
 										<div class="col">
-											@ap.Criteria
+											@if (achievement.IsMasked)
+										{
+											@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+											{
+													@ap.Criteria
+											}
+											else
+											{
+													@StringRandomizer.RandomStr(ap.Criteria);
+											}
+										}
+										else
+										{
+												@ap.Criteria
+										}
+											
 										</div>
 										<div class="progress position-relative">
 											<div class="progress-bar @color col-12" style="width: @progress%" role="progressbar" aria-valuenow="@ap.Progress" aria-valuemin="0" aria-valuemax="@ap.Goal">
 											</div>
 											<small class="justify-content-center d-flex position-absolute w-100 @text">@ap.Progress / @ap.Goal</small>
-														
+
 										</div>
 									}
-									<button class="btn btn-secondary float-end m-1" asp-action="Edit" asp-route-id="@achievement.Id">Edit</button>
+									@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+									{
+										<button class="btn btn-secondary float-end m-1" asp-action="Edit" asp-route-id="@achievement.Id">Edit</button>
+									}
 								</div>
 							</div>
 						</div>
@@ -101,7 +140,7 @@
 					<div class="col-12 border-2 rounded-top" id="@achievement.Name.Replace(" ","")Head" style="background-color: @achievement.Level.BgColor; color: @achievement.Level.Color">
 						<div class="row align-middle">
 
-							<h3 class ="col m-2">
+							<h3 class="col m-2">
 								@achievement.Name
 							</h3>
 
@@ -116,7 +155,22 @@
 							<div class="row">
 								<div class="col m-2">
 									<div>
-										@achievement.Benefit
+										@if (achievement.IsMasked)
+										{
+											@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+											{
+												@achievement.Benefit
+											}
+											else
+											{
+												@StringRandomizer.RandomStr(achievement.Benefit);
+											}
+										}
+										else
+										{
+											@achievement.Benefit
+										}
+
 									</div>
 
 								</div>
@@ -124,33 +178,51 @@
 									@foreach (AchievementProgress ap in achievement.AchievementProgress)
 									{
 
-											int progress = (int)((double)ap.Progress / (double)ap.Goal * 100);
+										int progress = (int)((double)ap.Progress / (double)ap.Goal * 100);
 
-											string color;
-											string text;
-											if (ap.Progress == ap.Goal)
-											{
-												color = "bg-success";
-												text = "text-light";
-											}
-											else
-											{
-												color = "bg-info";
-												text = "text-dark";
-											}
+										string color;
+										string text;
+										if (ap.Progress == ap.Goal)
+										{
+											color = "bg-success";
+											text = "text-light";
+										}
+										else
+										{
+											color = "bg-info";
+											text = "text-dark";
+										}
 
 
 										<div class="col">
-											@ap.Criteria
+											@if (achievement.IsMasked)
+											{
+												@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+												{
+													@ap.Criteria
+												}
+												else
+												{
+													@StringRandomizer.RandomStr(ap.Criteria);
+												}
+											}
+											else
+											{
+												@ap.Criteria
+											}
+
 										</div>
 										<div class="progress position-relative">
 											<div class="progress-bar @color col-12" style="width: @progress%" role="progressbar" aria-valuenow="@ap.Progress" aria-valuemin="0" aria-valuemax="@ap.Goal">
 											</div>
 											<small class="justify-content-center d-flex position-absolute w-100 @text">@ap.Progress / @ap.Goal</small>
-														
+
 										</div>
 									}
-									<button class="btn btn-secondary float-end m-1" asp-action="Edit" asp-route-id="@achievement.Id">Edit</button>
+									@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+									{
+										<button class="btn btn-secondary float-end m-1" asp-action="Edit" asp-route-id="@achievement.Id">Edit</button>
+									}
 								</div>
 							</div>
 						</div>

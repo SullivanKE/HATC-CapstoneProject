@@ -1,7 +1,7 @@
-﻿@model HATC_CapstoneProject.Models.Downtime
+﻿@model HATC_CapstoneProject.Models.DowntimeVM
 
 @{
-    ViewData["Title"] = "Create";
+	ViewData["Title"] = "Create";
 }
 
 <h1>Create</h1>
@@ -9,30 +9,115 @@
 <h4>Downtime</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+	<div class="col-md-4">
+		<form asp-action="Create">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-group">
+				<label asp-for="Dt.Name" class="control-label"></label>
+				<input asp-for="Dt.Name" class="form-control" />
+				<span asp-validation-for="Dt.Name" class="text-danger"></span>
+			</div>
+			<div class="form-group form-check">
+				<label class="form-check-label">
+					<input class="form-check-input" asp-for="Dt.Status" /> Hidden?
+				</label>
+			</div>
+			<hr />
+			<br />
+
+			<span id="resources">
+				<div class="container" id="hiddenResourcesTable" hidden>
+					<table class="table table-striped">
+						<tr id="hiddenResourcesRow" hidden>
+							<td>
+								<label asp-for="Dt.Resources" class="control-label">Resource:</label>
+								<input asp-for="Dt.Resources" class="form-control" type="text"/>
+							</td>
+						</tr>
+					</table>
+					<button class="btn btn-danger" type="button">Delete Resource</button>
+				</div>
+				<br />
+
+			</span>
+			<button id="addResource" class="btn btn-success" onclick="addResourceTable()" type="button">
+				Add a Resource
+			</button>
+			<hr />
+			<br />
+
+			<span id="resolutions">
+				<div class="container" id="hiddenResolutionsTable" hidden>
+					<table class="table table-striped">
+						<tr id="hiddenResolutionRow" hidden>
+							<td>
+								<label asp-for="Dt.Resolution" class="control-label">Resolution:</label>
+								<input asp-for="Dt.Resolution" class="form-control" type="text" />
+							</td>
+						</tr>
+					</table>
+					<button class="btn btn-danger" type="button">Delete Resolution</button>
+				</div>
+				<br />
+
+			</span>
+			<button id="addResolution" class="btn btn-success" onclick="addResolutionTable()" type="button">
+				Add a Resolution
+			</button>
+			<hr />
+			<br />
+
+			<span id="tables">
+				<div class="container" id="hiddenTablesTable" hidden>
+					<table class="table table-striped">
+						<tr id="hiddenTablesRow" hidden>
+							<td>
+								<label asp-for="CsvTables" class="control-label">Table Name</label>
+								<input asp-for="CsvTables" class="form-control" />
+							</td>
+							<td>
+								<label asp-for="CsvTables" class="control-label">Table Info</label>
+								<textarea asp-for="CsvTables" class="form-control"></textarea>
+							</td>
+						</tr>
+					</table>
+					<label class="form-check-label">
+						<input class="form-check-input" asp-for="TableHasHead" /> Table has a header
+					</label>
+					<button class="btn btn-danger" type="button">Delete Table</button>
+				</div>
+				<br />
+
+			</span>
+			<button id="addTable" class="btn btn-success" onclick="addDowntimeTable()" type="button">
+				Add a Table
+			</button>
+			<hr />
+			<br />
+
+			<div class="form-group">
+				<input type="submit" value="Create" class="btn btn-primary" />
+			</div>
+		</form>
+	</div>
 </div>
+
+<button class="btn btn-success" onclick="debug()" type="button">
+	Debug
+</button>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+	<a asp-action="Index">Back to List</a>
 </div>
 
+<script>
+	var tableCount = 0;
+	var resourceCount = 0;
+	var resolutionCount = 0;
+</script>
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
 }

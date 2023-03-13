@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<HATC_CapstoneProject.Models.Faction>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Player> signInManager
 
 @{
 	ViewData["Title"] = "Index";
@@ -21,11 +23,14 @@
 				firstNav = "";
 			}
 		}
-		<div class="align-bottom mx-auto d-flex">
-			<a asp-action="Create" class="btn btn-success rounded">
-				Add a Faction
-			</a>
-		</div>
+		@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+		{
+			<div class="align-bottom mx-auto d-flex">
+				<a asp-action="Create" class="btn btn-success rounded">
+					Add a Faction
+				</a>
+			</div>
+		}
 	</div>
 	<div class="tab-content col-lg-10" id="v-pills-tabContent">
 
@@ -129,9 +134,12 @@
 
 										<h3 class="col text-end m-2">
 
-														@npc.Name
-														<br />
-														<button class="btn btn-secondary float-end m-1" asp-action="Edit" asp-route-id="@npc.Id">Edit</button>
+											@npc.Name
+											<br />
+											@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+											{
+												<button class="btn btn-secondary float-end m-1" asp-action="Edit" asp-route-id="@npc.Id">Edit</button>
+											}
 
 										</h3>
 									</div>
@@ -143,122 +151,134 @@
 												@npc.Description
 											</p>
 										</div>
-										<div class="col m-2">
-											@if (npc.Personality != null)
-											{
-												<strong>
-													Personality
-												</strong>
-												<p class="bg-light rounded m-1 p-1">
-													@npc.Personality
-												</p>
-											}
-											@if (npc.Motivation != null)
-											{
-												<strong>
-													Motivation
-												</strong>
-												<p class="bg-light rounded m-1 p-1">
-													@npc.Motivation
-												</p>
-											}
-											@if (npc.Apperance != null)
-											{
-												<strong>
-													Apperance
-												</strong>
-												<p class="bg-light rounded m-1 p-1">
-													@npc.Apperance
-												</p>
-											}
-											@if (npc.Background != null)
-											{
-												<strong>
-													Background
-												</strong>
-												<p class="bg-light rounded m-1 p-1">
-													@npc.Background
-												</p>
-											}
-											@if (npc.Quirk != null)
-											{
-												<strong>
-													Quirk
-												</strong>
-												<p class="bg-light rounded m-1 p-1">
-													@npc.Quirk
-												</p>
-											}
-										</div>
+										@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+										{
+											<div class="col m-2">
+												@if (npc.Personality != null)
+												{
+													<strong>
+														Personality
+													</strong>
+													<p class="bg-light rounded m-1 p-1">
+														@npc.Personality
+													</p>
+												}
+												@if (npc.Motivation != null)
+												{
+													<strong>
+														Motivation
+													</strong>
+													<p class="bg-light rounded m-1 p-1">
+														@npc.Motivation
+													</p>
+												}
+												@if (npc.Apperance != null)
+												{
+													<strong>
+														Apperance
+													</strong>
+													<p class="bg-light rounded m-1 p-1">
+														@npc.Apperance
+													</p>
+												}
+												@if (npc.Background != null)
+												{
+													<strong>
+														Background
+													</strong>
+													<p class="bg-light rounded m-1 p-1">
+														@npc.Background
+													</p>
+												}
+												@if (npc.Quirk != null)
+												{
+													<strong>
+														Quirk
+													</strong>
+													<p class="bg-light rounded m-1 p-1">
+														@npc.Quirk
+													</p>
+												}
+											</div>
+										}
 									</div>
-									<hr />
-									<div class="row">
+									@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+									{
+										<hr />
 
-										<div class="col">
-											<!--Inner nav-->
-											<ul class="nav nav-pills mb-3" id="pills-nav-@npc.Name" role="tablist">
-												<li class="nav-item" role="presentation">
-													<button type = "button" class="nav-link active" id="pills-character-interactions-@npc.Name" data-bs-toggle="pill" data-bs-target="#pills-character-interactions-@npc.Name-data" role="tab" aria-controls="pills-character-interactions-@npc.Name-data" aria-selected="true">PC Interactions</button>
-												</li>
-												<li class="nav-item" role="presentation">
-													<button type = "button" class="nav-link" id="pills-character-hooks-@npc.Name" data-bs-toggle="pill" data-bs-target="#pills-character-hooks-@npc.Name-data" role="tab" aria-controls="pills-character-hooks-@npc.Name-data" aria-selected="false">Adventure Hooks</button>
-												</li>
-											</ul>
-											<div class="tab-content" id="pills-content-@npc.Name">
-												<!--Interactions-->
-												<div class="tab-pane fade show active" id="pills-character-interactions-@npc.Name-data" role="tabpanel" aria-labelledby="pills-character-interactions-@npc.Name">
-													@if (npc.Interactions != null && npc.Interactions.Count() > 0)
-													{
-														<table class="table table-striped">
-															@foreach (StringListItem interaction in npc.Interactions)
-															{
-																<tr>
-																	<td>
-																		@interaction.Item
-																	</td>
-																</tr>
-															}
-														</table>
-													}
-													<input type="text" class="w-100">
-													<button class="btn btn-success float-end m-1" asp-action="#" asp-route-id="@npc.Id">Add</button>
-												</div>
+										<div class="row">
 
-												<!--Adventure Hooks-->
-												<div class="tab-pane fade" id="pills-character-hooks-@npc.Name-data" role="tabpanel" aria-labelledby="pills-character-hooks-@npc.Name">
-													@if (npc.AdventureHooks != null && npc.AdventureHooks.Count() > 0)
-													{
-														<table class="table table-striped">
-															@foreach (StringListItem hook in npc.AdventureHooks)
-															{
-																<tr>
-																	<td>
-																		@hook.Item
-																	</td>
-																</tr>
-															}
-														</table>
-													}
-													<input type="text" class="w-100">
-													<button class="btn btn-success float-end m-1" asp-action="#" asp-route-id="@npc.Id">Add</button>
+											<div class="col">
+												<!--Inner nav-->
+												<ul class="nav nav-pills mb-3" id="pills-nav-@npc.Name" role="tablist">
+													<li class="nav-item" role="presentation">
+														<button type="button" class="nav-link active" id="pills-character-interactions-@npc.Name" data-bs-toggle="pill" data-bs-target="#pills-character-interactions-@npc.Name-data" role="tab" aria-controls="pills-character-interactions-@npc.Name-data" aria-selected="true">PC Interactions</button>
+													</li>
+													<li class="nav-item" role="presentation">
+														<button type="button" class="nav-link" id="pills-character-hooks-@npc.Name" data-bs-toggle="pill" data-bs-target="#pills-character-hooks-@npc.Name-data" role="tab" aria-controls="pills-character-hooks-@npc.Name-data" aria-selected="false">Adventure Hooks</button>
+													</li>
+												</ul>
+												<div class="tab-content" id="pills-content-@npc.Name">
+													<!--Interactions-->
+													<div class="tab-pane fade show active" id="pills-character-interactions-@npc.Name-data" role="tabpanel" aria-labelledby="pills-character-interactions-@npc.Name">
+														@if (npc.Interactions != null && npc.Interactions.Count() > 0)
+														{
+															<table class="table table-striped">
+																@foreach (StringListItem interaction in npc.Interactions)
+																{
+																	<tr>
+																		<td>
+																			@interaction.Item
+																		</td>
+																	</tr>
+																}
+															</table>
+														}
+														<input type="text" class="w-100">
+														<button class="btn btn-success float-end m-1" asp-action="#" asp-route-id="@npc.Id">Add</button>
+													</div>
+
+													<!--Adventure Hooks-->
+													<div class="tab-pane fade" id="pills-character-hooks-@npc.Name-data" role="tabpanel" aria-labelledby="pills-character-hooks-@npc.Name">
+														@if (npc.AdventureHooks != null && npc.AdventureHooks.Count() > 0)
+														{
+															<table class="table table-striped">
+																@foreach (StringListItem hook in npc.AdventureHooks)
+																{
+																	<tr>
+																		<td>
+																			@hook.Item
+																		</td>
+																	</tr>
+																}
+															</table>
+														}
+														<input type="text" class="w-100">
+														<button class="btn btn-success float-end m-1" asp-action="#" asp-route-id="@npc.Id">Add</button>
+													</div>
 												</div>
 											</div>
-										</div>
 
 
-									</div>
-									<hr />
-									<!--Notes-->
-									@if(npc.Notes != null)
-									{
-										<div class="col">
-											<small>
-												Notes:
-											</small>
-											<p class="bg-light rounded m-1 p-1">
-												@npc.Notes
-											</p>
 										</div>
+										<hr />
+										<!--Notes-->
+										@if (npc.Notes != null)
+										{
+											<div class="col">
+												<small>
+													Notes:
+												</small>
+												<p class="bg-light rounded m-1 p-1">
+													<form>
+														<input name="@npc.Name-notes" type="text" placeholder="Notes" />
+														<textarea name="@npc.Name-notes-text" data-provide="markdown" rows="10">@npc.Notes</textarea>
+														<button type="submit" class="btn btn-success">Submit</button>
+													</form>
+
+												</p>
+											</div>
+										}
 									}
 								</div>
 							</div>

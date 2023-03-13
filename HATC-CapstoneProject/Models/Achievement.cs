@@ -10,6 +10,7 @@ namespace HATC_CapstoneProject.Models
         public Rank Level { get; set; }
         public bool IsHidden { get; set; }
 		public bool IsUnlocked { get; set; }
+        public bool IsMasked { get; set; }
 		public string Benefit { get; set; }
         
         public List<AchievementProgress> AchievementProgress { get; set; }

@@ -248,7 +248,8 @@ namespace HATC_CapstoneProject.Data
 						}
 					},
 					Level = bronze,
-					IsUnlocked = true
+					IsUnlocked = true,
+					IsMasked = true
 				};
 				downtime2.Achievements = downtime2.Achievements.Append(achieve);
 
@@ -445,9 +446,104 @@ namespace HATC_CapstoneProject.Data
 
 				ResTable2.Table = ResRow2;
 
+
+				DowntimeTable ResTable3 = new DowntimeTable
+				{
+					Name = "Magic Item Complication Table",
+					HasHead = true,
+					DowntimeParent = downtime2,
+					IsComplication = true
+				};
+
+				List<DowntimeTableRow> ResRow3 = new List<DowntimeTableRow>
+				{
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow(),
+					new DowntimeTableRow()
+				};
+
+				ResRow3[0].Row = new List<StringListItem>
+				{
+					new StringListItem {Item = "d12" },
+					new StringListItem {Item = "Buying Magical Item Complication" },
+				};
+				ResRow3[1].Row = new List<StringListItem>
+				{
+					new StringListItem {Item = "1" },
+					new StringListItem {Item = "The item is stolen before the sale." },
+				};
+				ResRow3[2].Row = new List<StringListItem>
+				{
+					new StringListItem {Item = "2" },
+					new StringListItem {Item = "A third party bids on the item, doubling its price." },
+				};
+				ResRow3[3].Row = new List<StringListItem>
+				{
+					new StringListItem {Item = "3" },
+					new StringListItem {Item = "You get the last available stock of the item, angering a wealthy noble who also wanted it." },
+				};
+				ResRow3[4].Row = new List<StringListItem>
+				{
+					new StringListItem {Item = "4" },
+					new StringListItem {Item = "The item's original owner will kill to reclaim it; the party's enemies spread news of its sale.*" },
+				};
+				ResRow3[5].Row = new List<StringListItem>
+				{
+					new StringListItem {Item = "5" },
+					new StringListItem {Item = "The item is tied to a cult." },
+				};
+				ResRow3[6].Row = new List<StringListItem>
+				{
+					new StringListItem {Item = "6" },
+					new StringListItem {Item = "The seller is murdered before the sale.*" },
+				};
+				ResRow3[7].Row = new List<StringListItem>
+				{
+					new StringListItem {Item = "7" },
+					new StringListItem {Item = "The seller is looking for an additional favor along with the  sale of this item. (Can be tied to quest or other long term goal)" },
+				};
+				ResRow3[8].Row = new List<StringListItem>
+				{
+					new StringListItem {Item = "8" },
+					new StringListItem {Item = "The shopkeep takes a liking to you and wants to share their absurd theories about the nature of magic." },
+				};
+				ResRow3[9].Row = new List<StringListItem>
+				{
+					new StringListItem {Item = "9" },
+					new StringListItem {Item = "The chatty seller wants to hear the latest juicy gossip about Haven. They may or may not spread this gossip around to others on their path. " },
+				};
+				ResRow3[10].Row = new List<StringListItem>
+				{
+					new StringListItem {Item = "10" },
+					new StringListItem {Item = "The item is garish and unappealingly shaped or colored." },
+				};
+				ResRow3[11].Row = new List<StringListItem>
+				{
+					new StringListItem {Item = "11" },
+					new StringListItem {Item = "The item has an unfortunate odor or is covered in something gross, and needs to be washed before its used." },
+				};
+				ResRow3[12].Row = new List<StringListItem>
+				{
+					new StringListItem {Item = "12" },
+					new StringListItem {Item = "The item’s maker mark is prominent and magically prevents it from ever being obscured, whether or not that is a good thing remains to be seen." },
+				};
+
+				ResTable3.Table = ResRow3;
+
 				downtime2.Tables = new List<DowntimeTable>
 				{
-					ResTable2
+					ResTable2,
+					ResTable3
 				};
 
 				context.Downtime.Add(downtime);

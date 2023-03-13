@@ -2,51 +2,92 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-function addCharacter() {
-    var container = document.getElementById("character-container");
+function addResourceTable() {
+    let i = tableCount;
+    let newTable = document.getElementById("hiddenResourcesTable").cloneNode(true);
+    newTable.id = "resourceTable" + i;
+    newTable.removeAttribute("hidden");
 
-    // create a new div for the character
-    var characterDiv = document.createElement("div");
-    characterDiv.classList.add("character");
+    newTable.childNodes[3].onclick = function () { // Delete table
+        let table = document.getElementById("resourceTable" + i);
+        table.parentElement.removeChild(table);
+    }
+    console.log(document.getElementById("resources"));
+    document.getElementById("resources").appendChild(newTable);
+    resourceCount++;
+}
 
-    // create the user dropdown list
-    var userSelect = document.createElement("select");
-    userSelect.name = "users";
-    userSelect.classList.add("form-control");
-    // populate the user dropdown list with data from the server
-    // this assumes you have a route in your ASP.NET app to retrieve the user data
-    fetch("/users")
-        .then(response => response.json())
-        .then(users => {
-            for (var i = 0; i < users.length; i++) {
-                var option = document.createElement("option");
-                option.value = users[i].id;
-                option.text = users[i].name;
-                userSelect.appendChild(option);
-            }
-        })
-        .catch(error => console.log(error));
+function addResolutionTable() {
+    let i = tableCount;
+    let newTable = document.getElementById("hiddenResolutionsTable").cloneNode(true);
+    newTable.id = "resolutionTable" + i;
+    newTable.removeAttribute("hidden");
 
-    // create the character dropdown list
-    var characterSelect = document.createElement("select");
-    characterSelect.name = "characters";
-    characterSelect.classList.add("form-control");
+    newTable.childNodes[3].onclick = function () { // Delete table
+        let table = document.getElementById("resolutionTable" + i);
+        table.parentElement.removeChild(table);
+    }
+    console.log(document.getElementById("resolutions"));
+    document.getElementById("resolutions").appendChild(newTable);
+    resolutionCount++;
+}
 
-    // add the user dropdown and character dropdown to the character div
-    characterDiv.appendChild(userSelect);
-    characterDiv.appendChild(characterSelect);
+function addDowntimeTable() {
+    let i = tableCount;
+    let newTable = document.getElementById("hiddenTablesTable").cloneNode(true);
+    newTable.id = "downtimeTable" + i;
+    newTable.removeAttribute("hidden");
 
-    // create a remove button for the character div
-    var removeButton = document.createElement("button");
-    removeButton.textContent = "Remove Character";
-    removeButton.classList.add("btn", "btn-danger");
-    removeButton.addEventListener("click", function () {
-        container.removeChild(characterDiv);
-    });
+    newTable.childNodes[5].onclick = function () { // Delete table
+        let table = document.getElementById("downtimeTable" + i);
+        table.parentElement.removeChild(table);
+    }
+    document.getElementById("tables").appendChild(newTable);
+    tableCount++;
+}
 
-    // add the remove button to the character div
-    characterDiv.appendChild(removeButton);
+function debug() {
+    console.log(document.getElementById("resources"));
+    console.log(document.getElementById("resolutions"));
+    console.log(document.getElementById("tables"));
+}
 
-    // add the character div to the container
-    container.appendChild(characterDiv);
+function initialize() {
+    students[0] = new Student("Lucy Pevensie", "A+");
+    students[1] = new Student("Jill Pole", "A");
+    students[2] = new Student("Eustace Scrubb", "A-");
+    addRows();
+}
+
+// Add rows to the table with content from the students array
+function addRows() {
+    for (let i = 0; i < students.length; i++) {
+        addRow(i);
+    }
+}
+
+// Add a row to the table
+function addRow(i) {
+    let newRow = document.getElementById("hiddenRow").cloneNode(true);
+    newRow.id = "row" + i; // tr
+    newRow.removeAttribute("hidden"); // tr
+    newRow.childNodes[1].innerHTML = students[i].name; // Student name
+    newRow.childNodes[5].innerHTML = students[i].grade; // grade
+    newRow.childNodes[3].firstChild.onclick = function () { // delete button
+        removeStudent(i);
+        let row = document.getElementById("row" + i);
+        row.parentElement.removeChild(row);
+    };
+    newRow.childNodes[7].lastChild.onclick = function () { // enter button
+        let rowElements = document.getElementById("row" + i).childNodes;
+        changeGrade(students[i].name, rowElements[7].firstChild.value);
+        rowElements[5].innerHTML = students[i].grade;
+    };
+    document.getElementById("gradeBookRows").appendChild(newRow);
+}
+
+function addRowAndStudent() {
+    let name = document.getElementById("studentName").value;
+    addStudent(name);
+    addRow(students.length - 1);
 }

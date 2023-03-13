@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace HATC_CapstoneProject.Controllers
 {
     public class PlayerController : Controller
     {
-        public IActionResult Index()
+		[Authorize(Roles = "DM")]
+		public IActionResult Index()
         {
             return View();
         }

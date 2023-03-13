@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HATC_CapstoneProject.Data;
 using HATC_CapstoneProject.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace HATC_CapstoneProject.Controllers
 {
-    public class SessionsController : Controller
+	public class SessionsController : Controller
     {
         private readonly HavenDbContext _context;
 

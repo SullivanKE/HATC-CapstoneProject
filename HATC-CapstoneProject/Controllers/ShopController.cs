@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HATC_CapstoneProject.Data;
 using HATC_CapstoneProject.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace HATC_CapstoneProject.Controllers
 {
-    public class ShopController : Controller
+	public class ShopController : Controller
     {
         private readonly HavenDbContext _context;
 
