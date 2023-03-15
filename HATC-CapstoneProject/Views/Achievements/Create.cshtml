@@ -1,4 +1,4 @@
-﻿@*@model HATC_CapstoneProject.Models.Achievement
+﻿@model HATC_CapstoneProject.Models.Achievement
 
 @{
     ViewData["Title"] = "Create";
@@ -19,8 +19,18 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsHidden" /> @Html.DisplayNameFor(model => model.IsHidden)
+                    <input class="form-check-input" asp-for="IsHidden" /> Hidden?
                 </label>
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsUnlocked" /> Unlocked?
+                </label>
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsMasked" /> Masked?
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label>Rank</label>
+                @Html.DropDownList("allranks")
             </div>
             <div class="form-group">
                 <label asp-for="Benefit" class="control-label"></label>
@@ -28,19 +38,12 @@
                 <span asp-validation-for="Benefit" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Criteria" class="control-label"></label>
-                <input asp-for="Criteria" class="form-control" />
-                <span asp-validation-for="Criteria" class="text-danger"></span>
+                <label for="criteria" class="control-label">Criteria</label>
+                <input for="criteria" name="criteria" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Goal" class="control-label"></label>
-                <input asp-for="Goal" class="form-control" />
-                <span asp-validation-for="Goal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Progress" class="control-label"></label>
-                <input asp-for="Progress" class="form-control" />
-                <span asp-validation-for="Progress" class="text-danger"></span>
+                <label for="goal" class="control-label">Goal</label>
+                <input for="goal" name="goal" class="form-control" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -56,4 +59,3 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-*@

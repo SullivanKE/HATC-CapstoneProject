@@ -121,7 +121,11 @@
 					List<DowntimeTable> tableNonComp = new List<DowntimeTable>();
 					if (item.Tables != null && item.Tables.Any())
 					{
-						tableComp = item.Tables.Where(table => table.IsComplication).ToList();
+						if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+						{
+							tableComp = item.Tables.Where(table => table.IsComplication).ToList();
+
+						}
 						tableNonComp = item.Tables.Where(table => !table.IsComplication).ToList();
 					}
 
@@ -137,14 +141,14 @@
 							}
 							@foreach (DowntimeTableRow outer in t.Table)
 							{
+								outer.Row = outer.Row.OrderBy(Item => Item.Index);
 								@if (t.HasHead && !headCheck)
 								{
 									headCheck = true;
 									<thead class="thead-light">
 										<tr>
-											@foreach (StringListItem inner in outer.Row)
+											@foreach (TableListItem inner in outer.Row)
 											{
-
 												<th>
 													@inner.Item
 												</th>
@@ -155,7 +159,7 @@
 								else
 								{
 									<tr>
-										@foreach (StringListItem inner in outer.Row)
+										@foreach (TableListItem inner in outer.Row)
 										{
 											<td>
 												@inner.Item
@@ -179,12 +183,13 @@
 							}
 							@foreach (DowntimeTableRow outer in t.Table)
 							{
+								outer.Row = outer.Row.OrderBy(Item => Item.Index);
 								@if (t.HasHead && !headCheck)
 								{
 									headCheck = true;
 									<thead class="thead-info">
 										<tr>
-											@foreach (StringListItem inner in outer.Row)
+											@foreach (TableListItem inner in outer.Row)
 											{
 
 												<th>
@@ -197,7 +202,7 @@
 								else
 								{
 									<tr>
-										@foreach (StringListItem inner in outer.Row)
+										@foreach (TableListItem inner in outer.Row)
 										{
 											<td>
 												@inner.Item

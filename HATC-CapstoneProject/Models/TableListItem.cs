@@ -2,10 +2,11 @@
 
 namespace HATC_CapstoneProject.Models
 {
-	public class DowntimeTableRow
+	public class TableListItem
 	{
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
-		public IEnumerable<TableListItem> Row { get; set; }
+		public int Index { get; set; }
+		public string Item { get; set; }
 	}
 }

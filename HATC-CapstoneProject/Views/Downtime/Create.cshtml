@@ -2,6 +2,10 @@
 
 @{
 	ViewData["Title"] = "Create";
+
+	List<StringListItem> resource = new List<StringListItem>();
+	List<StringListItem> resolution = new List<StringListItem>();
+	List<StringListItem> table = new List<StringListItem>();
 }
 
 <h1>Create</h1>
@@ -24,85 +28,127 @@
 			</div>
 			<hr />
 			<br />
+			<div class="form-group form-check">
+				@Html.DropDownList("achievements")
+			</div>
+			<div class="form-group form-check">
+				<label class="control-label">
+					<input class="form-control" for="resource" name="resource" /> Resource
+				</label>
+			</div>
+			<div class="form-group form-check">
+				<label class="control-label">
+					<input class="form-control" for="resolution" name="resolution"  /> Resolution
+				</label>
+			</div>
+			<div class="form-group form-check">
+				<label class="control-label">
+					<input class="form-control" asp-for="@Model.Dt.Tables.ToList()[0].Name" /> Table Name
+				</label>
+				<label class="control-label">
+					<input class="form-control" asp-for="CsvTables" /> Table
+				</label>
+				<label class="form-check-label">
+					<input class="form-check-input" asp-for="@Model.Dt.Tables.ToList()[0].IsComplication" /> Complication?
+				</label>
+				<label class="form-check-label">
+					<input class="form-check-input" asp-for="@Model.Dt.Tables.ToList()[0].HasHead" /> Hidden?
+				</label>
+			</div>
 
-			<span id="resources">
-				<div class="container" id="hiddenResourcesTable" hidden>
-					<table class="table table-striped">
-						<tr id="hiddenResourcesRow" hidden>
-							<td>
-								<label asp-for="Dt.Resources" class="control-label">Resource:</label>
-								<input asp-for="Dt.Resources" class="form-control" type="text"/>
-							</td>
-						</tr>
-					</table>
-					<button class="btn btn-danger" type="button">Delete Resource</button>
-				</div>
+
+
+
+			<div hidden>
+				<span id="resources" >
+					<div class="container" id="hiddenResourcesTable" hidden>
+						<table class="table table-striped">
+							<tr id="hiddenResourcesRow">
+								<td>
+									<input disabled />
+								</td>
+							</tr>
+						</table>
+						<button class="btn btn-danger" type="button">Delete Resource</button>
+					</div>
+					<br />
+
+				</span>
+				<input id="newResource" size="100" />
+				<button id="addResource" class="btn btn-success" onclick="addResourceTable()" type="button">
+					Add a Resource
+				</button>
+				<hr />
 				<br />
 
-			</span>
-			<button id="addResource" class="btn btn-success" onclick="addResourceTable()" type="button">
-				Add a Resource
-			</button>
-			<hr />
-			<br />
+				<span id="resolutions" >
+					<div class="container" id="hiddenResolutionsTable" hidden>
+						<table class="table table-striped">
+							<tr id="hiddenResolutionRow">
+								<td>
+									<input disabled />
+								</td>
+							</tr>
+						</table>
+						<button class="btn btn-danger" type="button">Delete Resolution</button>
+					</div>
+					<br />
 
-			<span id="resolutions">
-				<div class="container" id="hiddenResolutionsTable" hidden>
-					<table class="table table-striped">
-						<tr id="hiddenResolutionRow" hidden>
-							<td>
-								<label asp-for="Dt.Resolution" class="control-label">Resolution:</label>
-								<input asp-for="Dt.Resolution" class="form-control" type="text" />
-							</td>
-						</tr>
-					</table>
-					<button class="btn btn-danger" type="button">Delete Resolution</button>
-				</div>
+				</span>
+				<input id="newResolution" size="100" />
+				<button id="addResolution" class="btn btn-success" onclick="addResolutionTable()" type="button">
+					Add a Resolution
+				</button>
+				<hr />
 				<br />
 
-			</span>
-			<button id="addResolution" class="btn btn-success" onclick="addResolutionTable()" type="button">
-				Add a Resolution
-			</button>
-			<hr />
-			<br />
+				<span id="tables" >
+					<div class="container" id="hiddenTablesTable" hidden>
+						<table class="table">
+							<tr id="hiddenTablesRow">
+								<td>
+									<label>Table Name</label>
+									<input disabled />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input disabled />
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label>Has a header</label>
+									<input type="checkbox" />
+								</td>
+								<td>
+									<label>Complication</label>
+									<input type="checkbox" />
+								</td>
+							</tr>
+						</table>
+						<button class="btn btn-danger" type="button">Delete Table</button>
+					</div>
+					<br />
 
-			<span id="tables">
-				<div class="container" id="hiddenTablesTable" hidden>
-					<table class="table table-striped">
-						<tr id="hiddenTablesRow" hidden>
-							<td>
-								<label asp-for="CsvTables" class="control-label">Table Name</label>
-								<input asp-for="CsvTables" class="form-control" />
-							</td>
-							<td>
-								<label asp-for="CsvTables" class="control-label">Table Info</label>
-								<textarea asp-for="CsvTables" class="form-control"></textarea>
-							</td>
-						</tr>
-					</table>
-					<label class="form-check-label">
-						<input class="form-check-input" asp-for="TableHasHead" /> Table has a header
-					</label>
-					<button class="btn btn-danger" type="button">Delete Table</button>
-				</div>
+				</span>
+				<input id="newTableHead" size="100" /> <br />
+				<textarea id="newTable" rows="10" cols="100" placeholder="1,FirstItem&#10;2,SecondItem&#10;..."></textarea>
+				<button id="addTable" class="btn btn-success" onclick="addDowntimeTable()" type="button">
+					Add a Table
+				</button>
+				<hr />
 				<br />
-
-			</span>
-			<button id="addTable" class="btn btn-success" onclick="addDowntimeTable()" type="button">
-				Add a Table
-			</button>
-			<hr />
-			<br />
+			</div>
 
 			<div class="form-group">
-				<input type="submit" value="Create" class="btn btn-primary" />
+				<input type="submit" value="Create" class="btn btn-primary"/>
 			</div>
 		</form>
 	</div>
 </div>
 
-<button class="btn btn-success" onclick="debug()" type="button">
+<button class="btn btn-success" onclick="submitForm()" type="button">
 	Debug
 </button>
 
@@ -110,10 +156,26 @@
 	<a asp-action="Index">Back to List</a>
 </div>
 
+
 <script>
-	var tableCount = 0;
-	var resourceCount = 0;
-	var resolutionCount = 0;
+	const tableArr = new Array();
+	const resourceArr = new Array();
+	const resolutionArr = new Array();
+
+	function tableObj(h, b) {
+		this.head = h;
+		this.body = b;
+	}
+	function submitForm() {
+		let resourceArrJoin = resourceArr.join(',');
+		let resolutionArrJoin = resolutionArr.join(',');
+		let tableArrJoin = tableArr.join(',');
+
+		document.getElementById('resourceTableSubmit').value = resourceArrJoin;
+		document.getElementById('resolutionTableSubmit').value = resolutionArrJoin;
+		document.getElementById('tableTableSubmit').value = tableArrJoin;
+	}
+
 </script>
 
 @section Scripts {

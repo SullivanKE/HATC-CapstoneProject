@@ -10,6 +10,7 @@ using HATC_CapstoneProject.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HATC_CapstoneProject.Controllers
 {
@@ -50,9 +51,17 @@ namespace HATC_CapstoneProject.Controllers
         }
 
         // GET: Achievements/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+			List<Rank> ranks = await repo.GetAllRanksAsync();
+
+		    List<SelectListItem> allRanks= new List<SelectListItem>();
+			foreach (Rank rank in ranks)
+            {
+				allRanks.Add(new SelectListItem { Text = rank.Name, Value = rank.Id.ToString() });
+			}
+			ViewBag.allranks = allRanks;
+			return View();
         }
 
         // POST: Achievements/Create
@@ -60,14 +69,28 @@ namespace HATC_CapstoneProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Status,Benefit,Criteria,Goal,Progress")] Achievement achievement)
+        public async Task<IActionResult> Create(Achievement achievement, string criteria, int goal, string allranks)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(achievement);
-                await _context.SaveChangesAsync();
+            /*if (ModelState.IsValid)
+            {*/
+                AchievementProgress achprog = new AchievementProgress();
+                if (criteria != null)
+                {
+                    achprog.Criteria = criteria;
+                    achprog.Progress = 0;
+                    achprog.Goal = goal;
+
+                    achievement.AchievementProgress = new List<AchievementProgress> { achprog };
+                }
+                if (allranks != null && allranks != String.Empty)
+                {
+                    int index = int.Parse(allranks);
+                    achievement.Level = await repo.GetRankAsync(index);
+                }
+
+                await repo.SaveAchievementAsync(achievement);
                 return RedirectToAction(nameof(Index));
-            }
+            //}
             return View(achievement);
         }
 

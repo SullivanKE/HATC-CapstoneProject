@@ -3,6 +3,7 @@ using System;
 using HATC_CapstoneProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HATC_CapstoneProject.Migrations
 {
     [DbContext(typeof(HavenDbContext))]
-    partial class HavenDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230313171028_tablelistitem")]
+    partial class tablelistitem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,7 +175,7 @@ namespace HATC_CapstoneProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("DowntimeId")
+                    b.Property<int>("DowntimeParentId")
                         .HasColumnType("int");
 
                     b.Property<bool>("HasHead")
@@ -188,7 +190,7 @@ namespace HATC_CapstoneProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DowntimeId");
+                    b.HasIndex("DowntimeParentId");
 
                     b.ToTable("DowntimeTable");
                 });
@@ -902,9 +904,13 @@ namespace HATC_CapstoneProject.Migrations
 
             modelBuilder.Entity("HATC_CapstoneProject.Models.DowntimeTable", b =>
                 {
-                    b.HasOne("HATC_CapstoneProject.Models.Downtime", null)
+                    b.HasOne("HATC_CapstoneProject.Models.Downtime", "DowntimeParent")
                         .WithMany("Tables")
-                        .HasForeignKey("DowntimeId");
+                        .HasForeignKey("DowntimeParentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DowntimeParent");
                 });
 
             modelBuilder.Entity("HATC_CapstoneProject.Models.DowntimeTableRow", b =>

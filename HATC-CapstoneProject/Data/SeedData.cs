@@ -80,8 +80,7 @@ namespace HATC_CapstoneProject.Data
 				DowntimeTable ResTable = new DowntimeTable
 				{
 					Name = "Potion Brewing Table",
-					HasHead = true,
-					DowntimeParent = downtime
+					HasHead = true
 
 				};
 				List<DowntimeTableRow> ResRow = new List<DowntimeTableRow>
@@ -93,35 +92,32 @@ namespace HATC_CapstoneProject.Data
 					new DowntimeTableRow()
 				};
 
-				ResRow[0].Row = new List<StringListItem>
+				ResRow[0].Row = new List<TableListItem>
 				{
-					new StringListItem { Item = "Potion Type" },
-					new StringListItem { Item = "Downtime" },
-					new StringListItem { Item = "Gold Cost" }
+					new TableListItem { Item = "Potion Type", Index = 0 },
+					new TableListItem { Item = "Downtime", Index = 1 },
+					new TableListItem { Item = "Gold Cost", Index = 2 }
 				};
-				ResRow[1].Row = new List<StringListItem>
+				ResRow[1].Row = new List<TableListItem>
 				{
-					new StringListItem { Item = "Potion of Healing" },
-					new StringListItem { Item = "One Day" },
-					new StringListItem { Item = "25 gp" }
+					new TableListItem { Item = "Potion of Healing", Index = 0 },
+					new TableListItem { Item = "One Day", Index = 1 },
+					new TableListItem { Item = "25 gp", Index = 2 }
 				};
-				ResRow[2].Row = new List<StringListItem>
+				ResRow[2].Row = new List<TableListItem>
 				{
-					new StringListItem { Item = "Potion of Greater Healing" },
-					new StringListItem { Item = "One Workweek" },
-					new StringListItem { Item = "100 gp" }
+					new TableListItem { Item = "Potion of Greater Healing" , Index = 0},
+					new TableListItem { Item = "One Workweek", Index = 1 } , new TableListItem { Item = "100 gp", Index = 2 }
 				};
-				ResRow[3].Row = new List<StringListItem>
+				ResRow[3].Row = new List<TableListItem>
 				{
-					new StringListItem { Item = "Potion of Superior Healing" },
-					new StringListItem { Item = "Three Workweeks" },
-					new StringListItem { Item = "1,000 gp" }
-				};
-				ResRow[4].Row = new List<StringListItem>
+					new TableListItem { Item = "Potion of Superior Healing" , Index = 0},
+					new TableListItem { Item = "Three Workweeks", Index = 1 } , new TableListItem { Item = "1,000 gp", Index = 2 }
+				};	
+				ResRow[4].Row = new List<TableListItem>
 				{
-					new StringListItem { Item = "Potion of Supreme Healing" },
-					new StringListItem { Item = "Four Workweeks" },
-					new StringListItem { Item = "5,000 gp" }
+					new TableListItem { Item = "Potion of Supreme Healing" , Index = 0},
+					new TableListItem { Item = "Four Workweeks", Index = 1 } , new TableListItem { Item = "5,000 gp", Index = 2 }
 				};
 
 				ResTable.Table = ResRow;
@@ -399,8 +395,7 @@ namespace HATC_CapstoneProject.Data
 				DowntimeTable ResTable2 = new DowntimeTable
 				{
 					Name = "Magic Item Cost Table",
-					HasHead = true,
-					DowntimeParent = downtime2
+					HasHead = true
 				};
 
 				List<DowntimeTableRow> ResRow2 = new List<DowntimeTableRow>
@@ -413,35 +408,35 @@ namespace HATC_CapstoneProject.Data
 					new DowntimeTableRow()
 				};
 
-				ResRow2[0].Row = new List<StringListItem>
+				ResRow2[0].Row = new List<TableListItem>
 				{
-					new StringListItem {Item = "Roll" },
-					new StringListItem {Item = "Item Cost" },
+					new TableListItem {Item = "Roll", Index = 0  },
+					new TableListItem {Item = "Item Cost", Index = 1  },
 				};
-				ResRow2[1].Row = new List<StringListItem>
+				ResRow2[1].Row = new List<TableListItem>
 				{
-					new StringListItem {Item = "1-5" },
-					new StringListItem { Item = "+25%" },
+					new TableListItem {Item = "1-5", Index = 0  },
+					new TableListItem { Item = "+25%", Index = 1  },
 				};
-				ResRow2[2].Row = new List<StringListItem>
+				ResRow2[2].Row = new List<TableListItem>
 				{
-					new StringListItem { Item = "6-10" },
-					new StringListItem { Item = "+15%" },
+					new TableListItem { Item = "6-10", Index = 0  },
+					new TableListItem { Item = "+15%", Index = 1  },
 				};
-				ResRow2[3].Row = new List<StringListItem>
+				ResRow2[3].Row = new List<TableListItem>
 				{
-					new StringListItem { Item = "11-15" },
-					new StringListItem { Item = "+0%" },
+					new TableListItem { Item = "11-15", Index = 0  },
+					new TableListItem { Item = "+0%", Index = 1  },
 				};
-				ResRow2[4].Row = new List<StringListItem>
+				ResRow2[4].Row = new List<TableListItem>
 				{
-					new StringListItem { Item = "16-20" },
-					new StringListItem { Item = "-15%" },
+					new TableListItem { Item = "16-20", Index = 0  },
+					new TableListItem { Item = "-15%" , Index = 1 },
 				};
-				ResRow2[5].Row = new List<StringListItem>
+				ResRow2[5].Row = new List<TableListItem>
 				{
-					new StringListItem { Item = "21+" },
-					new StringListItem { Item = "-25%" },
+					new TableListItem { Item = "21+", Index = 0  },
+					new TableListItem { Item = "-25%", Index = 1  },
 				};
 
 				ResTable2.Table = ResRow2;
@@ -451,7 +446,6 @@ namespace HATC_CapstoneProject.Data
 				{
 					Name = "Magic Item Complication Table",
 					HasHead = true,
-					DowntimeParent = downtime2,
 					IsComplication = true
 				};
 
@@ -472,70 +466,70 @@ namespace HATC_CapstoneProject.Data
 					new DowntimeTableRow()
 				};
 
-				ResRow3[0].Row = new List<StringListItem>
+				ResRow3[0].Row = new List<TableListItem>
 				{
-					new StringListItem {Item = "d12" },
-					new StringListItem {Item = "Buying Magical Item Complication" },
+					new TableListItem {Item = "d12", Index = 0 },
+					new TableListItem {Item = "Buying Magical Item Complication", Index = 1 },
 				};
-				ResRow3[1].Row = new List<StringListItem>
+				ResRow3[1].Row = new List<TableListItem>
 				{
-					new StringListItem {Item = "1" },
-					new StringListItem {Item = "The item is stolen before the sale." },
+					new TableListItem {Item = "1", Index = 0 },
+					new TableListItem {Item = "The item is stolen before the sale.", Index = 1 },
 				};
-				ResRow3[2].Row = new List<StringListItem>
+				ResRow3[2].Row = new List<TableListItem>
 				{
-					new StringListItem {Item = "2" },
-					new StringListItem {Item = "A third party bids on the item, doubling its price." },
+					new TableListItem {Item = "2", Index = 0 },
+					new TableListItem {Item = "A third party bids on the item, doubling its price.", Index = 1 },
 				};
-				ResRow3[3].Row = new List<StringListItem>
+				ResRow3[3].Row = new List<TableListItem>
 				{
-					new StringListItem {Item = "3" },
-					new StringListItem {Item = "You get the last available stock of the item, angering a wealthy noble who also wanted it." },
+					new TableListItem {Item = "3", Index = 0 },
+					new TableListItem {Item = "You get the last available stock of the item, angering a wealthy noble who also wanted it.", Index = 1 },
 				};
-				ResRow3[4].Row = new List<StringListItem>
+				ResRow3[4].Row = new List<TableListItem>
 				{
-					new StringListItem {Item = "4" },
-					new StringListItem {Item = "The item's original owner will kill to reclaim it; the party's enemies spread news of its sale.*" },
+					new TableListItem {Item = "4", Index = 0 },
+					new TableListItem {Item = "The item's original owner will kill to reclaim it; the party's enemies spread news of its sale.*", Index = 1 },
 				};
-				ResRow3[5].Row = new List<StringListItem>
+				ResRow3[5].Row = new List<TableListItem>
 				{
-					new StringListItem {Item = "5" },
-					new StringListItem {Item = "The item is tied to a cult." },
+					new TableListItem {Item = "5", Index = 0 },
+					new TableListItem {Item = "The item is tied to a cult." , Index = 1},
 				};
-				ResRow3[6].Row = new List<StringListItem>
+				ResRow3[6].Row = new List<TableListItem>
 				{
-					new StringListItem {Item = "6" },
-					new StringListItem {Item = "The seller is murdered before the sale.*" },
+					new TableListItem {Item = "6" , Index = 0},
+					new TableListItem {Item = "The seller is murdered before the sale.*" , Index = 1},
 				};
-				ResRow3[7].Row = new List<StringListItem>
+				ResRow3[7].Row = new List<TableListItem>
 				{
-					new StringListItem {Item = "7" },
-					new StringListItem {Item = "The seller is looking for an additional favor along with the  sale of this item. (Can be tied to quest or other long term goal)" },
+					new TableListItem {Item = "7" , Index = 0},
+					new TableListItem {Item = "The seller is looking for an additional favor along with the  sale of this item. (Can be tied to quest or other long term goal)" , Index = 1},
 				};
-				ResRow3[8].Row = new List<StringListItem>
+				ResRow3[8].Row = new List<TableListItem>
 				{
-					new StringListItem {Item = "8" },
-					new StringListItem {Item = "The shopkeep takes a liking to you and wants to share their absurd theories about the nature of magic." },
+					new TableListItem {Item = "8" , Index = 0},
+					new TableListItem {Item = "The shopkeep takes a liking to you and wants to share their absurd theories about the nature of magic." , Index = 1},
 				};
-				ResRow3[9].Row = new List<StringListItem>
+				ResRow3[9].Row = new List<TableListItem>
 				{
-					new StringListItem {Item = "9" },
-					new StringListItem {Item = "The chatty seller wants to hear the latest juicy gossip about Haven. They may or may not spread this gossip around to others on their path. " },
+					new TableListItem {Item = "9" , Index = 0},
+					new TableListItem {Item = "The chatty seller wants to hear the latest juicy gossip about Haven. They may or may not spread this gossip around to others on their path. " , Index = 1},
 				};
-				ResRow3[10].Row = new List<StringListItem>
+				ResRow3[10].Row = new List<TableListItem>
 				{
-					new StringListItem {Item = "10" },
-					new StringListItem {Item = "The item is garish and unappealingly shaped or colored." },
+					new TableListItem {Item = "10" , Index = 0},
+					new TableListItem {Item = "The item is garish and unappealingly shaped or colored." , Index = 1},
 				};
-				ResRow3[11].Row = new List<StringListItem>
+				ResRow3[11].Row = new List<TableListItem>
 				{
-					new StringListItem {Item = "11" },
-					new StringListItem {Item = "The item has an unfortunate odor or is covered in something gross, and needs to be washed before its used." },
+					new TableListItem {Item = "11" , Index = 0},
+					new TableListItem {Item = "The item has an unfortunate odor or is covered in something gross, and needs to be washed before its used." , Index = 1},
 				};
-				ResRow3[12].Row = new List<StringListItem>
+				ResRow3[12].Row = new List<TableListItem>
 				{
-					new StringListItem {Item = "12" },
-					new StringListItem {Item = "The item’s maker mark is prominent and magically prevents it from ever being obscured, whether or not that is a good thing remains to be seen." },
+					new TableListItem {Item = "12" , Index = 0},
+					new TableListItem {Item = "The item’s maker mark is prominent and magically prevents it from ever being obscured, whether or not that is a good thing remains to be seen." , Index = 1},
 				};
 
 				ResTable3.Table = ResRow3;

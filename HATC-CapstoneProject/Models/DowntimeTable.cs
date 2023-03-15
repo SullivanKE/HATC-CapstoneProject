@@ -6,10 +6,9 @@ namespace HATC_CapstoneProject.Models
     {
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
-        public string Name { get; set; }
-        public Downtime DowntimeParent { get; set; }
+        public string Name { get; set; } = "";
         public bool IsComplication { get; set; } = false;
-        public bool HasHead { get; set; }
-        public IEnumerable<DowntimeTableRow> Table { get; set; }
+        public bool HasHead { get; set; } = false;
+        public IEnumerable<DowntimeTableRow> Table { get; set; } = new List<DowntimeTableRow>();
     }
 }

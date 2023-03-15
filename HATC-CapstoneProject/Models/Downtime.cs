@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HATC_CapstoneProject.Models
 {
@@ -12,5 +13,6 @@ namespace HATC_CapstoneProject.Models
         public IEnumerable<Achievement>? Achievements { get; set;}
         public bool Status { get; set; }
         public IEnumerable<DowntimeTable>? Tables { get; set; }
-    }
+
+	}
 }
