@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HATC_CapstoneProject.Models
 {
@@ -6,8 +7,10 @@ namespace HATC_CapstoneProject.Models
     {
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
-        public string Name { get; set; }
-        public Rank Level { get; set; }
+		[Required(ErrorMessage = "Name is required")]
+		public string Name { get; set; }
+		[Required(ErrorMessage = "Ranking is required")]
+		public Rank Level { get; set; }
         public bool IsHidden { get; set; }
 		public bool IsUnlocked { get; set; }
         public bool IsMasked { get; set; }

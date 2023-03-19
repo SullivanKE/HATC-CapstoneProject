@@ -41,5 +41,17 @@ namespace HATC_CapstoneProject.Data
 		public Task<List<Faction>> GetAllFactionsAsync();
 		#endregion
 
+		#region Players
+		public Task<int> SavePlayerAsync(Player item);
+		public Task<Player> GetPlayerAsync(string id);
+		#endregion
+
+		#region Shop
+		public IQueryable<ShopItem> ShopAsync { get; }
+		public Task<ShopItem> GetShopItemAsync(int id);
+		public Task<int> SaveShopItemAsync(ShopItem item);
+		public Task<List<ShopItem>> GetAllShopItemsAsync();
+
+		#endregion
 	}
 }

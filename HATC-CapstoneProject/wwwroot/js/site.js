@@ -3,6 +3,12 @@
 
 // Write your JavaScript code.
 
+function toggleElm(id1, id2) {
+    $(id1).removeAttr("hidden");
+    $(id2).removeAttr("hidden");
+    $(id1).show();
+    $(id2).hide();
+}
 
 function findElementIndex(table, selector) {
     "use strict";
@@ -151,4 +157,11 @@ function debug() {
     console.log(resourceArr);
     console.log(resolutionArr);
     console.log(tableArr);
+}
+
+function copyToClipboard(btnId, textId) {
+    var copyText = document.getElementById(textId);
+    var button = document.getElementById(btnId);
+    navigator.clipboard.writeText(copyText.value);
+    button.innerHTML = "Copied!"
 }

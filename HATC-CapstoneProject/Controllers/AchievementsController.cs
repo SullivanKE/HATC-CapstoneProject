@@ -91,7 +91,7 @@ namespace HATC_CapstoneProject.Controllers
                 await repo.SaveAchievementAsync(achievement);
                 return RedirectToAction(nameof(Index));
             //}
-            return View(achievement);
+            //return View(achievement);
         }
 
         // GET: Achievements/Edit/5

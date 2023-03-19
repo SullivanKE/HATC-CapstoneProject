@@ -59,9 +59,22 @@
 
 								if (User.IsInRole("DM"))
 								{
-									<li class="nav-item">
-										<a asp-action="Login" asp-controller="Account" class="btn btn-outline-dark fw-bold">Admin</a>
+									<li>
+
+
+										<div class="dropdown show">
+											<a class="btn btn-secondary dropdown-toggle" href="Tools/PollCreator/" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												DM Tools
+											</a>
+
+											<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+												<a href="/Players/" class="dropdown-item" type="button">User Manager</a>
+												<a href="Tools/PollCreator/" class="dropdown-item" type="button">Poll Creator</a>
+											</div>
+										</div>
 									</li>
+
+
 								}
 
 				// Signed-in user - Log Out button and username

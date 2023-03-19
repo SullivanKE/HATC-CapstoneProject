@@ -14,5 +14,6 @@ namespace HATC_CapstoneProject.Models
         public bool isAttunement { get; set; }
         public bool isShoppable { get; set; }
         public bool isCraftable { get; set; }
+        public string? LinkTo5eTools { get; set; }
     }
 }

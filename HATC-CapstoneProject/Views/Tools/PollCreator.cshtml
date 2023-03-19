@@ -1,0 +1,183 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+	<div class="container">
+		<p>Create a Haven Availability poll below. Add item will make a new time based on what is selected. Don't forget to add emoji between the :: afterwards.</p>
+	</div>
+	<div class="container">
+		<table>
+			<tr>
+				<td>
+					Date
+				</td>
+				<td>
+					<input type="date" id="d">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Time
+				</td>
+				<td>
+					<input type="time" id="hm">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Type
+				</td>
+				<td>
+					<select id="t">
+					<option value="t">short time</option>
+					<option value="T">long time</option>
+					<option value="d">short date</option>
+					<option value="D">long date</option>
+					<option value="f">long date with short time</option>
+					<option value="F" selected>long date with day of week and short time</option>
+					<option value="R">relative</option>
+				</select>
+				</td>
+			</tr>
+		</table>
+
+		<br />
+		<span class="fw-bold">Output</span><br />
+		<span id="preview">9 seconds ago</span>
+		<br />
+		<button onclick="updateOutput()" class="btn btn-primary">Add item</button>
+
+		<button id="current" class="btn btn-secondary">Reset to current time</button>
+		<br /><br />
+		<input id="title" placeholder="A wonderful name for a session" style="width: 485px" />
+		<br />
+		<input id="prenote" placeholder="An optional pre-description of session" style="width: 485px" />
+		<br />
+		<textarea type="text" readonly="" id="code" title="Press Ctrl/Cmd+C to copy" cols="50" rows="20"></textarea>
+		<br />
+		<input id="postnote" placeholder="An optional post-description of session" style="width: 485px" />
+		<br />
+		<button id="copy" class="btn btn-success">Copy to clipboard</button>
+		<button id="reset" class="btn btn-danger">Clear poll</button>
+	</div>
+
+<script>
+
+	const dateInput = document.getElementById('d');
+	const timeInput = document.getElementById('hm');
+	const typeInput = document.getElementById('t');
+	const typeHead = document.getElementById('title');
+	const output = document.getElementById('code');
+	const copy = document.getElementById('copy');
+	const current = document.getElementById('current');
+	const preview = document.getElementById('preview');
+	const prenote = document.getElementById('prenote');
+	const postnote = document.getElementById('postnote');
+	const clearButton = document.getElementById('reset');
+	let outputString = "";
+
+	dateInput.onchange = previewOutput;
+	timeInput.onchange = previewOutput;
+	typeInput.onchange = previewOutput;
+	copy.onclick = async () => {
+		try {
+			await navigator.clipboard.writeText(output.value);
+			alert("Successfully copied");
+		} catch (e) {
+			alert(e);
+		}
+	}
+	clearButton.onclick = () => {
+		outputString = "";
+		textFieldUpdate();
+	}
+	typeHead.addEventListener('keyup', textFieldUpdate);
+	prenote.addEventListener('keyup', textFieldUpdate);
+	postnote.addEventListener('keyup', textFieldUpdate);
+
+	const onload = _ => {
+		const now = new Date();
+		dateInput.value = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
+		timeInput.value = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+	}
+	window.onload = onload;
+	current.onclick = onload;
+
+	const typeFormats = {
+		't': { timeStyle: 'short' },
+		'T': { timeStyle: 'medium' },
+		'd': { dateStyle: 'short' },
+		'D': { dateStyle: 'long' },
+		'f': { dateStyle: 'long', timeStyle: 'short' },
+		'F': { dateStyle: 'full', timeStyle: 'short' },
+		'R': { style: 'long', numeric: 'auto' },
+	};
+
+	function automaticRelativeDifference(d) {
+		const diff = -((new Date().getTime() - d.getTime()) / 1000) | 0;
+		const absDiff = Math.abs(diff);
+		console.log(diff);
+		if (absDiff > 86400 * 30 * 10) {
+			return { duration: Math.round(diff / (86400 * 365)), unit: 'years' };
+		}
+		if (absDiff > 86400 * 25) {
+			return { duration: Math.round(diff / (86400 * 30)), unit: 'months' };
+		}
+		if (absDiff > 3600 * 21) {
+			return { duration: Math.round(diff / 86400), unit: 'days' };
+		}
+		if (absDiff > 60 * 44) {
+			return { duration: Math.round(diff / 3600), unit: 'hours' };
+		}
+		if (absDiff > 30) {
+			return { duration: Math.round(diff / 60), unit: 'minutes' };
+		}
+		return { duration: diff, unit: 'seconds' };
+	}
+
+	function previewOutput() {
+		const selectedDate = new Date(dateInput.valueAsNumber + timeInput.valueAsNumber + new Date().getTimezoneOffset() * 60000);
+		console.log(selectedDate);
+		const ts = selectedDate.getTime().toString();
+
+		if (['R'].includes(typeInput.value)) {
+			const formatter = new Intl.RelativeTimeFormat(navigator.language || 'en', typeFormats[typeInput.value] || {});
+			const format = automaticRelativeDifference(selectedDate);
+			preview.textContent = formatter.format(format.duration, format.unit);
+		} else {
+			const formatter = new Intl.DateTimeFormat(navigator.language || 'en', typeFormats[typeInput.value] || {});
+			preview.textContent = formatter.format(selectedDate);
+		}
+	}
+
+	function updateOutput() {
+		const selectedDate = new Date(dateInput.valueAsNumber + timeInput.valueAsNumber + new Date().getTimezoneOffset() * 60000);
+		console.log(selectedDate);
+		const ts = selectedDate.getTime().toString();
+		outputString += ":: " + `<t:${ts.substr(0, ts.length - 3)}:${typeInput.value}>` + "\r\n";
+		textFieldUpdate();
+	}
+
+	function textFieldUpdate() {
+		let write = "";
+
+		if (typeHead.value != "")
+			write += "**" + typeHead.value + "**" + "\r\n";
+
+		if (prenote.value != "")
+			write += "*" + prenote.value + "*" + "\r\n";
+
+		write += outputString + "\r\n";
+
+		if (postnote.value != "")
+			write += "*" + postnote.value + "*" + "\r\n";
+
+		write += "@@Availability Polls";
+
+		output.value = write;
+		}
+
+</script>
+<span id="copylAddress" style="display: inline-block; position: absolute; left: -9999em;"></span>

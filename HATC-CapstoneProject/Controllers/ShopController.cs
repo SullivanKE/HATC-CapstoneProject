@@ -9,22 +9,26 @@ using HATC_CapstoneProject.Data;
 using HATC_CapstoneProject.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace HATC_CapstoneProject.Controllers
 {
 	public class ShopController : Controller
     {
-        private readonly HavenDbContext _context;
+		private readonly HavenDbContext _context;
+		private IHavenRepo repo;
+		private UserManager<Player> userManager;
 
-        public ShopController(HavenDbContext context)
-        {
-            _context = context;
-        }
+		public ShopController(IHavenRepo repo, UserManager<Player> userMngr)
+		{
+			this.repo = repo;
+			this.userManager = userMngr;
+		}
 
-        // GET: Shop
-        public async Task<IActionResult> Index()
+		// GET: Shop
+		public async Task<IActionResult> Index()
         {
-              return View(await _context.Shop.ToListAsync());
+              return View(await repo.GetAllShopItemsAsync());
         }
 
         // GET: Shop/Details/5
@@ -35,8 +39,7 @@ namespace HATC_CapstoneProject.Controllers
                 return NotFound();
             }
 
-            var shopItem = await _context.Shop
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var shopItem = await repo.GetShopItemAsync((int)id);
             if (shopItem == null)
             {
                 return NotFound();
@@ -56,12 +59,11 @@ namespace HATC_CapstoneProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PriceAdjustment,Source,BanReason,ManualWeight,Notes,isAttunement,isShoppable,isCraftable,Id,Name,Value")] ShopItem shopItem)
+        public async Task<IActionResult> Create([Bind("PriceAdjustment,Source,BanReason,ManualWeight,Notes,isAttunement,isShoppable,isCraftable,Name,Value")] ShopItem shopItem)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(shopItem);
-                await _context.SaveChangesAsync();
+                await repo.SaveShopItemAsync(shopItem);
                 return RedirectToAction(nameof(Index));
             }
             return View(shopItem);
@@ -75,7 +77,7 @@ namespace HATC_CapstoneProject.Controllers
                 return NotFound();
             }
 
-            var shopItem = await _context.Shop.FindAsync(id);
+            var shopItem = await repo.GetShopItemAsync((int)id);
             if (shopItem == null)
             {
                 return NotFound();

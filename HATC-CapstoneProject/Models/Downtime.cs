@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HATC_CapstoneProject.Models
@@ -7,7 +8,8 @@ namespace HATC_CapstoneProject.Models
     {
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
-        public string Name { get; set; }
+		[Required(ErrorMessage = "Name is required")]
+		public string Name { get; set; }
         public IEnumerable<StringListItem>? Resources { get; set; }
         public IEnumerable<StringListItem>? Resolution { get; set; }
         public IEnumerable<Achievement>? Achievements { get; set;}

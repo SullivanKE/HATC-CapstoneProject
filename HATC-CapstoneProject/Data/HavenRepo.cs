@@ -235,6 +235,71 @@ namespace HATC_CapstoneProject.Data
 
 		#endregion
 
+		#region Players
+/*		public IQueryable<Rank> PlayerAsync
+		{
+			get
+			{
+				return context.Ranks;
+			}
+		}
+		public async Task<List<Rank>> GetAllPlayersAsync()
+		{
+			List<Rank> rankList = await context.Ranks
+					.OrderBy(rank => rank.Level)
+					.ToListAsync();
 
+			return rankList;
+		}*/
+		public async Task<Player> GetPlayerAsync(string id)
+		{
+			Player player = await context.Players
+				.Include(player => player.Triggers)
+				.Where(player => player.Id == id)
+				.SingleOrDefaultAsync();
+
+			return player;
+		}
+		public async Task<int> SavePlayerAsync(Player item)
+		{
+			context.Players.Add(item);
+			return await context.SaveChangesAsync();
+		}
+
+		#endregion
+
+		#region Shop
+		public IQueryable<ShopItem> ShopAsync
+		{
+			get
+			{
+				return context.Shop
+					.Include(shop => shop.Rarity);
+			}
+		}
+		public async Task<List<ShopItem>> GetAllShopItemsAsync()
+		{
+			List<ShopItem> shopItems = await context.Shop
+				.Include(shop => shop.Rarity)
+					.OrderBy(shop => shop.Name)
+					.ToListAsync();
+
+			return shopItems;
+		}
+		public async Task<ShopItem> GetShopItemAsync(int id)
+		{
+			ShopItem shopItem = await context.Shop
+				.Include(shop => shop.Rarity)
+				.Where(shop => shop.Id == id)
+				.SingleOrDefaultAsync();
+
+			return shopItem;
+		}
+		public async Task<int> SaveShopItemAsync(ShopItem item)
+		{
+			context.Shop.Add(item);
+			return await context.SaveChangesAsync();
+		}
+		#endregion
 	}
 }
