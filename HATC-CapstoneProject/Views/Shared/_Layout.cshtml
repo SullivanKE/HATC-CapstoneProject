@@ -7,10 +7,16 @@
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/HATC_CapstoneProject.styles.css" asp-append-version="true" />
+	<script src="~/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+	<script src="https://cdn.tiny.cloud/1/g3gwrje10535ok70s82nrt8vfzx212sybu3f5dtnzmtyg4ar/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+	<script>
+		tinymce.init({
+			selector: '.tinymce',
+			inline: true
+		});
+	</script>
 </head>
 
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<Player> signInManager
 
 <body class="hatc-lblue-bg mb-0 d-flex flex-column min-vh-100">
 	<header>

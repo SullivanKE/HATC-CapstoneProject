@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<HATC_CapstoneProject.Models.Faction>
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<Player> signInManager
+
 
 @{
 	ViewData["Title"] = "Index";
@@ -140,17 +139,27 @@
 											{
 												<button class="btn btn-secondary float-end m-1" asp-action="Edit" asp-route-id="@npc.Id">Edit</button>
 											}
-
 										</h3>
 									</div>
 								</div>
 								<div id="@npc.Name.Replace(" ","")Body" class="border">
 									<div class="row">
-										<div class="col m-2">
-											<p class="bg-light rounded m-1 p-1">
-												@npc.Description
-											</p>
-										</div>
+										@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+										{
+											<div class="col m-2 tinymce">
+												<p class="bg-light rounded m-1 p-1">
+													@npc.Description
+												</p>
+											</div>
+										}
+										else
+										{
+											<div class="col m-2">
+												<p class="bg-light rounded m-1 p-1">
+													@npc.Description
+												</p>
+											</div>
+										}
 										@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
 										{
 											<div class="col m-2">
@@ -159,45 +168,55 @@
 													<strong>
 														Personality
 													</strong>
-													<p class="bg-light rounded m-1 p-1">
-														@npc.Personality
-													</p>
+													<div class="tinymce">
+														<p class="bg-light rounded m-1 p-1">
+															@npc.Personality
+														</p>
+													</div>
 												}
 												@if (npc.Motivation != null)
 												{
 													<strong>
 														Motivation
 													</strong>
-													<p class="bg-light rounded m-1 p-1">
-														@npc.Motivation
-													</p>
+													<div class="tinymce">
+														<p class="bg-light rounded m-1 p-1">
+															@npc.Motivation
+														</p>
+													</div>
 												}
 												@if (npc.Apperance != null)
 												{
 													<strong>
 														Apperance
 													</strong>
-													<p class="bg-light rounded m-1 p-1">
+													<div class="tinymce">
+														<p class="bg-light rounded m-1 p-1">
 														@npc.Apperance
 													</p>
+													</div>	
 												}
 												@if (npc.Background != null)
 												{
 													<strong>
 														Background
 													</strong>
-													<p class="bg-light rounded m-1 p-1">
-														@npc.Background
-													</p>
+													<div class="tinymce">
+														<p class="bg-light rounded m-1 p-1">
+															@npc.Background
+														</p>
+													</div>
 												}
 												@if (npc.Quirk != null)
 												{
 													<strong>
 														Quirk
 													</strong>
-													<p class="bg-light rounded m-1 p-1">
-														@npc.Quirk
-													</p>
+													<div class="tinymce">
+														<p class="bg-light rounded m-1 p-1">
+															@npc.Quirk
+														</p>
+													</div>
 												}
 											</div>
 										}
@@ -228,7 +247,9 @@
 																{
 																	<tr>
 																		<td>
-																			@interaction.Item
+																			<div class="tinymce">
+																				@interaction.Item
+																			</div>
 																		</td>
 																	</tr>
 																}
@@ -247,7 +268,9 @@
 																{
 																	<tr>
 																		<td>
-																			@hook.Item
+																			<div class="tinymce">
+																				@hook.Item
+																			</div>
 																		</td>
 																	</tr>
 																}
@@ -270,12 +293,9 @@
 													Notes:
 												</small>
 												<p class="bg-light rounded m-1 p-1">
-													<form>
-														<input name="@npc.Name-notes" type="text" placeholder="Notes" />
-														<textarea name="@npc.Name-notes-text" data-provide="markdown" rows="10">@npc.Notes</textarea>
-														<button type="submit" class="btn btn-success">Submit</button>
-													</form>
-
+													<div class="tinymce">
+														@npc.Notes
+													</div>
 												</p>
 											</div>
 										}

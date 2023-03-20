@@ -1,8 +1,4 @@
 ﻿@model List<Achievement>
-@using Microsoft.AspNetCore.Identity
-@using HATC_CapstoneProject.Data
-@inject SignInManager<Player> signInManager
-
 @{
 	ViewData["Title"] = "Index";
 	List<Achievement> incomplete = Model.Where(achievement => !achievement.IsUnlocked).ToList();

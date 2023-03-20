@@ -4,33 +4,35 @@
 @{
 }
 
-	<div class="container">
-		<p>Create a Haven Availability poll below. Add item will make a new time based on what is selected. Don't forget to add emoji between the :: afterwards.</p>
-	</div>
-	<div class="container">
-		<table>
-			<tr>
-				<td>
-					Date
-				</td>
-				<td>
-					<input type="date" id="d">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Time
-				</td>
-				<td>
-					<input type="time" id="hm">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Type
-				</td>
-				<td>
-					<select id="t">
+<div class="container">
+	<p>Create a Haven Availability poll below. Add item will make a new time based on what is selected. Don't forget to add emoji between the :: afterwards.</p>
+</div>
+
+<div class="container">
+	<table>
+		<tr>
+			<td>
+				Date
+			</td>
+			<td>
+				<input type="date" id="d">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Time
+			</td>
+			<td>
+				<input type="time" id="hm">
+			</td>
+
+		</tr>
+		<tr>
+			<td>
+				Type
+			</td>
+			<td>
+				<select id="t">
 					<option value="t">short time</option>
 					<option value="T">long time</option>
 					<option value="d">short date</option>
@@ -39,29 +41,39 @@
 					<option value="F" selected>long date with day of week and short time</option>
 					<option value="R">relative</option>
 				</select>
-				</td>
-			</tr>
-		</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Include a ping?
+			</td>
+			<td>
+				<input id="ping" type="checkbox" />
+			</td>
+		</tr>
+	</table>
 
-		<br />
-		<span class="fw-bold">Output</span><br />
-		<span id="preview">9 seconds ago</span>
-		<br />
-		<button onclick="updateOutput()" class="btn btn-primary">Add item</button>
+	<br />
+	<span class="fw-bold">Output</span><br />
+	<span id="preview">9 seconds ago</span>
+	<br />
+	<button onclick="updateOutput()" class="btn btn-primary">Add item</button>
 
-		<button id="current" class="btn btn-secondary">Reset to current time</button>
-		<br /><br />
-		<input id="title" placeholder="A wonderful name for a session" style="width: 485px" />
-		<br />
-		<input id="prenote" placeholder="An optional pre-description of session" style="width: 485px" />
-		<br />
-		<textarea type="text" readonly="" id="code" title="Press Ctrl/Cmd+C to copy" cols="50" rows="20"></textarea>
-		<br />
-		<input id="postnote" placeholder="An optional post-description of session" style="width: 485px" />
-		<br />
-		<button id="copy" class="btn btn-success">Copy to clipboard</button>
-		<button id="reset" class="btn btn-danger">Clear poll</button>
-	</div>
+	<button id="current" class="btn btn-secondary">Reset to current time</button>
+	<br /><br />
+	<input id="title" placeholder="A wonderful name for a session" style="width: 485px" />
+	<br />
+	<input id="gamelength" placeholder="Better call a doctor, my game is lasting more than 4 hours" style="width: 485px" />
+	<br />
+	<input id="prenote" placeholder="An optional pre-description of session" style="width: 485px" />
+	<br />
+	<textarea type="text" readonly="" id="code" title="Press Ctrl/Cmd+C to copy" cols="50" rows="20"></textarea>
+	<br />
+	<input id="postnote" placeholder="An optional post-description of session" style="width: 485px" />
+	<br />
+	<button id="copy" class="btn btn-success">Copy to clipboard</button>
+	<button id="reset" class="btn btn-danger">Clear poll</button>
+</div>
 
 <script>
 
@@ -69,6 +81,7 @@
 	const timeInput = document.getElementById('hm');
 	const typeInput = document.getElementById('t');
 	const typeHead = document.getElementById('title');
+	const gameLength = document.getElementById('gamelength');
 	const output = document.getElementById('code');
 	const copy = document.getElementById('copy');
 	const current = document.getElementById('current');
@@ -76,11 +89,13 @@
 	const prenote = document.getElementById('prenote');
 	const postnote = document.getElementById('postnote');
 	const clearButton = document.getElementById('reset');
+	const isPing = document.getElementById('ping');
 	let outputString = "";
 
 	dateInput.onchange = previewOutput;
 	timeInput.onchange = previewOutput;
 	typeInput.onchange = previewOutput;
+	isPing.onchange = textFieldUpdate;
 	copy.onclick = async () => {
 		try {
 			await navigator.clipboard.writeText(output.value);
@@ -96,6 +111,7 @@
 	typeHead.addEventListener('keyup', textFieldUpdate);
 	prenote.addEventListener('keyup', textFieldUpdate);
 	postnote.addEventListener('keyup', textFieldUpdate);
+	gameLength.addEventListener('keyup', textFieldUpdate);
 
 	const onload = _ => {
 		const now = new Date();
@@ -156,15 +172,17 @@
 		const selectedDate = new Date(dateInput.valueAsNumber + timeInput.valueAsNumber + new Date().getTimezoneOffset() * 60000);
 		console.log(selectedDate);
 		const ts = selectedDate.getTime().toString();
-		outputString += ":: " + `<t:${ts.substr(0, ts.length - 3)}:${typeInput.value}>` + "\r\n";
+		outputString += "" + `<t:${ts.substr(0, ts.length - 3)}:${typeInput.value}>` + "\r\n";
 		textFieldUpdate();
 	}
 
 	function textFieldUpdate() {
 		let write = "";
-
 		if (typeHead.value != "")
 			write += "**" + typeHead.value + "**" + "\r\n";
+
+		if (gameLength.value != "")
+			write += "*" + gamelength.value + "*" + "\r\n";
 
 		if (prenote.value != "")
 			write += "*" + prenote.value + "*" + "\r\n";
@@ -174,10 +192,11 @@
 		if (postnote.value != "")
 			write += "*" + postnote.value + "*" + "\r\n";
 
-		write += "@@Availability Polls";
+		if (isPing.checked)
+			write += "@@Availability Polls";
 
 		output.value = write;
-		}
+	}
 
 </script>
 <span id="copylAddress" style="display: inline-block; position: absolute; left: -9999em;"></span>
