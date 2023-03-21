@@ -9,7 +9,8 @@ namespace HATC_CapstoneProject.Controllers
 {
     public class PlayerController : Controller
     {
-		//[Authorize(Roles = "DM")]
+		[Authorize]
+		[Authorize(Roles = "DM")]
 		private UserManager<Player> userManager;
 		private RoleManager<IdentityRole> roleManager;
 		public PlayerController(UserManager<Player> userMngr, RoleManager<IdentityRole> roleMngr, HavenDbContext context)
