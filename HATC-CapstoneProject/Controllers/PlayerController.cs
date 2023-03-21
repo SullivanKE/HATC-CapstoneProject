@@ -7,10 +7,10 @@ using System.Data;
 
 namespace HATC_CapstoneProject.Controllers
 {
+    [Authorize(Roles = "DM")]
     public class PlayerController : Controller
     {
-		[Authorize]
-		[Authorize(Roles = "DM")]
+		
 		private UserManager<Player> userManager;
 		private RoleManager<IdentityRole> roleManager;
 		public PlayerController(UserManager<Player> userMngr, RoleManager<IdentityRole> roleMngr, HavenDbContext context)
