@@ -3,6 +3,7 @@ using System;
 using HATC_CapstoneProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,13 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HATC_CapstoneProject.Migrations
 {
     [DbContext(typeof(HavenDbContext))]
-    partial class HavenDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230326042336_shop1")]
+    partial class shop1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.15")
+                .HasAnnotation("ProductVersion", "6.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("HATC_CapstoneProject.Models.Achievement", b =>
@@ -126,10 +128,6 @@ namespace HATC_CapstoneProject.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Image")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("PlayerId")
@@ -793,10 +791,6 @@ namespace HATC_CapstoneProject.Migrations
             modelBuilder.Entity("HATC_CapstoneProject.Models.Player", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("DiscordName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<bool>("PasswordReset")
                         .HasColumnType("tinyint(1)");

@@ -268,6 +268,52 @@ namespace HATC_CapstoneProject.Data
 
 		#endregion
 
+		#region Characters
+		public IQueryable<Character> CharacterAsync
+		{
+			get
+			{
+				return context.Characters
+					.Include(c => c.Player)
+						.ThenInclude(p => p.Triggers)
+					.Include(c => c.FactionPoints)
+						.ThenInclude(f => f.FactionPoints)
+							.ThenInclude(fp => fp.Fac);
+			}
+		}
+		public async Task<List<Character>> GetAllCharactersAsync()
+		{
+			List<Character> characters = await context.Characters
+					.Include(c => c.Player)
+						.ThenInclude(p => p.Triggers)
+					.Include(c => c.FactionPoints)
+						.ThenInclude(f => f.FactionPoints)
+							.ThenInclude(fp => fp.Fac)
+					.OrderBy(c => c.Player.UserName)
+					.ToListAsync();
+
+			return characters;
+		}
+		public async Task<Character> GetCharacterAsync(int id)
+		{
+			Character shopItem = await context.Characters
+					.Include(c => c.Player)
+						.ThenInclude(p => p.Triggers)
+					.Include(c => c.FactionPoints)
+						.ThenInclude(f => f.FactionPoints)
+							.ThenInclude(fp => fp.Fac)
+				.Where(c => c.Id == id)
+				.SingleOrDefaultAsync();
+
+			return shopItem;
+		}
+		public async Task<int> SaveCharacterAsync(Character item)
+		{
+			context.Characters.Add(item);
+			return await context.SaveChangesAsync();
+		}
+		#endregion
+
 		#region Shop
 		public IQueryable<ShopItem> ShopAsync
 		{

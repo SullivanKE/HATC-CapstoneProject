@@ -1,7 +1,9 @@
 ﻿using HATC_CapstoneProject.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Net;
 
 namespace HATC_CapstoneProject.Data
 {
@@ -22,26 +24,7 @@ namespace HATC_CapstoneProject.Data
 				};
 				userManager.CreateAsync(user1, PASSWORD);
 
-				//Generate character
-				Character character = new Character
-				{
-					Player = user1,
-					Exp = 0,
-					Downtime = 0
-				};
-				context.Characters.Add(character);
-				context.SaveChanges();
 
-				// Generate Sessions
-				Session session;
-				session = new Session
-				{
-					GMCharacter = character,
-					RealDate = DateTime.Now,
-					InGameDate = "Jan 1, Year 1",
-					DowntimeReward = 0
-				};
-				context.Sessions.Add(session);
 
 				context.SaveChanges();
 
@@ -113,7 +96,7 @@ namespace HATC_CapstoneProject.Data
 				{
 					new TableListItem { Item = "Potion of Superior Healing" , Index = 0},
 					new TableListItem { Item = "Three Workweeks", Index = 1 } , new TableListItem { Item = "1,000 gp", Index = 2 }
-				};	
+				};
 				ResRow[4].Row = new List<TableListItem>
 				{
 					new TableListItem { Item = "Potion of Supreme Healing" , Index = 0},
@@ -882,6 +865,166 @@ namespace HATC_CapstoneProject.Data
 			}
 		}
 
+		public static void Seed4(HavenDbContext context, IServiceProvider provider)
+		{
+			if (!context.Shop.Any())
+			{
+				List<Rank> rarities = context.Ranks
+					.OrderBy(rank => rank.Level)
+					.ToList();
+
+				ShopItem item1 = new ShopItem
+				{
+					Name = "Ammunition +1 (20)",
+					Value = 500,
+					Source = "DMG",
+					Rarity = rarities[0],
+					isAttunement = false,
+					isShoppable = true,
+					isCraftable = true
+				};
+				ShopItem item2 = new ShopItem
+				{
+					Name = "Armor, +3",
+					Value = 100000,
+					Source = "DMG",
+					Rarity = rarities[4],
+					isAttunement = false,
+					isShoppable = false,
+					isCraftable = true
+				};
+				ShopItem item3 = new ShopItem
+				{
+					Name = "Absorbing Tattoo",
+					Value = 35000,
+					Source = "TCE",
+					Rarity = rarities[2],
+					isAttunement = true,
+					isShoppable = true,
+					isCraftable = true
+				};
+				ShopItem item4 = new ShopItem
+				{
+					Name = "Amethyst Lodestone",
+					Value = 78000,
+					Source = "FTD",
+					Rarity = rarities[3],
+					isAttunement = true,
+					isShoppable = false,
+					isCraftable = true
+				};
+				ShopItem item5 = new ShopItem
+				{
+					Name = "Abracadabrus",
+					Value = 0,
+					Source = "IDRotF",
+					Rarity = rarities[6],
+					isAttunement = false,
+					isShoppable = false,
+					isCraftable = false
+				};
+				ShopItem item6 = new ShopItem
+				{
+					Name = "Apparatus of Kwalish",
+					Value = 0,
+					Source = "DMG",
+					Rarity = rarities[5],
+					isAttunement = false,
+					isShoppable = false,
+					isCraftable = false
+				};
+				context.Shop.Add(item1);
+				context.Shop.Add(item2);
+				context.Shop.Add(item3);
+				context.Shop.Add(item4);
+				context.Shop.Add(item5);
+				context.Shop.Add(item6);
+				context.SaveChanges();
+			}
+		}
+
+		public static async void Seed5(HavenDbContext context, IServiceProvider provider)
+		{
+			if (!context.Characters.Any())
+			{
+				if (context.Players.Any())
+				{
+					if (context.Factions.Any())
+					{
+						List<Faction> factions = context.Factions
+													.Include(faction => faction.Members)
+													.Include(faction => faction.Members)
+														.ThenInclude(npc => npc.AdventureHooks)
+													.Include(faction => faction.Members)
+														.ThenInclude(npc => npc.Interactions)
+													.Include(faction => faction.Shops)
+														.ThenInclude(shops => shops.List)
+													.Include(faction => faction.Perks)
+														.OrderBy(faction => faction.Name)
+														.ToList();
+
+						List<FactionCardEntry> facEntry = new List<FactionCardEntry>();
+						List<FactionCardEntry> facEntry2 = new List<FactionCardEntry>();
+						List<FactionCardEntry> facEntry3 = new List<FactionCardEntry>();
+
+						foreach (Faction fac in factions)
+						{
+							facEntry.Add(new FactionCardEntry
+							{
+								Fac = fac
+							});
+							facEntry2.Add(new FactionCardEntry
+							{
+								Fac = fac
+							});
+							facEntry3.Add(new FactionCardEntry
+							{
+								Fac = fac
+							});
+						}
+
+
+						Player user = context.Players.FirstOrDefault();
+
+						Character char1 = new Character
+						{
+							Player = user,
+							Name = "Tassa",
+							Description = "This is a description of Tassa",
+							FactionPoints = new FactionCard
+							{
+								FactionPoints = facEntry
+							}
+						};
+						Character char2 = new Character
+						{
+							Player = user,
+							Name = "Erabrix",
+							Description = "This is a description of Erabrix",
+							FactionPoints = new FactionCard
+							{
+								FactionPoints = facEntry
+							}
+						};
+						Character char3 = new Character
+						{
+							Player = user,
+							Name = "Ildia",
+							Description = "This is a description of Ildia",
+							FactionPoints = new FactionCard
+							{
+								FactionPoints = facEntry
+							}
+						};
+
+						context.Characters.Add(char1);
+						context.Characters.Add(char2);
+						context.Characters.Add(char3);
+						context.SaveChanges();
+					}
+				}
+			}
+		}
 		public object GetService(Type serviceType)
 		{
 			throw new NotImplementedException();

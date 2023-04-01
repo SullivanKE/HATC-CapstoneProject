@@ -4,7 +4,6 @@ namespace HATC_CapstoneProject.Models
 {
     public class ShopItem : SessionItem
     {
-		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public string? PriceAdjustment { get; set; }
         public string? Source { get; set;}
         public Rank Rarity { get; set; } = new Rank();

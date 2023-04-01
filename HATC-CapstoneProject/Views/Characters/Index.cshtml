@@ -1,0 +1,91 @@
+﻿@model IEnumerable<HATC_CapstoneProject.Models.Character>
+
+@{
+	ViewData["Title"] = "Index";
+}
+
+<h1>Characters</h1>
+
+
+<div class="d-flex align-items-start">
+	<div class="nav flex-column nav-pills me-3 bg-light hatc-blue" id="downtime-tab" role="tablist" aria-orientation="vertical">
+		<input id="search" />
+		@foreach (var item in Model) // Tab list
+		{
+			<button class="nav-link" id="character-tab-@item.Name.Replace(" ","")" data-bs-toggle="pill" href="#character-info-@item.Name.Replace(" ","")" type="button" role="tab" aria-controls="v-pills-home" aria-selected="false">
+				<div class="row">
+					<div class="col-1">
+						@if (item.Image != null)
+						{
+							<img class="ml-auto" src="~/uploads/images/@item.Image" style="height: auto; width: 30px; border-radius : 4px;" />
+						}
+						else
+						{
+							<img class="ml-auto" src="~/uploads/images/ffredd.webp" style="heigth: auto; width: 30px; border-radius: 4px;" />
+						}
+					</div>
+					<div class="col">
+						@item.Name
+					</div>
+				</div>
+			</button>
+
+		}
+@*		<div class="align-bottom mx-auto d-flex">
+			@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+			{
+				<a asp-action="Create" class="btn btn-success rounded">
+					Add a Downtime
+				</a>
+			}
+		</div>*@
+	</div>
+	<div class="tab-content col-lg-10" id="v-pills-tabContent">
+		
+
+		@foreach (var item in Model)
+		{
+			<div class="tab-pane fade" id="character-info-@item.Name.Replace(" ","")" role="tabpanel" aria-labelledby="character-tab-@item.Name.Replace(" ","")">
+
+				<div class="d-flex justify-content-center">
+					
+				</div>
+				<div class="row">
+					<div class="col-4">
+						@if (item.Image != null)
+						{
+							<img class="ml-auto" src="~/uploads/images/@item.Image" style="height: auto; max-width: 300px; border-radius : 8px;" />
+						}
+						else
+						{
+							<img class="ml-auto" src="~/uploads/images/ffredd.webp" style="heigth: auto; max-width: 300px; border-radius: 8px;" />
+						}
+					</div>
+					<div class="col-7 bg-light rounded-2">
+						<h3>@item.Name</h3>
+						@item.Description
+					</div>
+				</div>
+				<hr />
+				<div class="row"> <!--TODO: Statistics and stuff-->
+					<div class="col">
+					</div>
+
+				</div>
+				
+				<div>
+					<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary rounded float-end">
+						Edit
+					</a>
+				</div>
+			</div>
+
+		}
+	</div>
+</div>
+
+
+@*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+@Html.DisplayFor(modelItem => item.Status)*@

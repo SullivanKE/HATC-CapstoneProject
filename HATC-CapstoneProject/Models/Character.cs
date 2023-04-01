@@ -10,6 +10,7 @@ namespace HATC_CapstoneProject.Models
 		public int Id { get; set; }
 		[Required(ErrorMessage = "A Player is required")]
 		public Player Player { get; set;  }
+        public string Name { get; set; }
         public string? Description { get; set; }
         public string? Image { get; set; }
         public int Exp { get; set; } = 0;

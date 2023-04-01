@@ -52,6 +52,8 @@ using (var scope = app.Services.CreateScope())
     SeedData.Seed1(context, scope.ServiceProvider);
 	SeedData.Seed2(context, scope.ServiceProvider);
     SeedData.Seed3(context, scope.ServiceProvider);
+    SeedData.Seed4(context, scope.ServiceProvider);
+	SeedData.Seed5(context, scope.ServiceProvider);
 }
 
 app.MapControllerRoute(

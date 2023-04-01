@@ -46,12 +46,18 @@ namespace HATC_CapstoneProject.Data
 		public Task<Player> GetPlayerAsync(string id);
 		#endregion
 
+		#region Characters
+		public IQueryable<Character> CharacterAsync { get; }
+		public Task<Character> GetCharacterAsync(int id);
+		public Task<int> SaveCharacterAsync(Character item);
+		public Task<List<Character>> GetAllCharactersAsync();
+		#endregion
+
 		#region Shop
 		public IQueryable<ShopItem> ShopAsync { get; }
 		public Task<ShopItem> GetShopItemAsync(int id);
 		public Task<int> SaveShopItemAsync(ShopItem item);
 		public Task<List<ShopItem>> GetAllShopItemsAsync();
-
 		#endregion
 	}
 }

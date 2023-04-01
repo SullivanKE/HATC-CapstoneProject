@@ -3,7 +3,9 @@
 	ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+
+
+<h1>Shop and Crafting</h1>
 
 @if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
 {
@@ -11,7 +13,10 @@
 		<Button class="btn btn-success" asp-action="Create">Create New</Button>
 	</p>
 }
-<table class="table table-striped table-responsive">
+<div id="search">
+	<input id="search" />
+</div>
+<table class="table table-striped">
 	<thead>
 		<tr>
 			<th>
@@ -42,49 +47,120 @@
 				Source
 			</th>
 			@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
-{
-			<th></th>
-}
+			{
+				<th></th>
+			}
 		</tr>
 	</thead>
 	<tbody>
 		@foreach (var item in Model)
 		{
+			int crafting = item.Value / 2;
 			<tr>
 				<td>
-					@Html.DisplayFor(modelItem => item.Name)
+					@item.Name
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.Value)
+					@if (item.Value == 0)
+					{
+						<strong>-</strong>
+					}
+					else
+					{
+						@item.Value.ToString("#,##0")
+					}
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.Value / 2)
+					@if (item.Value == 0)
+					{
+						<strong>-</strong>
+					}
+					else
+					{
+						@crafting.ToString("#,##0")
+					}
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.PriceAdjustment)
+					@item.PriceAdjustment
+				</td>
+
+				@if (item.isShoppable)
+				{
+					<td class="text text-success">
+						Yes
+					</td>
+				}
+				else
+				{
+					<td class="text text-danger">
+						No
+					</td>
+				}
+
+				@if (item.isCraftable)
+				{
+					<td class="text text-success">
+						Yes
+					</td>
+				}
+				else
+				{
+					<td class="text text-danger">
+						No
+					</td>
+				}
+
+				@if (item.isAttunement)
+				{
+					<td class="text text-success">
+						Yes
+					</td>
+				}
+				else
+				{
+					<td class="text text-danger">
+						No
+					</td>
+				}
+
+				<td style="background-color: @item.Rarity.BgColor; color: @item.Rarity.Color">
+					@item.Rarity.Name
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.isShoppable)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.isCraftable)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.isAttunement)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Rarity.Name)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Source)
+					@item.Source
 				</td>
 				@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
-{
-				<td>
-					<button asp-action="Edit" asp-route-id="@item.Id">Edit</button>
-				</td>
-}
+				{
+					<td>
+						<button asp-action="Edit" asp-route-id="@item.Id">Edit</button>
+					</td>
+				}
 			</tr>
 		}
 	</tbody>
 </table>
+
+<script>
+
+	const shop = @Html.Raw(Json.Serialize(Model));
+	const searchInput = document.getElementById('search');
+	searchInput.onkeyup = searchArray();
+
+	console.log(searchInput);
+	console.log(shop);
+
+	function searchArray() {
+		let arrOut = new Array;
+		let s = searchInput.value;
+		console.log(s);
+		console.log(searchInput.value);
+		for (let item of shop) {
+			if (item.name.toLowerCase().includes(s)) {
+				arrOut.push(item);
+			}
+		}
+		console.log(arrOut);
+		return arrOut;
+	}
+
+</script>

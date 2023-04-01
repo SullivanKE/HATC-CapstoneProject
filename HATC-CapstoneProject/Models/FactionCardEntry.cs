@@ -9,6 +9,6 @@ namespace HATC_CapstoneProject.Models
 		public int Id { get; set; }
 		[Required(ErrorMessage = "Faction is required")]
 		public Faction Fac { get; set; }
-        public int Score { get; set; }
+		public int Score { get; set; } = 0;
     }
 }
