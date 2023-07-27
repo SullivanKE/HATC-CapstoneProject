@@ -104,11 +104,12 @@
 
             return rankList;
         }
-        public async Task<Rank> GetRankAsync(int id)
+        public async Task<Rank?> GetRankAsync(int id)
         {
-            Rank rank = await context.Ranks
-                .Where(rank => rank.Id == id)
-                .SingleOrDefaultAsync();
+            var rank = await context.Ranks
+                .FindAsync(id);
+            //.Where(rank => rank.Id == id)
+            //.SingleOrDefaultAsync();
 
             return rank;
         }
@@ -278,9 +279,6 @@
         #endregion
 
         #region Shop
-        public IQueryable<ShopItem> ShopAsync => context.Shop
-                    .Include(shop => shop.Rarity);
-
         public async Task<List<ShopItem>> GetAllShopItemsAsync()
         {
             return await context.Shop

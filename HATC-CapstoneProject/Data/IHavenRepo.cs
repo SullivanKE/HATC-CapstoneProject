@@ -18,7 +18,7 @@
 
         #region Ranks
         public IQueryable<Rank> RankAsync { get; }
-        public Task<Rank> GetRankAsync(int id);
+        public Task<Rank?> GetRankAsync(int id);
         public Task<int> SaveRankAsync(Rank item);
         public Task<List<Rank>> GetAllRanksAsync();
         #endregion
@@ -50,11 +50,21 @@
         #endregion
 
         #region Shop
-        public IQueryable<ShopItem> ShopAsync { get; }
+
         public Task<ShopItem> GetShopItemAsync(int id);
         public Task<int> SaveShopItemAsync(ShopItem item);
+        /// <summary>
+        /// Retrieve all the ShopItems stored in the database. Shop Items retrieved using this method include Rarity.
+        /// </summary>
+        /// <returns>a task containing a <see cref="List{ShopItem}"/></returns>
         public Task<List<ShopItem>> GetAllShopItemsAsync();
-        public Task<List<ShopItem>> SimpleShopSearch(string name);
+
+        /// <summary>
+        /// Retrieve all the ShopItems from the database then apply the given criteria and search strign to the result set for filtering/searching.
+        /// </summary>
+        /// <param name="search"> <see langword="abstract"/>string search term to search the name and source fields of shop items for</param>
+        /// <param name="criteria">a <see cref="Criteria"/> enum which may hold zero, one or more criteria as flags</param>
+        /// <returns>a lsit of <see cref="ShopItem"/>s that fit the indicated criteria and contain the search string in either their name or source field.</returns>
         Task<List<ShopItem>> AdvancedShopSearch(string? search, Criteria criteria);
         #endregion
     }
