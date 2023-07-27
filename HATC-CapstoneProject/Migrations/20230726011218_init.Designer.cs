@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HATC_CapstoneProject.Migrations
 {
     [DbContext(typeof(HavenDbContext))]
-    [Migration("20230313171028_tablelistitem")]
-    partial class tablelistitem
+    [Migration("20230726011218_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.14")
+                .HasAnnotation("ProductVersion", "6.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("HATC_CapstoneProject.Models.Achievement", b =>
@@ -130,6 +130,10 @@ namespace HATC_CapstoneProject.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("PlayerId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
@@ -175,7 +179,7 @@ namespace HATC_CapstoneProject.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("DowntimeParentId")
+                    b.Property<int?>("DowntimeId")
                         .HasColumnType("int");
 
                     b.Property<bool>("HasHead")
@@ -190,7 +194,7 @@ namespace HATC_CapstoneProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DowntimeParentId");
+                    b.HasIndex("DowntimeId");
 
                     b.ToTable("DowntimeTable");
                 });
@@ -361,6 +365,87 @@ namespace HATC_CapstoneProject.Migrations
                     b.ToTable("NPC");
                 });
 
+            modelBuilder.Entity("HATC_CapstoneProject.Models.Player", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("DiscordName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("PasswordReset")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("PreferedName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Pronouns")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("TimeZone")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
             modelBuilder.Entity("HATC_CapstoneProject.Models.Rank", b =>
                 {
                     b.Property<int>("Id")
@@ -381,6 +466,9 @@ namespace HATC_CapstoneProject.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<int>("Ranking")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -610,76 +698,6 @@ namespace HATC_CapstoneProject.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("longtext");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
-
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -788,28 +806,23 @@ namespace HATC_CapstoneProject.Migrations
                     b.HasDiscriminator().HasValue("Monster");
                 });
 
-            modelBuilder.Entity("HATC_CapstoneProject.Models.Player", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("PreferedName")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Pronouns")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("TimeZone")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasDiscriminator().HasValue("Player");
-                });
-
             modelBuilder.Entity("HATC_CapstoneProject.Models.ShopItem", b =>
                 {
                     b.HasBaseType("HATC_CapstoneProject.Models.SessionItem");
 
                     b.Property<string>("BanReason")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsAttunement")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsCraftable")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsShoppable")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LinkTo5eTools")
                         .HasColumnType("longtext");
 
                     b.Property<int>("ManualWeight")
@@ -819,7 +832,6 @@ namespace HATC_CapstoneProject.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("PriceAdjustment")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("longtext");
 
                     b.Property<int>("RarityId")
@@ -827,15 +839,6 @@ namespace HATC_CapstoneProject.Migrations
 
                     b.Property<string>("Source")
                         .HasColumnType("longtext");
-
-                    b.Property<bool>("isAttunement")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("isCraftable")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("isShoppable")
-                        .HasColumnType("tinyint(1)");
 
                     b.HasIndex("RarityId");
 
@@ -904,13 +907,9 @@ namespace HATC_CapstoneProject.Migrations
 
             modelBuilder.Entity("HATC_CapstoneProject.Models.DowntimeTable", b =>
                 {
-                    b.HasOne("HATC_CapstoneProject.Models.Downtime", "DowntimeParent")
+                    b.HasOne("HATC_CapstoneProject.Models.Downtime", null)
                         .WithMany("Tables")
-                        .HasForeignKey("DowntimeParentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DowntimeParent");
+                        .HasForeignKey("DowntimeId");
                 });
 
             modelBuilder.Entity("HATC_CapstoneProject.Models.DowntimeTableRow", b =>
@@ -1048,7 +1047,7 @@ namespace HATC_CapstoneProject.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("HATC_CapstoneProject.Models.Player", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1057,7 +1056,7 @@ namespace HATC_CapstoneProject.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("HATC_CapstoneProject.Models.Player", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1072,7 +1071,7 @@ namespace HATC_CapstoneProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("HATC_CapstoneProject.Models.Player", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1081,7 +1080,7 @@ namespace HATC_CapstoneProject.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("HATC_CapstoneProject.Models.Player", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1165,6 +1164,11 @@ namespace HATC_CapstoneProject.Migrations
                     b.Navigation("Interactions");
                 });
 
+            modelBuilder.Entity("HATC_CapstoneProject.Models.Player", b =>
+                {
+                    b.Navigation("Triggers");
+                });
+
             modelBuilder.Entity("HATC_CapstoneProject.Models.Session", b =>
                 {
                     b.Navigation("Achievements");
@@ -1182,11 +1186,6 @@ namespace HATC_CapstoneProject.Migrations
                     b.Navigation("RolePlayExp");
 
                     b.Navigation("TreasureList");
-                });
-
-            modelBuilder.Entity("HATC_CapstoneProject.Models.Player", b =>
-                {
-                    b.Navigation("Triggers");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,128 +1,133 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - HATC_CapstoneProject</title>
-	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-	<link rel="stylesheet" href="~/HATC_CapstoneProject.styles.css" asp-append-version="true" />
-	<script src="~/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
-	<script src="https://cdn.tiny.cloud/1/g3gwrje10535ok70s82nrt8vfzx212sybu3f5dtnzmtyg4ar/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-	<script>
-		tinymce.init({
-			selector: '.tinymce',
-			inline: true
-		});
-	</script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HATC_CapstoneProject</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HATC_CapstoneProject.styles.css" asp-append-version="true" />
+    <script src="~/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/g3gwrje10535ok70s82nrt8vfzx212sybu3f5dtnzmtyg4ar/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '.tinymce',
+            inline: true
+        });
+    </script>
 </head>
 
 
 <body class="hatc-lblue-bg mb-0 d-flex flex-column min-vh-100">
-	<header>
+    <header>
 
-		<div class="banner">
-			<h1 class="display-1 fw-bolder text-center ">Haven at the Crossroads</h1>
-		</div>
-		<div class="container">
-			<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow hatc-white-bg">
-				<div class="container-fluid">
-					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-							aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-						<ul class="navbar-nav flex-grow-1 justify-content-left">
-							<li class="nav-item">
-								<a asp-action="Index" asp-controller="Home" class="btn btn-outline-dark fw-bold">Home</a>
-							</li>
-							<li class="nav-item">
-								<a asp-action="Index" asp-controller="Sessions" class="btn btn-outline-dark fw-bold">Sessions</a>
-							</li>
-							<li class="nav-item">
-								<a asp-action="Index" asp-controller="Characters" class="btn btn-outline-dark fw-bold">Characters</a>
-							</li>
-							<li class="nav-item">
-								<a asp-action="Index" asp-controller="Factions" class="btn btn-outline-dark fw-bold">Factions</a>
-							</li>
-							<li class="nav-item">
-								<a asp-action="Index" asp-controller="Downtime" class="btn btn-outline-dark fw-bold">Downtime</a>
-							</li>
-							<li class="nav-item">
-								<a asp-action="Index" asp-controller="Achievements" class="btn btn-outline-dark fw-bold">Achievements</a>
-							</li>
-							<li class="nav-item">
-								<a asp-action="Index" asp-controller="Shop" class="btn btn-outline-dark fw-bold">Shop</a>
-							</li>
-							<li class="nav-item">
-								<a asp-action="Index" asp-controller="Information" class="btn btn-outline-dark fw-bold">Information</a>
-							</li>
-						</ul>
+        <div class="banner">
+            <h1 class="display-1 fw-bolder text-center ">Haven at the Crossroads</h1>
+        </div>
+        <div class="container">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow hatc-white-bg">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1 justify-content-left">
+                            <li class="nav-item">
+                                <a asp-action="Index" asp-controller="Home" class="btn btn-outline-dark mx-1 fw-bold">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="Index" asp-controller="Sessions" class="btn btn-outline-dark mx-1 fw-bold">Sessions</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="Index" asp-controller="Characters" class="btn btn-outline-dark mx-1 fw-bold">Characters</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="Index" asp-controller="Factions" class="btn btn-outline-dark mx-1 fw-bold">Factions</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="Index" asp-controller="Downtime" class="btn btn-outline-dark mx-1 fw-bold">Downtime</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="Index" asp-controller="Achievements" class="btn btn-outline-dark mx-1 fw-bold">Achievements</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="Index" asp-controller="Shop" class="btn btn-outline-dark mx-1 fw-bold">Shop</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="Index" asp-controller="Information" class="btn btn-outline-dark mx-1 fw-bold">Information</a>
+                            </li>
+                        </ul>
 
-						<ul class="navbar-nav me-auto">
-							@if (signInManager.IsSignedIn(User))
-							{
+                        <ul class="navbar-nav me-auto">
+                            @if (signInManager.IsSignedIn(User))
+                            {
 
-								if (User.IsInRole("DM"))
-								{
-									<li>
-
-
-										<div class="dropdown show">
-											<a class="btn btn-secondary dropdown-toggle" href="Tools/PollCreator/" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-												DM Tools
-											</a>
-
-											<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-												<a href="/Players/" class="dropdown-item" type="button">User Manager</a>
-												<a href="Tools/PollCreator/" class="dropdown-item" type="button">Poll Creator</a>
-											</div>
-										</div>
-									</li>
+                                if (User.IsInRole("DM"))
+                                {
+                                    <li>
 
 
-								}
+                                        <div class="dropdown show">
+                                            <a class="btn btn-secondary dropdown-toggle" href="Tools/PollCreator/" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                DM Tools
+                                            </a>
 
-				// Signed-in user - Log Out button and username
-								<li class="nav-item">
-									<form method="post" asp-action="Logout" asp-controller="Account">
-										<input type="submit" value="Log Out" class="btn btn-outline-dark fw-bold" />
-										<span class="text-dark">@User.Identity.Name</span>
-									</form>
-								</li>
-							}
-							else
-							{
-								// Get current action
-								var action = ViewContext.RouteData.Values["action"]?.ToString();
-								// anonymous user - Register link and Log In button
-
-								<li class="nav-item">
-									<a asp-action="Login" asp-controller="Account" class="btn btn-outline-dark fw-bold">Log In</a>
-								</li>
-							}
-						</ul>
-					</div>
-				</div>
-			</nav>
-		</div>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <a href="/Players/" class="dropdown-item" type="button">User Manager</a>
+                                                <a href="Tools/PollCreator/" class="dropdown-item" type="button">Poll Creator</a>
+                                            </div>
+                                        </div>
+                                    </li>
 
 
-	</header>
-	<div class="container mt-0 pt-0 shadow-lg">
-		<main role="main">
-			<div class="hatc-white-bg p-3">
-				@RenderBody()
-			</div>
-		</main>
-	</div>
+                                }
 
-	<footer class="footer text-muted text-center mb-6 mt-auto">
-		<a href="https://gavinodonnell.artstation.com/projects/9raaR">Banner image credit to Gavin O'Donnel</a>
-	</footer>
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/js/site.js" asp-append-version="true"></script>
-	@await RenderSectionAsync("Scripts", required: false)
+                                // Signed-in user - Log Out button and username
+                                <li class="nav-item">
+                                    <form method="post" asp-action="Logout" asp-controller="Account">
+                                        <input type="submit" value="Log Out" class="btn btn-outline-dark fw-bold" />
+                                        <span class="text-dark">@User.Identity.Name</span>
+                                    </form>
+                                </li>
+                            }
+                            else
+                            {
+                                // Get current action
+                                var action = ViewContext.RouteData.Values["action"]?.ToString();
+                                // anonymous user - Register link and Log In button
+
+                                <li class="nav-item">
+                                    <a asp-action="Login" asp-controller="Account" class="btn btn-outline-dark fw-bold">Log In</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+
+    </header>
+    <div class="container mt-0 pt-0 shadow-lg">
+        <main role="main">
+            <div class="hatc-white-bg p-3">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer text-muted text-center mb-6 mt-auto">
+        <a href="https://gavinodonnell.artstation.com/projects/9raaR">Banner image credit to Gavin O'Donnel</a>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

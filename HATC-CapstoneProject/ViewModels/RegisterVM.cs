@@ -1,7 +1,4 @@
-﻿using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
-using System.ComponentModel.DataAnnotations;
-
-namespace HATC_CapstoneProject.Models
+﻿namespace HATC_CapstoneProject.ViewModels
 {
     public class RegisterVM
     {

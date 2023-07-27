@@ -38,14 +38,15 @@ namespace HATC_CapstoneProject.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Discriminator = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     PreferedName = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DiscordName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Pronouns = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    TimeZone = table.Column<string>(type: "longtext", nullable: true)
+                    TimeZone = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    PasswordReset = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
@@ -122,7 +123,8 @@ namespace HATC_CapstoneProject.Migrations
                     Color = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     BgColor = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Ranking = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -289,19 +291,61 @@ namespace HATC_CapstoneProject.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DowntimeParentId = table.Column<int>(type: "int", nullable: false),
                     IsComplication = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    HasHead = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    HasHead = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DowntimeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DowntimeTable", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DowntimeTable_Downtime_DowntimeParentId",
-                        column: x => x.DowntimeParentId,
+                        name: "FK_DowntimeTable_Downtime_DowntimeId",
+                        column: x => x.DowntimeId,
                         principalTable: "Downtime",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "FactionPerk",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Renown = table.Column<int>(type: "int", nullable: false),
+                    IsLocked = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Item = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FactionId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FactionPerk", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FactionPerk_Factions_FactionId",
+                        column: x => x.FactionId,
+                        principalTable: "Factions",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "FactionShop",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Cost = table.Column<int>(type: "int", nullable: false),
+                    FactionId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FactionShop", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FactionShop_Factions_FactionId",
+                        column: x => x.FactionId,
+                        principalTable: "Factions",
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -326,8 +370,6 @@ namespace HATC_CapstoneProject.Migrations
                     Background = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Quirk = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Interactions = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Notes = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -355,6 +397,7 @@ namespace HATC_CapstoneProject.Migrations
                     LevelId = table.Column<int>(type: "int", nullable: false),
                     IsHidden = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     IsUnlocked = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsMasked = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Benefit = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     DowntimeId = table.Column<int>(type: "int", nullable: true)
@@ -396,6 +439,51 @@ namespace HATC_CapstoneProject.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "StringListItem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Item = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DowntimeId = table.Column<int>(type: "int", nullable: true),
+                    DowntimeId1 = table.Column<int>(type: "int", nullable: true),
+                    FactionShopId = table.Column<int>(type: "int", nullable: true),
+                    NPCId = table.Column<int>(type: "int", nullable: true),
+                    NPCId1 = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StringListItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StringListItem_Downtime_DowntimeId",
+                        column: x => x.DowntimeId,
+                        principalTable: "Downtime",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StringListItem_Downtime_DowntimeId1",
+                        column: x => x.DowntimeId1,
+                        principalTable: "Downtime",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StringListItem_FactionShop_FactionShopId",
+                        column: x => x.FactionShopId,
+                        principalTable: "FactionShop",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StringListItem_NPC_NPCId",
+                        column: x => x.NPCId,
+                        principalTable: "NPC",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StringListItem_NPC_NPCId1",
+                        column: x => x.NPCId1,
+                        principalTable: "NPC",
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "AchievementProgress",
                 columns: table => new
                 {
@@ -419,46 +507,23 @@ namespace HATC_CapstoneProject.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "StringListItem",
+                name: "TableListItem",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Index = table.Column<int>(type: "int", nullable: false),
                     Item = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    DowntimeId = table.Column<int>(type: "int", nullable: true),
-                    DowntimeId1 = table.Column<int>(type: "int", nullable: true),
-                    DowntimeTableRowId = table.Column<int>(type: "int", nullable: true),
-                    NPCId = table.Column<int>(type: "int", nullable: true),
-                    NPCId1 = table.Column<int>(type: "int", nullable: true)
+                    DowntimeTableRowId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StringListItem", x => x.Id);
+                    table.PrimaryKey("PK_TableListItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StringListItem_Downtime_DowntimeId",
-                        column: x => x.DowntimeId,
-                        principalTable: "Downtime",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_StringListItem_Downtime_DowntimeId1",
-                        column: x => x.DowntimeId1,
-                        principalTable: "Downtime",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_StringListItem_DowntimeTableRow_DowntimeTableRowId",
+                        name: "FK_TableListItem_DowntimeTableRow_DowntimeTableRowId",
                         column: x => x.DowntimeTableRowId,
                         principalTable: "DowntimeTableRow",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_StringListItem_NPC_NPCId",
-                        column: x => x.NPCId,
-                        principalTable: "NPC",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_StringListItem_NPC_NPCId1",
-                        column: x => x.NPCId1,
-                        principalTable: "NPC",
                         principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -492,6 +557,8 @@ namespace HATC_CapstoneProject.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     PlayerId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -613,9 +680,11 @@ namespace HATC_CapstoneProject.Migrations
                     ManualWeight = table.Column<int>(type: "int", nullable: true),
                     Notes = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    isAttunement = table.Column<bool>(type: "tinyint(1)", nullable: true),
-                    isShoppable = table.Column<bool>(type: "tinyint(1)", nullable: true),
-                    isCraftable = table.Column<bool>(type: "tinyint(1)", nullable: true)
+                    IsAttunement = table.Column<bool>(type: "tinyint(1)", nullable: true),
+                    IsShoppable = table.Column<bool>(type: "tinyint(1)", nullable: true),
+                    IsCraftable = table.Column<bool>(type: "tinyint(1)", nullable: true),
+                    LinkTo5eTools = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -754,9 +823,9 @@ namespace HATC_CapstoneProject.Migrations
                 column: "SessionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DowntimeTable_DowntimeParentId",
+                name: "IX_DowntimeTable_DowntimeId",
                 table: "DowntimeTable",
-                column: "DowntimeParentId");
+                column: "DowntimeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DowntimeTableRow_DowntimeTableId",
@@ -777,6 +846,16 @@ namespace HATC_CapstoneProject.Migrations
                 name: "IX_FactionCardEntry_FactionCardId",
                 table: "FactionCardEntry",
                 column: "FactionCardId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FactionPerk_FactionId",
+                table: "FactionPerk",
+                column: "FactionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FactionShop_FactionId",
+                table: "FactionShop",
+                column: "FactionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_NPC_FactionId",
@@ -834,9 +913,9 @@ namespace HATC_CapstoneProject.Migrations
                 column: "DowntimeId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StringListItem_DowntimeTableRowId",
+                name: "IX_StringListItem_FactionShopId",
                 table: "StringListItem",
-                column: "DowntimeTableRowId");
+                column: "FactionShopId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StringListItem_NPCId",
@@ -847,6 +926,11 @@ namespace HATC_CapstoneProject.Migrations
                 name: "IX_StringListItem_NPCId1",
                 table: "StringListItem",
                 column: "NPCId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TableListItem_DowntimeTableRowId",
+                table: "TableListItem",
+                column: "DowntimeTableRowId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Trigger_PlayerId",
@@ -911,6 +995,9 @@ namespace HATC_CapstoneProject.Migrations
                 name: "FactionCardEntry");
 
             migrationBuilder.DropTable(
+                name: "FactionPerk");
+
+            migrationBuilder.DropTable(
                 name: "RPEXP");
 
             migrationBuilder.DropTable(
@@ -918,6 +1005,9 @@ namespace HATC_CapstoneProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "StringListItem");
+
+            migrationBuilder.DropTable(
+                name: "TableListItem");
 
             migrationBuilder.DropTable(
                 name: "Trigger");
@@ -929,19 +1019,22 @@ namespace HATC_CapstoneProject.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "DowntimeTableRow");
+                name: "FactionShop");
 
             migrationBuilder.DropTable(
                 name: "NPC");
 
             migrationBuilder.DropTable(
+                name: "DowntimeTableRow");
+
+            migrationBuilder.DropTable(
                 name: "Ranks");
 
             migrationBuilder.DropTable(
-                name: "DowntimeTable");
+                name: "Factions");
 
             migrationBuilder.DropTable(
-                name: "Factions");
+                name: "DowntimeTable");
 
             migrationBuilder.DropTable(
                 name: "Downtime");

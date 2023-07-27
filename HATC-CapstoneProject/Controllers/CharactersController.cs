@@ -1,30 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using HATC_CapstoneProject.Data;
-using HATC_CapstoneProject.Models;
-using Microsoft.AspNetCore.Identity;
-
+﻿
 namespace HATC_CapstoneProject.Controllers
 {
     public class CharactersController : Controller
     {
-		private readonly HavenDbContext _context;
-		private IHavenRepo repo;
-		private UserManager<Player> userManager;
+        private readonly HavenDbContext _context;
+        private IHavenRepo repo;
+        private UserManager<Player> userManager;
 
-		public CharactersController(IHavenRepo repo, UserManager<Player> userMngr)
-		{
-			this.repo = repo;
-			this.userManager = userMngr;
-		}
+        public CharactersController(IHavenRepo repo, UserManager<Player> userMngr, HavenDbContext context)
+        {
+            this.repo = repo;
+            userManager = userMngr;
+            _context = context;
+        }
 
-		// GET: Characters
-		public async Task<IActionResult> Index()
+        // GET: Characters
+        public async Task<IActionResult> Index()
         {
             List<Character> characters = await repo.GetAllCharactersAsync();
             characters = characters.OrderBy(c => c.Player.UserName).ToList();
@@ -154,14 +145,14 @@ namespace HATC_CapstoneProject.Controllers
             {
                 _context.Characters.Remove(character);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CharacterExists(int id)
         {
-          return (_context.Characters?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Characters?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
