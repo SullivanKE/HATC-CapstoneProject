@@ -1,8 +1,4 @@
-﻿using HATC_CapstoneProject.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-
-namespace HATC_CapstoneProject.Controllers
+﻿namespace HATC_CapstoneProject.Controllers
 {
     public class HomeController : Controller
     {

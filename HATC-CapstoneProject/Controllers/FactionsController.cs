@@ -1,34 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using HATC_CapstoneProject.Data;
-using HATC_CapstoneProject.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
-using System.Data;
-
+﻿
 namespace HATC_CapstoneProject.Controllers
 {
-	public class FactionsController : Controller
+    public class FactionsController : Controller
     {
         private readonly HavenDbContext _context;
-		private IHavenRepo repo;
-		private UserManager<Player> userManager;
+        private IHavenRepo repo;
+        private UserManager<Player> userManager;
 
-		public FactionsController(IHavenRepo repo, UserManager<Player> userMngr)
+        public FactionsController(IHavenRepo repo, UserManager<Player> userMngr, HavenDbContext context)
         {
-			this.repo = repo;
-			this.userManager = userMngr;
-		}
+            this.repo = repo;
+            userManager = userMngr;
+            _context = context;
+        }
 
         // GET: Factions
         public async Task<IActionResult> Index()
         {
-              return View(await repo.GetAllFactionsAsync());
+            return View(await repo.GetAllFactionsAsync());
         }
 
         // GET: Factions/Details/5
@@ -154,14 +143,14 @@ namespace HATC_CapstoneProject.Controllers
             {
                 _context.Factions.Remove(faction);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FactionExists(int id)
         {
-          return _context.Factions.Any(e => e.Id == id);
+            return _context.Factions.Any(e => e.Id == id);
         }
     }
 }

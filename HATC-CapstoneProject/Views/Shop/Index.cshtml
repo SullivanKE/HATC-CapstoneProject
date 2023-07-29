@@ -1,166 +1,249 @@
-﻿@model IEnumerable<HATC_CapstoneProject.Models.ShopItem>
+﻿@model ShopVM
 @{
-	ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index";
 }
-
-
-
-<h1>Shop and Crafting</h1>
 
 @if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
 {
-	<p>
-		<Button class="btn btn-success" asp-action="Create">Create New</Button>
-	</p>
+    <p>
+        <Button class="btn btn-success" asp-action="Create">Create New</Button>
+    </p>
 }
-<div id="search">
-	<input id="search" />
-</div>
+
+
+
+<form role="search" asp-action="AdvancedSearch">
+    <input type="hidden" asp-for="RarityColors" value="@Model.RarityColors" />
+
+    <div class="btn-toolbar" id="advanced-search">
+        <div class="input-group col-auto mx-3 border border-1 border-secondary rounded-3">
+            <input type="text" asp-for="SearchString" class="form-control" />
+        </div>
+
+        <div class="btn-group dropend" data-bs-toggle="tooltip" data-bs-title="Filter Search">
+            <!--split button / dropdown-->
+
+            <button type="submit" class="btn btn-secondary form-control">Search</button>
+            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+            </button>
+
+            <!-- ========== advanced search ========== -->
+            <div class="dropdown-menu p-2">
+                <div class="container-fluid d-flex">
+
+                    <div class="input-group dropdown-item mx-3">
+                        <div class="dropdown-header">Rarity</div>
+                        <div class="dropdown-divider"></div>
+                        @foreach (var box in Model.CriteriaBoxes)
+                        {
+                            if (Enum.GetNames<Rarity>().Contains(box.Key.ToString()) && box.Key != Criteria.None)
+                            {
+                                <div class="form-check form-switch dropdown-item">
+                                    <label class="form-check-label">@box.Key.ToString()</label>
+                                    <input type="checkbox" role="switch" class="form-check-input" asp-for="CriteriaBoxes[box.Key]" style="background-color: @Model.RarityColors[box.Key.ConvertToRarity().ToString()]" />
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="input-group dropdown-item mx-3">
+                        <div class="dropdown-header">Filters</div>
+                        <div class="dropdown-divider"></div>
+
+                        @foreach ((Criteria name, bool value) in Model.CriteriaBoxes)
+                        {
+                            if (!Enum.GetNames<Rarity>().Contains(name.ToString()) && name != Criteria.None)
+                            {
+                                <div class="form-check form-switch dropdown-item">
+                                    <label class="form-check-label">@name.ToString()</label>
+                                    <input type="checkbox" role="switch" class="form-check-input" asp-for="CriteriaBoxes[name]" />
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <!-- =========== Cost Slider Range Inputs ================ -->
+
+                <div class="dropdown-header">Cost</div>
+                <div class="dropdown-divider"></div>
+                <div class="dropdown-header">item cost</div>
+                <div class="px-2 row-cols-2 d-flex">
+                    <div class="col-6 px-2">
+                        <span class="dropdown-header py-0">
+                            low
+                            <span id="item-cost-label-low"></span>
+                        </span>
+                        <input class="dropdown-item" type="range" value="0" min="0" max="100000" step="10000" id="item-cost-input-low" asp-for="@Model.SearchItemLow"/>
+                    </div>
+                    <div class="col-6 px-2">
+                        <span class="dropdown-header py-0">
+                            High
+                            <span id="item-cost-label-high"></span>
+                        </span>
+                        <input class="dropdown-item" type="range" value="0" min="0" max="100000" step="10000" id="item-cost-input-high" asp-for="SearchItemHigh"/>
+                    </div>
+
+
+                </div>
+                <div class="dropdown-header">crafting cost</div>
+                <div class="px-2 row-cols-2 d-flex">
+                    <div class="col-6 px-2">
+                        <span class="dropdown-header py-0">
+                            low
+                            <span id="crafting-cost-label-low"></span>
+
+                        </span>
+
+                        <!-- NOTE Adjust the min max and step on these ranges depending on the range of all the items in the game-->
+
+                        <input class="dropdown-item" type="range" value="0" min="0" max="100000" step="10000" id="crafting-cost-input-low" asp-for="SearchCraftingLow"/>
+                    </div>
+                    <div class="col-6 px-2">
+                        <span class="dropdown-header py-0">
+                            high
+                            <span id="crafting-cost-label-high"></span>
+                        </span>
+                        <input class="dropdown-item dropdown-range" type="range" value="0" min="0" max="100000" step="10000" id="crafting-cost-input-high" asp-for="SearchCraftingHigh"/>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</form>
 <table class="table table-striped">
-	<thead>
-		<tr>
-			<th>
-				Item Name
-			</th>
-			<th>
-				Item Cost
-			</th>
-			<th>
-				Crafting Cost
-			</th>
-			<th>
-				Price Adjustment
-			</th>
-			<th>
-				Shoppable
-			</th>
-			<th>
-				Craftable
-			</th>
-			<th>
-				Attunement
-			</th>
-			<th>
-				Rarity
-			</th>
-			<th>
-				Source
-			</th>
-			@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
-			{
-				<th></th>
-			}
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in Model)
-		{
-			int crafting = item.Value / 2;
-			<tr>
-				<td>
-					@item.Name
-				</td>
-				<td>
-					@if (item.Value == 0)
-					{
-						<strong>-</strong>
-					}
-					else
-					{
-						@item.Value.ToString("#,##0")
-					}
-				</td>
-				<td>
-					@if (item.Value == 0)
-					{
-						<strong>-</strong>
-					}
-					else
-					{
-						@crafting.ToString("#,##0")
-					}
-				</td>
-				<td>
-					@item.PriceAdjustment
-				</td>
+    <thead>
+        <tr>
+            <th>Item Name</th>
+            <th>Item Cost</th>
+            <th>Crafting Cost</th>
+            <th>Price Adjustment</th>
+            <th>Shoppable</th>
+            <th>Craftable</th>
+            <th>Attunement</th>
+            <th>Rarity</th>
+            <th>Source</th>
 
-				@if (item.isShoppable)
-				{
-					<td class="text text-success">
-						Yes
-					</td>
-				}
-				else
-				{
-					<td class="text text-danger">
-						No
-					</td>
-				}
+            @if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+            {
+                <th>Only DM's can see this</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Items)
+        {
+            int crafting = item.Value / 2;
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @if (item.Value == 0)
+                    {
+                        <strong>-</strong>
+                    }
+                    else
+                    {
+                        @item.Value.ToString("#,##0")
+                    }
+                </td>
+                <td>
+                    @if (item.Value == 0)
+                    {
+                        <strong>-</strong>
+                    }
+                    else
+                    {
+                        @crafting.ToString("#,##0")
+                    }
+                </td>
+                <td>
+                    @item.PriceAdjustment
+                </td>
 
-				@if (item.isCraftable)
-				{
-					<td class="text text-success">
-						Yes
-					</td>
-				}
-				else
-				{
-					<td class="text text-danger">
-						No
-					</td>
-				}
+                @if (item.IsShoppable)
+                {
+                    <td class="text text-success">
+                        Yes
+                    </td>
+                }
+                else
+                {
+                    <td class="text text-danger">
+                        No
+                    </td>
+                }
 
-				@if (item.isAttunement)
-				{
-					<td class="text text-success">
-						Yes
-					</td>
-				}
-				else
-				{
-					<td class="text text-danger">
-						No
-					</td>
-				}
+                @if (item.IsCraftable)
+                {
+                    <td class="text text-success">
+                        Yes
+                    </td>
+                }
+                else
+                {
+                    <td class="text text-danger">
+                        No
+                    </td>
+                }
 
-				<td style="background-color: @item.Rarity.BgColor; color: @item.Rarity.Color">
-					@item.Rarity.Name
-				</td>
-				<td>
-					@item.Source
-				</td>
-				@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
-				{
-					<td>
-						<button asp-action="Edit" asp-route-id="@item.Id">Edit</button>
-					</td>
-				}
-			</tr>
-		}
-	</tbody>
+                @if (item.IsAttunement)
+                {
+                    <td class="text text-success">
+                        Yes
+                    </td>
+                }
+                else
+                {
+                    <td class="text text-danger">
+                        No
+                    </td>
+                }
+
+                <td style="background-color: @item.Rarity.BgColor; color: @item.Rarity.Color">
+                    @item.Rarity.Name
+                </td>
+                <td>
+                    @item.Source
+                </td>
+                @if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+                {
+                    <td>
+                        <button asp-action="Edit" asp-route-id="@item.Id">Edit</button>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
 </table>
-
 <script>
+    const itemCostLabelLow = document.querySelector("#item-cost-label-low");
+    const itemCostInputLow = document.querySelector("#item-cost-input-low");
+    const itemCostLabelHigh = document.querySelector("#item-cost-label-high");
+    const itemCostInputHigh = document.querySelector("#item-cost-input-high");
+    itemCostLabelLow.textContent = (Number(itemCostInputLow.value)).toLocaleString();
+    itemCostInputLow.addEventListener("input", () => {
+        itemCostLabelLow.textContent = (Number(itemCostInputLow.value)).toLocaleString();
+    })
+    itemCostLabelHigh.textContent = itemCostInputHigh.value;
+    itemCostInputHigh.addEventListener("input", () => {
+        itemCostLabelHigh.textContent = (Number(itemCostInputHigh.value)).toLocaleString();
+    })
+    const craftingCostLabelLow = document.querySelector("#crafting-cost-label-low");
+    const craftingCostInputLow = document.querySelector("#crafting-cost-input-low");
+    const craftingCostLabelHigh = document.querySelector("#crafting-cost-label-high");
+    const craftingCostInputHigh = document.querySelector("#crafting-cost-input-high");
+    craftingCostLabelLow.textContent = craftingCostInputLow.value;
+    craftingCostInputLow.addEventListener("input", () => {
+        craftingCostLabelLow.textContent = (Number(craftingCostInputLow.value)).toLocaleString();
+    })
 
-	const shop = @Html.Raw(Json.Serialize(Model));
-	const searchInput = document.getElementById('search');
-	searchInput.onkeyup = searchArray();
-
-	console.log(searchInput);
-	console.log(shop);
-
-	function searchArray() {
-		let arrOut = new Array;
-		let s = searchInput.value;
-		console.log(s);
-		console.log(searchInput.value);
-		for (let item of shop) {
-			if (item.name.toLowerCase().includes(s)) {
-				arrOut.push(item);
-			}
-		}
-		console.log(arrOut);
-		return arrOut;
-	}
-
+    craftingCostLabelHigh.textContent = craftingCostInputHigh.value;
+    craftingCostInputHigh.addEventListener("input", () => {
+        craftingCostLabelHigh.textContent = (Number(craftingCostInputHigh.value)).toLocaleString();
+    })
 </script>

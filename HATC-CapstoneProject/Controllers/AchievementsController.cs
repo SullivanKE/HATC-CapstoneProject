@@ -1,35 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using HATC_CapstoneProject.Data;
-using HATC_CapstoneProject.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
-using System.Data;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿
 
 namespace HATC_CapstoneProject.Controllers
 {
-	public class AchievementsController : Controller
+    public class AchievementsController : Controller
     {
         private HavenDbContext _context;
         private IHavenRepo repo;
         private UserManager<Player> userManager;
 
-		public AchievementsController(IHavenRepo repo, UserManager<Player> userMngr)
+        public AchievementsController(IHavenRepo repo, UserManager<Player> userMngr, HavenDbContext context)
         {
             this.repo = repo;
-            this.userManager = userMngr;
+            userManager = userMngr;
+            _context = context;
         }
 
         // GET: Achievements
         public async Task<IActionResult> Index()
         {
-			return View(await repo.GetAllAchievementsAsync());
+            return View(await repo.GetAllAchievementsAsync());
         }
 
         // GET: Achievements/Details/5
@@ -53,15 +42,15 @@ namespace HATC_CapstoneProject.Controllers
         // GET: Achievements/Create
         public async Task<IActionResult> Create()
         {
-			List<Rank> ranks = await repo.GetAllRanksAsync();
+            List<Rank> ranks = await repo.GetAllRanksAsync();
 
-		    List<SelectListItem> allRanks= new List<SelectListItem>();
-			foreach (Rank rank in ranks)
+            List<SelectListItem> allRanks = new();
+            foreach (Rank rank in ranks)
             {
-				allRanks.Add(new SelectListItem { Text = rank.Name, Value = rank.Id.ToString() });
-			}
-			ViewBag.allranks = allRanks;
-			return View();
+                allRanks.Add(new SelectListItem { Text = rank.Name, Value = rank.Id.ToString() });
+            }
+            ViewBag.allranks = allRanks;
+            return View();
         }
 
         // POST: Achievements/Create
@@ -73,23 +62,23 @@ namespace HATC_CapstoneProject.Controllers
         {
             /*if (ModelState.IsValid)
             {*/
-                AchievementProgress achprog = new AchievementProgress();
-                if (criteria != null)
-                {
-                    achprog.Criteria = criteria;
-                    achprog.Progress = 0;
-                    achprog.Goal = goal;
+            AchievementProgress achprog = new();
+            if (criteria != null)
+            {
+                achprog.Criteria = criteria;
+                achprog.Progress = 0;
+                achprog.Goal = goal;
 
-                    achievement.AchievementProgress = new List<AchievementProgress> { achprog };
-                }
-                if (allranks != null && allranks != String.Empty)
-                {
-                    int index = int.Parse(allranks);
-                    achievement.Level = await repo.GetRankAsync(index);
-                }
+                achievement.AchievementProgress = new List<AchievementProgress> { achprog };
+            }
+            if (allranks != null && allranks != string.Empty)
+            {
+                int index = int.Parse(allranks);
+                achievement.Level = await repo.GetRankAsync(index);
+            }
 
-                await repo.SaveAchievementAsync(achievement);
-                return RedirectToAction(nameof(Index));
+            await repo.SaveAchievementAsync(achievement);
+            return RedirectToAction(nameof(Index));
             //}
             //return View(achievement);
         }
@@ -177,14 +166,14 @@ namespace HATC_CapstoneProject.Controllers
             {
                 _context.Achievements.Remove(achievement);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AchievementExists(int id)
         {
-          return _context.Achievements.Any(e => e.Id == id);
+            return _context.Achievements.Any(e => e.Id == id);
         }
     }
 }

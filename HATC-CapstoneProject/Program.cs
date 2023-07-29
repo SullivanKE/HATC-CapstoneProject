@@ -1,12 +1,3 @@
-using HATC_CapstoneProject.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using HATC_CapstoneProject.Data;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,7 +5,7 @@ builder.Services.AddControllersWithViews();
 
 var connectionString = builder.Configuration.GetConnectionString("MySqlConnection");
 builder.Services.AddDbContext<HavenDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    options.UseMySql(connectionString, ServerVersion.Parse("mysql-8.0")));
 
 builder.Services.AddIdentity<Player, IdentityRole>()
     .AddEntityFrameworkStores<HavenDbContext>()
@@ -22,8 +13,6 @@ builder.Services.AddIdentity<Player, IdentityRole>()
 
 builder.Services.AddTransient<IHavenRepo, HavenRepo>();
 builder.Services.AddControllersWithViews();
-
-
 
 
 var app = builder.Build();
@@ -50,10 +39,10 @@ using (var scope = app.Services.CreateScope())
     await SeedUsers.CreateAdminUserAsync(scope.ServiceProvider);
     var context = scope.ServiceProvider.GetRequiredService<HavenDbContext>();
     SeedData.Seed1(context, scope.ServiceProvider);
-	SeedData.Seed2(context, scope.ServiceProvider);
+    SeedData.Seed2(context, scope.ServiceProvider);
     SeedData.Seed3(context, scope.ServiceProvider);
     SeedData.Seed4(context, scope.ServiceProvider);
-	SeedData.Seed5(context, scope.ServiceProvider);
+    SeedData.Seed5(context, scope.ServiceProvider);
 }
 
 app.MapControllerRoute(
