@@ -3,12 +3,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var connectionString = builder.Configuration.GetConnectionString("MySqlConnection");
+//var connectionString = builder.Configuration.GetConnectionString("MySqlConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<HavenDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.Parse("mysql-8.0")));
+    options.UseSqlServer(connectionString));
 
 builder.Services.AddIdentity<Player, IdentityRole>()
     .AddEntityFrameworkStores<HavenDbContext>()
+    .AddRoles<IdentityRole>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddTransient<IHavenRepo, HavenRepo>();
