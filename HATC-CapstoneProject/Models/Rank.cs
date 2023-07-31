@@ -16,14 +16,8 @@ namespace HATC_CapstoneProject.Models
         public string BgColor { get; set; } = default!;
         public Rarity Ranking
         {
-            get
-            {
-                return Enum.Parse<Rarity>(Name);
-            }
-            set
-            {
-                Name = value.ToString();
-            }
+            get => Enum.Parse<Rarity>(Name);
+            set => Name = value.ToString();
         }
 
     }

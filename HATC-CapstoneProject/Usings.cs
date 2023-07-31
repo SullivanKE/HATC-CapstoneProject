@@ -1,4 +1,8 @@
-﻿global using HATC_CapstoneProject.Data;
+﻿global using CsvHelper;
+global using CsvHelper.Configuration;
+global using CsvHelper.Configuration.Attributes;
+global using HATC_CapstoneProject.Data;
+global using HATC_CapstoneProject.Data.Seed;
 global using HATC_CapstoneProject.Models;
 global using HATC_CapstoneProject.Models.Enums;
 global using HATC_CapstoneProject.Models.Enums.EnumExtensions;
@@ -13,3 +17,4 @@ global using System.ComponentModel.DataAnnotations;
 global using System.ComponentModel.DataAnnotations.Schema;
 global using System.Data;
 global using System.Diagnostics;
+global using System.Globalization;

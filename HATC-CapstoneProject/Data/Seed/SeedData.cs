@@ -1,4 +1,4 @@
-﻿namespace HATC_CapstoneProject.Data
+﻿namespace HATC_CapstoneProject.Data.Seed
 {
     public class SeedData
     {

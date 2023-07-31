@@ -31,10 +31,4 @@
     <None Include="wwwroot\content\img\banner.webp" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="SQL\importShop.sql">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

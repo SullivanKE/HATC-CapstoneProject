@@ -1,12 +1,14 @@
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//var connectionString = builder.Configuration.GetConnectionString("MySqlConnection");
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("MySqlConnection");
+//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<HavenDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseMySql(connectionString, ServerVersion.Parse("mysql-8.0")));
 
 builder.Services.AddIdentity<Player, IdentityRole>()
     .AddEntityFrameworkStores<HavenDbContext>()
@@ -45,6 +47,7 @@ using (var scope = app.Services.CreateScope())
     SeedData.Seed3(context, scope.ServiceProvider);
     SeedData.Seed4(context, scope.ServiceProvider);
     SeedData.Seed5(context, scope.ServiceProvider);
+    //Import.ImportCSV(context);
 }
 
 app.MapControllerRoute(
