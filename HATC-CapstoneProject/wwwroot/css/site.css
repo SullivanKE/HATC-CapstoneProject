@@ -1,3 +1,4 @@
+@import "../lib/bootstrap/css/bootstrap.min.css";
 :root {
     --body-black: #1f1f2a;
     --body-white: #fefefc;
@@ -8,6 +9,7 @@
     --hatc-green: #486553;
     --hatc-blue: #1a2541;
     --bs-form-range-track-bg: var(--hatc-green);
+    --bs-btn-active-shadow: #13220f;
 }
 
 html {
@@ -21,19 +23,26 @@ html {
 }
 
 html {
-  position: relative;
   min-height: 100%;
+  position: relative;
 }
 
 body {
-    margin-bottom: 60px;
-    color: var(--body-color);
-    background-color: var(--body-white);
     background-image: url('../content/img/texture3.webp');
     background-size: cover;
-    background-repeat: repeat;
+    background-repeat: no-repeat;
     background-attachment: fixed;
 }
+
+footer.footer
+{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}
+
 .banner {
     color: white;
     background-size: cover;
@@ -42,11 +51,7 @@ body {
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: black;
 }
-.footer {
-    background-size: cover;
-    padding: 40px;
-    width: 100%;
-}
+
 
 .hatc-white {
     color: var(--body-white);

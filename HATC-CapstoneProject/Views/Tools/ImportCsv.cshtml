@@ -1,0 +1,45 @@
+﻿@model ImportVM
+@{
+    ViewData["Title"] = "Import Csv";
+}
+<h3 class="mb-3">@ViewData["Title"]</h3>
+<div class="container w-75 py-2 rounded rounded-2 shadow shadow-lg border border-1 border-secondary bg-dark-subtle my-3">
+    <form asp-action="ImportCsv" enctype="multipart/form-data" method="post">
+        <input type="hidden" asp-for="SelectedTable"/>
+        <input type="hidden" asp-for="TableList" />
+        <div bg-body-secondary p-2 my-2 row mx-5 rounded rounded-3">
+
+            <p class="p-2">
+                Use this tool to add new entries to the Haven at the Crossroads database.
+                Select the table that you want to update from the list of options below.
+                A .csv file can be downloaded from google sheets by using the download option under the file menu,
+                and selecting csv as the filetype to export.
+            </p>
+        </div>
+        <div class="row my-2">
+            <div class="col-6 pe-3 ps-5 ms-auto">
+                <div class="input-group px-4" data-bs-toggle="tooltip" data-bs-title="csv file input">
+                    <input class="m-2 p-2 border border-1 border-secondary form-control" asp-for="CsvFile" type="file" />
+
+                </div>
+            </div>
+            <div class="col-6 ps-3 pe-5 me-auto">
+
+                <div class="input-group px-4" data-bs-toggle="tooltip" data-bs-title="select table to update">
+                    <select class="form-select m-2 p-2 border border-1 border-secondary " asp-for="TableName">
+                        @foreach (var table in Model.TableList)
+                        {
+                            <option value="@table.Key">@table.Key</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="btn-group my-1 mx-5 col-auto">
+                <button type="submit">import</button>
+            </div>
+        </div>
+    </form>
+</div>

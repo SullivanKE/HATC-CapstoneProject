@@ -12,6 +12,7 @@ public class HavenDbContext : IdentityDbContext<Player>
     public DbSet<Character> Characters { get; set; }
     public DbSet<Player> Players { get; set; }
     public DbSet<Rank> Ranks { get; set; }
+    public DbSet<SessionItem> sessionItems { get; set; }
 
     public HavenDbContext(DbContextOptions<HavenDbContext> options) : base(options)
     {

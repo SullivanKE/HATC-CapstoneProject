@@ -555,7 +555,7 @@ namespace HATC_CapstoneProject.Migrations
 
                     b.HasIndex("SessionId1");
 
-                    b.ToTable("SessionItem");
+                    b.ToTable("sessionItems");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("SessionItem");
 
@@ -790,7 +790,7 @@ namespace HATC_CapstoneProject.Migrations
 
                     b.HasIndex("SessionId2");
 
-                    b.ToTable("SessionItem", t =>
+                    b.ToTable("sessionItems", t =>
                         {
                             t.Property("SessionId2")
                                 .HasColumnName("Item_SessionId2");

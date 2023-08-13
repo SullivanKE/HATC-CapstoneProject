@@ -3,21 +3,16 @@
     ViewData["Title"] = "Index";
 }
 
-@if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
-{
-    <p>
-        <Button class="btn btn-success" asp-action="Create">Create New</Button>
-    </p>
-}
 
 
 
 <form role="search" asp-action="AdvancedSearch">
     <input type="hidden" asp-for="RarityColors" value="@Model.RarityColors" />
 
-    <div class="btn-toolbar" id="advanced-search">
+    <div class="btn-toolbar my-3" id="advanced-search">
         <div class="input-group col-auto mx-3 border border-1 border-secondary rounded-3">
             <input type="text" asp-for="SearchString" class="form-control" />
+
         </div>
 
         <div class="btn-group dropend" data-bs-toggle="tooltip" data-bs-title="Filter Search">
@@ -73,14 +68,14 @@
                             low
                             <span id="item-cost-label-low"></span>
                         </span>
-                        <input class="dropdown-item" type="range" value="0" min="0" max="100000" step="10000" id="item-cost-input-low" asp-for="@Model.SearchItemLow"/>
+                        <input class="dropdown-item" type="range" value="0" min="0" max="100000" step="10000" id="item-cost-input-low" asp-for="@Model.SearchItemLow" />
                     </div>
                     <div class="col-6 px-2">
                         <span class="dropdown-header py-0">
                             High
                             <span id="item-cost-label-high"></span>
                         </span>
-                        <input class="dropdown-item" type="range" value="0" min="0" max="100000" step="10000" id="item-cost-input-high" asp-for="SearchItemHigh"/>
+                        <input class="dropdown-item" type="range" value="0" min="0" max="100000" step="10000" id="item-cost-input-high" asp-for="SearchItemHigh" />
                     </div>
 
 
@@ -96,14 +91,14 @@
 
                         <!-- NOTE Adjust the min max and step on these ranges depending on the range of all the items in the game-->
 
-                        <input class="dropdown-item" type="range" value="0" min="0" max="100000" step="10000" id="crafting-cost-input-low" asp-for="SearchCraftingLow"/>
+                        <input class="dropdown-item" type="range" value="0" min="0" max="100000" step="10000" id="crafting-cost-input-low" asp-for="SearchCraftingLow" />
                     </div>
                     <div class="col-6 px-2">
                         <span class="dropdown-header py-0">
                             high
                             <span id="crafting-cost-label-high"></span>
                         </span>
-                        <input class="dropdown-item dropdown-range" type="range" value="0" min="0" max="100000" step="10000" id="crafting-cost-input-high" asp-for="SearchCraftingHigh"/>
+                        <input class="dropdown-item dropdown-range" type="range" value="0" min="0" max="100000" step="10000" id="crafting-cost-input-high" asp-for="SearchCraftingHigh" />
                     </div>
 
 
@@ -112,8 +107,16 @@
 
             </div>
         </div>
+
+        <a class="btn btn-warning mx-4" asp-action="Index">Clear Filters</a>
+        @if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
+        {
+
+            <Button class="btn btn-success" asp-action="Create">Create New</Button>
+        }
     </div>
 </form>
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -213,7 +216,7 @@
                 @if (signInManager.IsSignedIn(User) && User.IsInRole("DM"))
                 {
                     <td>
-                        <button asp-action="Edit" asp-route-id="@item.Id">Edit</button>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">Edit</a>
                     </td>
                 }
             </tr>

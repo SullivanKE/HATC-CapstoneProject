@@ -315,42 +315,23 @@
         /// <returns>the results of the search</returns>
         public async Task<List<ShopItem>> AdvancedShopSearch(string? search, Criteria criteria)
         {
-            IQueryable<ShopItem> searchResults;
-
-            // jump out of method without filtering if search string and criteria are both empty.
             if (criteria == Criteria.None && (search is null || search == string.Empty))
             {
                 return await context.Shop.Include(si => si.Rarity).ToListAsync();
             }
-            // retrieve all the Shop Items that have a ranking specified by the criteria
-            searchResults = context.Shop
-                .Include(si => si.Rarity)
-                .Where(i => ((Criteria)i.Rarity.Ranking & criteria) != Criteria.None);
 
-            // if we still haven't found any results, just retrieve all the shop items.
-            if (searchResults.Count() == 0)
-            {
-                searchResults = context.Shop.Include(si => si.Rarity);
-            }
+            IQueryable<ShopItem> searchResults = context.Shop.Include(si => si.Rarity)
+                .Where(i => ((Criteria)i.Rarity.Ranking & criteria) != Criteria.None) ?? context.Shop.Include(si => si.Rarity);
 
-            // if criteria specifies more than one of these properties, each result should contain all that are specified. 
-            if ((criteria & Criteria.Attunable) == Criteria.Attunable)
-            {
-                searchResults = searchResults.Where(item => item.IsAttunement);
-            }
-            if ((criteria & Criteria.Shoppable) == Criteria.Shoppable)
-            {
-                searchResults = searchResults.Where(item => item.IsShoppable);
-            }
-            if ((criteria & Criteria.Craftable) == Criteria.Craftable)
-            {
-                searchResults = searchResults.Where(item => item.IsCraftable);
-            }
-            if (search is not null && search != string.Empty)
-            {
-                searchResults = searchResults.Where(s => s.Name.Contains(search) ||
-                    (s.Source != null && s.Source.Contains(search)));
-            }
+            // The following optinos are not mutually-exclusive,
+            // therefore we filter the current results rather than retrieving the results for each option.
+            searchResults = searchResults.Where(item =>
+                ((criteria & Criteria.Attunable) == 0 || item.IsAttunement) &&
+                ((criteria & Criteria.Shoppable) == 0 || item.IsShoppable) &&
+                ((criteria & Criteria.Craftable) == 0 || item.IsCraftable) &&
+                (string.IsNullOrEmpty(search) || item.Name.Contains(search) ||
+                (item.Source != null && item.Source.Contains(search))));
+
 
             return searchResults.ToList();
         }
